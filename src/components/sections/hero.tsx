@@ -14,15 +14,15 @@ export const HeroSection = () => {
         <div className="text-center space-y-8">
           <Badge variant="outline" className="text-sm py-2 bg-primary/10 border-primary">
             <span className="mr-2 text-primary">
-              <Badge className="bg-primary text-white">Innovación</Badge>
+              <Badge className="bg-primary">Innovación</Badge>
             </span>
             <span>Patente pendiente en NLP para lenguas indígenas</span>
           </Badge>
 
-          <div className="max-w-screen-md mx-auto text-center text-4xl md:text-6xl font-bold">
+          <div className="max-w-screen-md mx-auto  text-center font-bold">
             <h1>
-              Conecta con saberes ancestrales en
-              <span className="text-transparent px-2 bg-gradient-to-r from-[#2E7D32] to-[#8BC34A] bg-clip-text">
+              <span className=" text-4xl xl:text-6xl">Conecta con saberes ancestrales en</span>
+              <span className="text-transparent text-4xl xl:text-6xl px-2 bg-gradient-to-r from-[#2E7D32] to-[#8BC34A] bg-clip-text">
                 tu lengua materna
               </span>
             </h1>
@@ -33,21 +33,9 @@ export const HeroSection = () => {
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
-            <Button className="w-5/6 md:w-1/4 font-bold group/arrow bg-[#2E7D32] hover:bg-[#1B5E20]">
+            <Button className="w-5/6 md:w-1/4 font-bold group/arrow  bg-[#ed9238] hover:bg-[#ffa347da]">
               Probar YachayBot
               <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
-            </Button>
-
-            <Button
-              asChild
-              variant="secondary"
-              className="w-5/6 md:w-1/4 font-bold border-primary text-primary hover:bg-primary/10"
-            >
-              <Link
-                href="#impacto"
-              >
-                Ver impacto
-              </Link>
             </Button>
           </div>
         </div>
@@ -55,13 +43,10 @@ export const HeroSection = () => {
         <div className="relative group mt-14">
           <div className="absolute top-2 lg:-top-8 left-1/2 transform -translate-x-1/2 w-[90%] mx-auto h-24 lg:h-80 bg-[#8BC34A]/50 rounded-full blur-3xl"></div>
           <Image
-            width={1200}
-            height={1200}
+            width={1900}
+            height={1900}
             className="w-full md:w-[1200px] mx-auto rounded-lg relative rouded-lg leading-none flex items-center border border-t-2 border-secondary border-t-primary/30"
-            src={
-              theme === "light"
-                ? "/yachaybot-hero-light.jpg" // Sugiero imágenes de: 1) Joven rural usando el bot, 2) Interfaz multilingüe, o 3) Comunidad validando saberes
-                : "/yachaybot-hero-dark.jpg"
+            src={"https://nuestrodesafioclimatico.minam.gob.pe/wp-content/uploads/2024/12/1055724-cop-29.jpg"
             }
             alt="YachayBot en acción: interfaz trilingüe mostrando diálogo en quechua sobre agricultura ancestral"
           />
