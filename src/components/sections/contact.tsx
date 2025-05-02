@@ -1,8 +1,8 @@
 "use client";
+
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 import { Building2, Clock, Mail, Phone } from "lucide-react";
@@ -36,6 +36,42 @@ const formSchema = z.object({
   message: z.string(),
 });
 
+const contactData = [
+  {
+    icon: <Building2 />,
+    label: "Oficina Principal",
+    value: "Av. Cultura 710, Cusco, Perú",
+  },
+  {
+    icon: <Phone />,
+    label: "Teléfono Quechua",
+    value: "+51 984 787 223 (WhatsApp)",
+  },
+  {
+    icon: <Mail />,
+    label: "Correo Electrónico",
+    value: "alianzas@yachaybot.org",
+  },
+  {
+    icon: <Clock />,
+    label: "Horario de Atención",
+    value: (
+      <>
+        <div>Lunes - Viernes</div>
+        <div>9AM - 5PM (GMT-5)</div>
+      </>
+    ),
+  },
+];
+
+const temasConsulta = [
+  { value: "Saberes Ancestrales", label: "Contribuir con saberes ancestrales" },
+  { value: "Alianza Educativa", label: "Alianza con escuela EIB" },
+  { value: "Investigación", label: "Investigación académica" },
+  { value: "Voluntariado", label: "Voluntariado lingüístico" },
+  { value: "Otro", label: "Otra colaboración" },
+];
+
 export const ContactSection = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,17 +79,14 @@ export const ContactSection = () => {
       firstName: "",
       lastName: "",
       email: "",
-      subject: "Web Development",
+      subject: "Saberes Ancestrales",
       message: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { firstName, lastName, email, subject, message } = values;
-    console.log(values);
-
-    const mailToLink = `mailto:leomirandadev@gmail.com?subject=${subject}&body=Hello I am ${firstName} ${lastName}, my Email is ${email}. %0D%0A${message}`;
-
+    const mailToLink = `mailto:leomirandadev@gmail.com?subject=${subject}&body=Hola, soy ${firstName} ${lastName}, mi correo es ${email}.%0D%0A${message}`;
     window.location.href = mailToLink;
   }
 
@@ -61,54 +94,27 @@ export const ContactSection = () => {
     <section id="contact" className="container py-24 sm:py-32">
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <div className="mb-4">
-            <h2 className="text-lg text-primary mb-2 tracking-wider">
-              CONECTA CON NUESTRA COMUNIDAD
-            </h2>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Tus saberes ancestrales nos importan
-            </h2>
-          </div>
+          <h2 className="text-lg text-primary mb-2 tracking-wider">
+            CONECTA CON NUESTRA COMUNIDAD
+          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Tus saberes ancestrales nos importan
+          </h2>
           <p className="mb-8 text-muted-foreground lg:w-5/6">
             ¿Eres docente EIB, investigador cultural o miembro de una comunidad indígena? 
             Únete a nuestra red de colaboradores para preservar y democratizar los conocimientos ancestrales.
           </p>
 
           <div className="flex flex-col gap-4">
-            <div>
-              <div className="flex gap-2 mb-1">
-                <Building2 />
-                <div className="font-bold">Oficina Principal</div>
+            {contactData.map(({ icon, label, value }, index) => (
+              <div key={index}>
+                <div className="flex gap-2 mb-1">
+                  {icon}
+                  <div className="font-bold">{label}</div>
+                </div>
+                <div>{value}</div>
               </div>
-              <div>Av. Cultura 710, Cusco, Perú</div>
-            </div>
-
-            <div>
-              <div className="flex gap-2 mb-1">
-                <Phone />
-                <div className="font-bold">Teléfono Quechua</div>
-              </div>
-              <div>+51 984 787 223 (WhatsApp)</div>
-            </div>
-
-            <div>
-              <div className="flex gap-2 mb-1">
-                <Mail />
-                <div className="font-bold">Correo Electrónico</div>
-              </div>
-              <div>alianzas@yachaybot.org</div>
-            </div>
-
-            <div>
-              <div className="flex gap-2">
-                <Clock />
-                <div className="font-bold">Horario de Atención</div>
-              </div>
-              <div>
-                <div>Lunes - Viernes</div>
-                <div>9AM - 5PM (GMT-5)</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -117,38 +123,87 @@ export const ContactSection = () => {
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="grid w-full gap-4">
-                {/* Mantener igual los campos de firstName, lastName y email */}
-
-                <div className="flex flex-col gap-1.5">
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tipo de consulta</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <div className="flex flex-col md:flex-row gap-8">
+                  {["firstName", "lastName"].map((fieldName, index) => (
+                    <FormField
+                      key={fieldName}
+                      control={form.control}
+                      name={fieldName as "firstName" | "lastName"}
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>{fieldName === "firstName" ? "Nombre" : "Apellido"}</FormLabel>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Selecciona un tema" />
-                            </SelectTrigger>
+                            <Input
+                              placeholder={fieldName === "firstName" ? "Leopoldo" : "Miranda"}
+                              {...field}
+                            />
                           </FormControl>
-                          <SelectContent>
-                            <SelectItem value="Saberes Ancestrales">Contribuir con saberes ancestrales</SelectItem>
-                            <SelectItem value="Alianza Educativa">Alianza con escuela EIB</SelectItem>
-                            <SelectItem value="Investigación">Investigación académica</SelectItem>
-                            <SelectItem value="Voluntariado">Voluntariado lingüístico</SelectItem>
-                            <SelectItem value="Otro">Otra colaboración</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ))}
                 </div>
 
-                {/* Mantener igual el textarea de message */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Correo electrónico</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="tuemail@ejemplo.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                <Button className="mt-4 bg-primary hover:bg-primary/90">
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tipo de consulta</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona un tema" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {temasConsulta.map((item) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mensaje</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows={5}
+                          placeholder="Escribe tu mensaje aquí..."
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button type="submit" className="mt-4 bg-primary hover:bg-primary/90">
                   Enviar mensaje
                 </Button>
               </form>
