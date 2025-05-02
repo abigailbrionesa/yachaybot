@@ -41,7 +41,6 @@ export default function MainPage() {
       <BenefitsSection /> 
       <FeaturesSection />
       <ServicesSection />
-      <TeamSection />
       <CommunitySection />
       <PricingSection />
       <ContactSection />
