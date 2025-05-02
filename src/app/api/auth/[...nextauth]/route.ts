@@ -24,7 +24,7 @@ const authOption: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const res = await fetch(`${process.env.NEXTAUTH_URL}/your/endpoint`, {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
@@ -39,6 +39,9 @@ const authOption: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/sign-in",
+  },
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === 'google') {
