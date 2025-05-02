@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ClientLayout from "./client-layout";
 import { Oswald } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/global/navbar";
 import { ThemeProvider } from "@/components/global/theme-provider";
 const inter = Oswald({ subsets: ["latin"] });
 import "./globals.css";
@@ -46,7 +45,6 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
             {children}
           </ThemeProvider>
         </ClientLayout>
