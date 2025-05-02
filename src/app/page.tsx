@@ -1,9 +1,20 @@
 "use client";
 
+import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import { SponsorsSection } from "@/components/sections/sponsors";
+import { BenefitsSection } from "@/components/sections/benefits";
+import { FeaturesSection } from "@/components/sections/features";
+import { ServicesSection } from "@/components/sections/services";
+import { TestimonialSection } from "@/components/sections/testimonial";
+import { TeamSection } from "@/components/sections/team";
+import { CommunitySection } from "@/components/sections/community";
+import { PricingSection } from "@/components/sections/pricing";
+import { ContactSection } from "@/components/sections/contact";
+import { FAQSection } from "@/components/sections/faq";
+import { FooterSection } from "@/components/sections/footer";
 export default function MainPage() {
   const { status } = useSession();
   const router = useRouter();
@@ -28,6 +39,16 @@ export default function MainPage() {
       <button type="button" onClick={() => router.push("/sign-in")}>
         Inicia sesión
       </button>
+      <HeroSection />
+      <BenefitsSection /> 
+      <FeaturesSection />
+      <ServicesSection />
+      <TeamSection />
+      <CommunitySection />
+      <PricingSection />
+      <ContactSection />
+      <FAQSection />
+      <FooterSection />
     </main>
   );
 }
