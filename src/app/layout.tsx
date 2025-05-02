@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import ClientLayout from "./client-layout";
-import { Inter } from "next/font/google";
+import { Oswald } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/global/navbar";
 import { ThemeProvider } from "@/components/global/theme-provider";
-const inter = Inter({ subsets: ["latin"] });
+const inter = Oswald({ subsets: ["latin"] });
 import "./globals.css";
 
 const geistSans = Geist({
