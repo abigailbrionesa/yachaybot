@@ -52,30 +52,15 @@ const routeList: RouteProps[] = [
   },
 ];
 
-const featureList: FeatureProps[] = [
-  {
-    title: "Showcase Your Value ",
-    description: "Highlight how your product solves user problems.",
-  },
-  {
-    title: "Build Trust",
-    description:
-      "Leverages social proof elements to establish trust and credibility.",
-  },
-  {
-    title: "Capture Leads",
-    description:
-      "Make your lead capture form visually appealing and strategically.",
-  },
-];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <header className="shadow-inner bg-opacity-15
-    lg:max-w-screen-xl top-5 mx-auto sticky border border-secondary z-40 rounded-2xl flex justify-between items-center p-2 bg-card">
-      <Link href="/" className="font-bold text-lg flex items-center">
-        <Image src="/images/logo/yachaybot_logo2.png" alt="logo" width={100} height={100} className="h-auto w-auto max-w-10" />
+    mx-auto  border border-secondary fixed w-full
+    z-40 flex justify-between items-center p-2  px-5 bg-card">
+      <Link href="/" className="font-bold text-lg  flex items-center">
+        <Image src="/images/logo/yachaybot_logo2.png" alt="logo" width={100} height={100} className="h-auto mr-4 w-auto max-w-10" />
         YachayBot
       </Link>
       {/* <!-- Mobile --> */}
