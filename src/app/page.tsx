@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Navbar } from "@/components/global/navbar";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
@@ -37,6 +38,7 @@ export default function MainPage() {
       <button type="button" onClick={() => router.push("/sign-in")}>
         Inicia sesión
       </button> */}
+      <Navbar/>
       <HeroSection />
       <BenefitsSection /> 
       <FeaturesSection />
