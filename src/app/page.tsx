@@ -4,11 +4,9 @@ import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { SponsorsSection } from "@/components/sections/sponsors";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
-import { TestimonialSection } from "@/components/sections/testimonial";
 import { TeamSection } from "@/components/sections/team";
 import { CommunitySection } from "@/components/sections/community";
 import { PricingSection } from "@/components/sections/pricing";
@@ -34,11 +32,11 @@ export default function MainPage() {
   }
 
   return (
-    <main>
-      <h1>Bienvenido</h1>
+    <>
+      {/*<h1>Bienvenido</h1>
       <button type="button" onClick={() => router.push("/sign-in")}>
         Inicia sesión
-      </button>
+      </button> */}
       <HeroSection />
       <BenefitsSection /> 
       <FeaturesSection />
@@ -49,6 +47,6 @@ export default function MainPage() {
       <ContactSection />
       <FAQSection />
       <FooterSection />
-    </main>
+    </>
   );
 }
