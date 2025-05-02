@@ -133,3 +133,16 @@ html {
     @apply text-sm underline-offset-2 hover:underline
   }
 }
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+}
