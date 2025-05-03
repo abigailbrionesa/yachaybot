@@ -1,10 +1,10 @@
 import { User, getServerSession } from 'next-auth'
-// @ts-ignore
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const session = async ({ session, token }: any) => {
   session.user.id = token.id
   return session
 }
-
 export const getUserSession = async (): Promise<User | null> => {
   const authUserSession = await getServerSession({
     callbacks: {
