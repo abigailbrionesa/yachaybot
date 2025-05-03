@@ -22,5 +22,191 @@
     },
     "description": "El primer chatbot educativo que preserva conocimientos indígenas en quechua, aimara y español - validado por ancianos y comunidades.",
     "button": "Probar YachayBot"
+  },
+  "BenefitsSection": {
+    "subtitle": "IMPACTO MEDIBLE",
+    "title": "Tecnología que Preserva Identidades",
+    "description": "Combinamos innovación de punta con sabiduría ancestral para crear soluciones que:",
+    "benefits": [
+      {
+        "title": "Saberes Validados",
+        "description": "Acceso a conocimientos ancestrales certificados por ancianos y lingüistas, con un 93% de precisión cultural en pruebas piloto."
+      },
+      {
+        "title": "Educación Intercultural",
+        "description": "Herramienta preferida por docentes EIB: 70% mejora en engagement estudiantil versus materiales tradicionales (Cusco, 2023)."
+      },
+      {
+        "title": "Tecnología Inclusiva",
+        "description": "Funciona con conexiones limitadas (hasta 1MB/s) y en 3 idiomas: quechua, aimara y español."
+      },
+      {
+        "title": "Puente Generacional",
+        "description": "87% de jóvenes usuarios comparten conocimientos con sus familias, revitalizando la transmisión oral tradicional."
+      }
+    ]
+  },
+  "FeaturesSection": {
+    "subtitle": "INNOVACIÓN CON RAÍCES",
+    "title": "Tecnología que Honra la Sabiduría Andina",
+    "description": "Combinamos IA de vanguardia con metodologías interculturales validadas por comunidades quechuas y aimaras. Más que un chatbot, es un puente generacional.",
+    "features": {
+      "offline": {
+        "title": "Funciona sin Internet",
+        "description": "Tecnología offline-first: accesible via SMS y navegadores básicos para comunidades con baja conectividad (60% zonas rurales según INEI)."
+      },
+      "validated": {
+        "title": "Saberes Validados",
+        "description": "Contenido certificado por ancianos y antropólogos - 0% hallucinations. Base de datos ética con 1,200+ conocimientos ancestrales documentados."
+      },
+      "multilingual": {
+        "title": "Multilingüe Ancestral",
+        "description": "NLP nativo en quechua/aimara (no traducciones). Primer modelo para lenguas aglutinantes con 94% de precisión en pilotos (Cusco 2024)."
+      },
+      "interface": {
+        "title": "Interfaz Cultural",
+        "description": "Diseño co-creado con comunidades: iconografía andina y patrones de diálogo tipo 'Yachachiq' (sabio que enseña)."
+      },
+      "impact": {
+        "title": "Impacto Medible",
+        "description": "87% engagement en escuelas EIB (vs. 35% apps genéricas). 70% de usuarios comparten conocimientos con sus familias."
+      },
+      "alliance": {
+        "title": "Alianza ODS",
+        "description": "Contribuye directamente a 3 Objetivos de Desarrollo Sostenible: Educación de calidad (4), Innovación (9) y Reducción de desigualdades (10)."
+      }
+    }
+  },
+  "ServicesSection": {
+    "impactTitle": "IMPACTO MEDIBLE",
+    "mainTitle": "Tecnología que Preserva Futuros",
+    "subtitle": "Combinamos innovación de punta con metodologías ancestrales para cerrar brechas educativas y digitales en 3 ejes clave.",
+    "services": {
+      "multilingualAccess": {
+        "title": "Acceso Multilingüe Ancestral",
+        "description": "Interacción fluida en quechua, aimara y español con saberes validados por ancianos y lingüistas. Tecnología offline-first para zonas rurales."
+      },
+      "interculturalEducation": {
+        "title": "Educación Intercultural EIB",
+        "description": "Herramientas para docentes bilingües con contenidos alineados al currículo nacional y saberes locales. Reduce 15% la deserción escolar (UNICEF)."
+      },
+      "ethicalPreservation": {
+        "title": "Preservación Ética de Saberes",
+        "description": "IA con corpus cerrado y validado por comunidades indígenas. Zero hallucinations, 100% fuentes ancestrales certificadas."
+      },
+      "generationalConnection": {
+        "title": "Conexión Generacional",
+        "description": "Puente digital entre jóvenes urbanos y sabios rurales. 87% de engagement en pilotos (Cusco, 2024)."
+      }
+    },
+    "innovationBadge": "INNOVACIÓN"
+  },
+  "CommunitySection": {
+    "titlePart1": "¿Listo para ser guardian@ de los",
+    "titlePart2": "saberes ancestrales?",
+    "description": "Únete a nuestra red intercultural de docentes, jóvenes y sabios quechuas/aimaras. Comparte conocimientos, resuelve dudas y ayuda a preservar nuestra herencia. ¡Tu voz importa! 🌱",
+    "button": "Unirme a la Comunidad"
+  },
+"PricingSection": {
+  "title": "MODELO ÉTICO",
+  "heading": "Tecnología que devuelve valor a sus raíces",
+  "subheading": "El 100% de los ingresos se reinvierte en validación comunitaria y acceso rural",
+  "plans": {
+    "Comunidad": {
+      "title": "Comunidad",
+      "description": "Acceso básico para preservar tu herencia cultural",
+      "buttonText": "Únete Gratis",
+      "benefits": "Acceso a 5 saberes ancestrales/día,Consultas en quechua/aimara/español,Base de datos comunitaria,Soporte por correo electrónico,1 consulta mensual a ancianos validadores"
+    },
+    "EducadorEIB": {
+      "title": "Educador EIB",
+      "description": "Para escuelas bilingües y promotores culturales",
+      "buttonText": "Acceso Prioritario",
+      "benefits": "Consultas ilimitadas,Materiales didácticos descargables,Capacitación mensual en IA intercultural,Soporte prioritario (48h),Acceso a red de docentes EIB,Validación directa con expertos"
+    },
+    "AliadoInstitucional": {
+      "title": "Aliado Institucional",
+      "description": "Para ONGs, ministerios y organizaciones",
+      "buttonText": "Solicitar Demo",
+      "benefits": "API para integración en plataformas,Dashboard de impacto comunitario,Capacitación personalizada,Soporte 24/7 con expertos culturales,Acceso a base de datos etnográfica,White-label para proyectos sociales"
+    }
+  },
+  "priceSuffix": "/month"
+},
+  "ContactSection": {
+    "title": "CONECTA CON NUESTRA COMUNIDAD",
+    "heading": "Tus saberes ancestrales nos importan",
+    "description": "¿Eres docente EIB, investigador cultural o miembro de una comunidad indígena? Únete a nuestra red de colaboradores para preservar y democratizar los conocimientos ancestrales.",
+    "cardTitle": "¿Cómo quieres colaborar?",
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "subject": "Tipo de consulta",
+      "message": "Mensaje",
+      "submit": "Enviar mensaje",
+      "placeholders": {
+        "firstName": "Leopoldo",
+        "lastName": "Miranda",
+        "email": "tuemail@ejemplo.com",
+        "message": "Escribe tu mensaje aquí..."
+      },
+      "selectPlaceholder": "Selecciona un tema"
+    },
+    "contactData": {
+      "office": "Oficina Principal",
+      "phone": "Teléfono Quechua",
+      "email": "Correo Electrónico",
+      "hours": "Horario de Atención",
+      "hoursValue": ["Lunes - Viernes", "9AM - 5PM (GMT-5)"]
+    },
+    "topics": {
+      "saberes": "Contribuir con saberes ancestrales",
+      "alianza": "Alianza con escuela EIB",
+      "investigacion": "Investigación académica",
+      "voluntariado": "Voluntariado lingüístico",
+      "otro": "Otra colaboración"
+    }
+  },
+  "FAQ": {
+    "subtitle": "PREGUNTAS FRECUENTES",
+    "title": "Sabiduría ancestral, respuestas modernas",
+    "faq1": {
+      "question": "¿YachayBot es realmente gratuito?",
+      "answer": "Sí, completamente. Nuestra misión es democratizar el acceso a los saberes ancestrales. Funciona sin costo en web y móvil, incluso con conexiones limitadas (tecnología offline-first)."
+    },
+    "faq2": {
+      "question": "¿Cómo garantizan la exactitud de los conocimientos que comparte el bot?",
+      "answer": "Todo contenido es validado por una red de ancianos, lingüistas y antropólogos de las comunidades originarias. Usamos IA con base de datos cerrada (RAG) para evitar distorsiones."
+    },
+    "faq3": {
+      "question": "¿Puedo usar YachayBot en mi escuela rural sin internet estable?",
+      "answer": "¡Absolutamente! Diseñamos versiones SMS y PWA que funcionan con menos de 1MB/s de conexión. 87% de escuelas piloto en Cusco lo usan exitosamente (2024)."
+    },
+    "faq4": {
+      "question": "¿Por qué enfocarse en quechua y aimara si muchos hablan español?",
+      "answer": "El 63% de materiales educativos digitales ignoran lenguas originarias (MINEDU). Preservar estos idiomas es clave para la identidad cultural - nuestro NLP nativo evita traducciones colonialistas."
+    },
+    "faq5": {
+      "question": "¿Cómo contribuye esto al Plan Perú 2050?",
+      "answer": "Cerramos 3 brechas clave: digital (ODS 9), educativa (ODS 4) y lingüística (ODS 10). Somos herramienta oficial para escuelas EIB y proyectos de innovación cultural sostenible."
+    }
+  },
+  "footer": {
+    "description": "Tecnología que preserva saberes ancestrales en quechua, aimara y español.",
+    "footerTitle": "Saberes Ancestrales con IA",
+    "hashtag": "#TecnologíaConIdentidad",
+    "contact": "Contacto",
+    "allies": "Aliados",
+    "contribute": "Contribuye",
+    "email": "Correo",
+    "whatsapp": "WhatsApp Comunidades",
+    "press": "Prensa",
+    "eibSchools": "Escuelas EIB",
+    "ministry": "Ministerio de Cultura",
+    "localNGOs": "ONGs Locales",
+    "shareKnowledge": "Comparte saberes",
+    "translateContent": "Traduce contenidos",
+    "donate": "Donaciones"
   }
 }

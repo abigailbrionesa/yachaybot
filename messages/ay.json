@@ -22,5 +22,191 @@
       },
       "description": "Qhichwa, aymara, kastilla arupan yatiñanakap amtawipa chatbotäni, yatiñirinaka, markanakap iwxt'awipa.",
       "button": "YatiBot probaña"
+    },
+    "BenefitsSection": {
+    "subtitle": "JACH'A IMPACTO",
+    "title": "Tecnología Uraqpach Identidades",
+    "description": "Machaq tecnologíaw awki achachilampi yatiqaw utjasiña, suma lurañataki:",
+    "benefits": [
+      {
+        "title": "Yatiqaña Validado",
+        "description": "Awki achachilapa, aru yatiqirinakapa certificasiri yatiqaw, 93% cultural precisión pruebas pilotonaka."
+      },
+      {
+        "title": "Yatiqaña Intercultural",
+        "description": "EIB yatiqirinakapa munasiri herramienta: 70% suma engagement estudiantil (Cusco, 2023)."
+      },
+      {
+        "title": "Tecnología Inclusiva",
+        "description": "Pisi internetpi llamk'ayaña (1MB/s kama) y 3 arupi: aymara, quechua, español."
+      },
+      {
+        "title": "Generacional Puente",
+        "description": "87% wayna usuarioqkuna yatiqaw familiapanakapa qillqayaña, aruskipaw kawsaricht'ayaña."
+      }
+    ]
+  },
+  "FeaturesSection": {
+    "subtitle": "MUSPACHAS INNOVACIÓN",
+    "title": "Tecnología ukanakan Yatiñanak Jamuqpachataki",
+    "description": "IA ukanakampi, quechua, aymara markanakampi yanapt'asiñataki. Jan chatbot muni, kunayman qamqip nayraru qamñataki.",
+    "features": {
+      "offline": {
+        "title": "Internet janïrïpxa",
+        "description": "Offline-first tecnología: SMS ukanakampi, básico navegadores ukanakampi (60% rural markanak INEI ukan yatxataña)."
+      },
+      "validated": {
+        "title": "Yatiñanak Chiqapxata",
+        "description": "Achachilanakampi, antropólogos ukanakampi chiqapxata - 0% hallucinations. 1,200+ yatiñanak qillqatanaka."
+      },
+      "multilingual": {
+        "title": "Akimt'awiru Aru",
+        "description": "Quechua/aymara NLP (jan traducirina). Aglutinante arupar NLP, 94% precisión Cusco 2024."
+      },
+      "interface": {
+        "title": "Cultural Interfaz",
+        "description": "Markanakampi diseño: andino iconografía, 'Yachachiq' aruskipañanakampi."
+      },
+      "impact": {
+        "title": "Tupuña Impacto",
+        "description": "87% engagement EIB yatiñ utanakapi (35% apps genéricas ukanjamaw). 70% usuarios familia ukanakampi yatiñanak qillqataña."
+      },
+      "alliance": {
+        "title": "ODS Aliados",
+        "description": "3 Desarrollo Sostenible Metas: Educación calidad (4), Innovación (9), Desigualdades juk'aptayaña (10)."
+      }
     }
+  },
+  "ServicesSection": {
+    "impactTitle": "JANIW JUK'AMP JAKASIÑA",
+    "mainTitle": "Tecnología ukanxa Qhipa Uñt'ayawinakar Jark'aqaña",
+    "subtitle": "Yanapt'awinakaxa uñt'ayawinakampi aymara yatiyawinakampi tantachäwi, ukatxa pä tunka lurawinakampi qullqi qullqi janiw jakasiñapax janiw yatiyañapax jark'aqapxäta.",
+    "services": {
+      "multilingualAccess": {
+        "title": "Aymara, Qhichwa, Kastilla Arupxa",
+        "description": "Qhichwa, aymara, kastilla arunakampi parlasiña, yatichirinakampi yatiqirinakampi yatiyasipxäta. Janiw internetni ukaxa qutanakampi yanapt'ata."
+      },
+      "interculturalEducation": {
+        "title": "Yatiyaña EIB",
+        "description": "Yatiqirinakapa yanapt'awinakaxa markan yatiyawinakampi tantachäwi (UNICEF ukhax 15% jark'aqäta)."
+      },
+      "ethicalPreservation": {
+        "title": "Yatiyawi Jark'aqaña",
+        "description": "IA ukanxa yatiyawinakampi yatiyasipxäta. Janiw pantjapxäta, tunka tunka yatiyawinakaxa chiqpachapxäta."
+      },
+      "generationalConnection": {
+        "title": "Qhipa Uñt'ayawi",
+        "description": "Qutanakampi jaqinakapaxa uñt'atawa (Cusco, 2024 ukhax 87% uñt'ayawinakapxäta)."
+      }
+    },
+    "innovationBadge": "MUSPHA YANAPTAWI"
+  },
+  "CommunitySection": {
+    "titlePart1": "¿Qamäki uñt'ayiri markapax",
+    "titlePart2": "jach'a yatxatañapataki?",
+    "description": "Jichhürunakan yatiqirinakarux, waynanakarux, qillqatanakarux ukat yatichirinakampiw jikisiña. Yatxata qillqataña, jiskt'asipxañataki ukat jach'a yatxatanakax askipxañataki. ¡Qamaw arunax wali wakiskiriwa! 🌱",
+    "button": "Markaru mantaña"
+  },
+"PricingSection": {
+  "title": "SUMA QAMAÑA YATIQAWI",
+  "heading": "Tecnología uka valorarux sarantawayi",
+  "subheading": "100% ingresosnaxa markarux jichhaptawayi, ayllu manqhanakarux yanapt'awinaka",
+  "plans": {
+    "Comunidad": {
+      "title": "Ayllu",
+      "description": "Qamaña yatiqawinakarux jilxatäwi",
+      "buttonText": "Jani nayra sataw qullasiña",
+      "benefits": "5 yatiqawinaka uru qamawipa,Aymara/qhichwa/kastilla arunaka,Ayllu yatiqawi wakichawi,Correo electrónico ukaru yanapaña,1 uru phaxsi amtawinakarux yatiqañama"
+    },
+    "EducadorEIB": {
+      "title": "EIB Yatichiri",
+      "description": "Yatiqañ utawi bilingüenakarux",
+      "buttonText": "Nayraqat yanapaña",
+      "benefits": "Jani ch'iqhu arsutaw yatiqaña,Yatichiri materialkunaka,Phaxsi phaxsina IA intercultural,Nayraqat yanapaña (48h),EIB yatichirinakampi tinkuña,Yatichirinakampi yatiqaña"
+    },
+    "AliadoInstitucional": {
+      "title": "Institucion aliado",
+      "description": "ONGs, ministerios, organizacioneskunakarux",
+      "buttonText": "Demo uñt'ayaña",
+      "benefits": "API plataformanakarux,Ayllu impactu uñt'ayaña,Sapa maynit yatiqaña,24/7 yatichirinakampi yanapaña,Marka yatiqawi wakichawi,Proyecto socialkunapaq white-label"
+    }
+  },
+  "priceSuffix": "/phaxsi"
+},
+  "ContactSection": {
+    "title": "JAQINAKAÑAWA KUTT'ASIÑA",
+    "heading": "Qamäwipa yatxatax amtäwipa",
+    "description": "¿Eres yatichiri EIB, yatxata yänakata o marka jaqinakapa? Jichhürst'asipxta yanapt'asipxäna yatxatanakapa uñacht'ayawi ukat jichhax mayacht'ayawi.",
+    "cardTitle": "¿Kunjamsa yanapt'asisma?",
+    "form": {
+      "firstName": "Suti",
+      "lastName": "Apillu",
+      "email": "Correo electrónico",
+      "subject": "Jiskt'awi",
+      "message": "Aru",
+      "submit": "Aru apayaña",
+      "placeholders": {
+        "firstName": "Leopoldo",
+        "lastName": "Miranda",
+        "email": "qamawicorreo@ejemplo.com",
+        "message": "Aru qillqt'ama..."
+      },
+      "selectPlaceholder": "Jiskt'awi ajllt'ama"
+    },
+    "contactData": {
+      "office": "Oficina nayra",
+      "phone": "Jawsaña Quechua",
+      "email": "Correo electrónico",
+      "hours": "Uñstawipa",
+      "hoursValue": ["Lunes - Viernes", "9AM - 5PM (GMT-5)"]
+    },
+    "topics": {
+      "saberes": "Yatxatanakapa yanapt'asiña",
+      "alianza": "EIB yatiqañ uta masi",
+      "investigacion": "Yatxata yänakata",
+      "voluntariado": "Aru yanapt'asiña",
+      "otro": "Yaqha yanapt'asiña"
+    }
+  },
+  "FAQ": {
+    "subtitle": "JISKʼA JISKITANAKA",
+    "title": "Achuyiwa amuytʼawi, machaq yatiqawi",
+    "faq1": {
+      "question": "¿YachayBot janiwa chiqap janiwti?",
+      "answer": "Jisa, chiqap qhispiyatawa. Jiwasan amtawiwa: amuytʼäwinaka taqi jaqinakar yäqaña. Janiwa qullqimpi ukhamarakiw offline-first tecnología apnaqasa, web ukan móvil ukhamarak apnaqasiña."
+    },
+    "faq2": {
+      "question": "¿Kunjam yäqäwipuniw chiqanaksa uñtʼayi botax qhanañchistu?",
+      "answer": "Taqi arunakaxa jilatanakampi, arsuqirinakampi, antropologonakampi uñakipatawa. IA ukhamarak RAG tecnología apnaqasa, janiw k'añaskañäni."
+    },
+    "faq3": {
+      "question": "¿YachayBot apnaqasmawa escuela rural ukana janiw internet chikaña?",
+      "answer": "Jisa, wali askicha! SMS ukhamarak PWA chiqanakax menos 1MB/s uñtʼayasi. 2024 maranx Cusco markana 87% yatiqañ utanakax apnaqapxiwa."
+    },
+    "faq4": {
+      "question": "¿Kunjamas aymara ukhamaraki quechua chhijllta, kunalaykutix kastilla aruxa wali arstʼata?",
+      "answer": "63% yatiqäwinakax janiw jaqi arunakar uñtʼayapkti (MINEDU). Arunaka jarkʼaqañax sartañapawa, yaqhip yanaptʼäwinakax colonial qillqtʼäwimpiw chhijllasi, ukatwa NLP nativo apnaqapxta."
+    },
+    "faq5": {
+      "question": "¿Kunjamsa Perú 2050 planar yanaptʼi?",
+      "answer": "Kimsa chʼusäwimp yanaptʼi: digital (ODS 9), yatiqawi (ODS 4) ukhamaraki aruskipawi (ODS 10). Jiwasax oficial herramienta tawaqaña EIB yatiqäwinakar yanaptʼirakiwa."
+    }
+  },
+  "footer": {
+    "description": "Teknolojía quechua, aymara ukhamarak castellano aru qillqatanaka imañataki.",
+    "footerTitle": "Yatichäwinaka AI ukampi",
+    "hashtag": "#TeknolojíaUñtawi",
+    "contact": "Kunjam jikxatasma",
+    "allies": "Amigonaka",
+    "contribute": "Yanaptʼaña",
+    "email": "Correo",
+    "whatsapp": "WhatsApp Markanakana",
+    "press": "Yatiyawinaka",
+    "eibSchools": "EIB Yatichawinaka",
+    "ministry": "Ministerio de Cultura",
+    "localNGOs": "NGOnaka",
+    "shareKnowledge": "Yatichaña",
+    "translateContent": "Arunak qillqataña",
+    "donate": "Yanapa"
+  }
   }
