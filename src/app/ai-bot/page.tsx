@@ -14,10 +14,10 @@ function AIChat() {
   });
 
   const premadeQuestions = [
-    "¿Cómo puedo usar plantas medicinales para el dolor de estómago?",
-    "Cuéntame sobre agricultura sostenible en los Andes",
-    "¿Qué ceremonias tradicionales quechuas existen para la siembra?",
-    "Explícame la cosmovisión aimara sobre las estrellas"
+    "¿Cómo se transmite el uso de plantas medicinales en comunidades indígenas?",
+    "¿Qué rol tienen las ceremonias tradicionales en la identidad indígena?",
+    "¿Qué prácticas ancestrales acompañan el embarazo y parto en pueblos indígenas?",
+    "¿Cómo integrar saberes ancestrales en la educación formal rural?"
   ];
 
   return (
