@@ -55,12 +55,6 @@ export const Navbar = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("Session Status:", status);
-    if (status === "authenticated") {
-      router.replace("/ai-bot");
-    }
-  }, [status, router]);
 
   const userName = session?.user?.name?.split(' ')[0];
 
