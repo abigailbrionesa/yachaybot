@@ -1,9 +1,8 @@
 "use client";
-import { ChevronsDown, Github, Menu } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Github, Menu } from "lucide-react";
+import React, {useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -15,11 +14,9 @@ import {
 import { Separator } from "../ui/separator";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "../ui/navigation-menu";
 import { Button } from "../ui/button";
 import Link from "next/link";
