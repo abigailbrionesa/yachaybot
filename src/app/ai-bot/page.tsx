@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
+import { Navbar } from "@/components/global/navbar";
 
 function AIChat() {
   const { messages, input, handleInputChange, handleSubmit, setInput, isLoading } = useChat({
@@ -20,8 +21,10 @@ function AIChat() {
   ];
 
   return (
+    <> 
+    <Navbar/> 
     <div className="min-h-svh flex flex-col items-center px-4 py-8">
-      <div className="text-center mb-6">
+      <div className="text-center mb-6 mt-20">
         <Image 
           src="/images/logo/yachaybot_logo2.png" 
           alt="Logo de YachayBot" 
@@ -120,6 +123,7 @@ function AIChat() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 
