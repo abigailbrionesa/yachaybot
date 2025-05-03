@@ -10,5 +10,17 @@
       "signOut": "Lloqsiy",
       "signIn": "Yaykuy",
       "viewOnGithub": "Githubpi rikuy"
+    },
+    "Hero": {
+      "badge": {
+        "innovation": "Musuq",
+        "text": "Indígena rimaykunaq NLP nisqapi patenteta mañakushan"
+      },
+      "title": {
+        "part1": "Ñaupaq yachaykunata hayway",
+        "part2": "qamqaq mama rimaypi"
+      },
+      "description": "Quechua, aymara, castellano rimaykunapi yachayta waqaychanapaq primer chatbot, yachayniyuq machukuna, llaqtakunap qawasqan.",
+      "button": "YachayBot probay"
     }
   }

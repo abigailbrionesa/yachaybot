@@ -10,5 +10,17 @@
       "signOut": "Lurata",
       "signIn": "Uñjata",
       "viewOnGithub": "Github uñnaqaña"
+    },
+    "Hero": {
+      "badge": {
+        "innovation": "Machaqa",
+        "text": "Indígena arunaka NLP tuqit patentat qillqt'atatawa"
+      },
+      "title": {
+        "part1": "Achachilanaka yatiñanakampi ch'amañäwi",
+        "part2": "mama arupaxa"
+      },
+      "description": "Qhichwa, aymara, kastilla arupan yatiñanakap amtawipa chatbotäni, yatiñirinaka, markanakap iwxt'awipa.",
+      "button": "YatiBot probaña"
     }
   }

@@ -10,5 +10,17 @@
     "signOut": "Cerrar Sesión",
     "signIn": "Inicia Sesión",
     "viewOnGithub": "Ver en Github"
+  },
+  "Hero": {
+    "badge": {
+      "innovation": "Innovación",
+      "text": "Patente pendiente en NLP para lenguas indígenas"
+    },
+    "title": {
+      "part1": "Conecta con saberes ancestrales en",
+      "part2": "tu lengua materna"
+    },
+    "description": "El primer chatbot educativo que preserva conocimientos indígenas en quechua, aimara y español - validado por ancianos y comunidades.",
+    "button": "Probar YachayBot"
   }
 }
