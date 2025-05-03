@@ -4,38 +4,41 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export const HeroSection = () => {
+    const t = useTranslations("Hero");
+  
   return (
     <section className="container w-full">
-      <div className="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32">
-        <div className="text-center space-y-8">
-          <Badge variant="outline" className="text-sm py-2 bg-primary/10 border-primary">
-            <span className="mr-2 text-primary">
-              <Badge className="bg-primary">Innovación</Badge>
+    <div className="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32">
+      <div className="text-center space-y-8">
+        <Badge variant="outline" className="text-sm py-2 bg-primary/10 border-primary">
+          <span className="mr-2 text-primary">
+            <Badge className="bg-primary">{t("badge.innovation")}</Badge>
+          </span>
+          <span>{t("badge.text")}</span>
+        </Badge>
+
+        <div className="max-w-screen-md mx-auto text-center font-bold">
+          <h1>
+            <span className="text-4xl xl:text-6xl">{t("title.part1")}</span>
+            <span className="text-transparent text-4xl xl:text-6xl px-2 bg-gradient-to-r from-[#2E7D32] to-[#8BC34A] bg-clip-text">
+              {t("title.part2")}
             </span>
-            <span>Patente pendiente en NLP para lenguas indígenas</span>
-          </Badge>
+          </h1>
+        </div>
 
-          <div className="max-w-screen-md mx-auto  text-center font-bold">
-            <h1>
-              <span className=" text-4xl xl:text-6xl">Conecta con saberes ancestrales en</span>
-              <span className="text-transparent text-4xl xl:text-6xl px-2 bg-gradient-to-r from-[#2E7D32] to-[#8BC34A] bg-clip-text">
-                tu lengua materna
-              </span>
-            </h1>
-          </div>
+        <p className="max-w-screen-sm mx-auto text-xl text-muted-foreground">
+          {t("description")}
+        </p>
 
-          <p className="max-w-screen-sm mx-auto text-xl text-muted-foreground">
-            El primer chatbot educativo que preserva conocimientos indígenas en quechua, aimara y español - validado por ancianos y comunidades.
-          </p>
-
-          <div className="space-y-4 md:space-y-0 md:space-x-4">
-            <Link href="/ai-bot">
-              <Button size={"lg"} className="font-bold group/arrow  bg-[#ed9238] hover:bg-[#ffa347da]">
-                Probar YachayBot
-                <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
-              </Button>
+        <div className="space-y-4 md:space-y-0 md:space-x-4">
+          <Link href="/ai-bot">
+            <Button size={"lg"} className="font-bold group/arrow bg-[#ed9238] hover:bg-[#ffa347da]">
+              {t("button")}
+              <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
+            </Button>
             </Link>
           </div>
         </div>
