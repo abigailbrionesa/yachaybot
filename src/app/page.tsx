@@ -2,7 +2,6 @@
 
 import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
