@@ -1,5 +1,5 @@
 import { User, getServerSession } from 'next-auth'
-
+// @ts-ignore
 export const session = async ({ session, token }: any) => {
   session.user.id = token.id
   return session
