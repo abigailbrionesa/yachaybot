@@ -128,12 +128,75 @@ export const Navbar = () => {
                     <Link href={href}>{label}</Link>
                   </Button>
                 ))}
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  asChild
+                  variant="ghost"
+                  className="justify-start text-base font-bold bg-[#ed9238] hover:bg-[#ffa347da]"
+                >
+                  <Link href="/ai-bot">{t("chat")}</Link>
+                </Button>
               </div>
             </div>
 
-            <SheetFooter className="flex-col sm:flex-col justify-start items-start">
+            <SheetFooter className="flex-col sm:flex-col justify-start items-start gap-4">
               <Separator className="mb-2" />
-              <ToggleTheme />
+              <div className="flex flex-col w-full gap-2">
+                <ToggleTheme />
+                
+                {status === "loading" ? (
+                  <Button disabled>...</Button>
+                ) : status === "authenticated" ? (
+                  <div className="flex flex-col items-start space-y-3">
+                    <p className="text-sm pl-3">
+                      {t("greeting", { userName: userName || "" })}
+                    </p>
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="outline"
+                      aria-label="Sign Out"
+                      onClick={() => {
+                        setIsOpen(false);
+                        signOut();
+                      }}
+                      className="w-full justify-start"
+                    >
+                      <p>{t("signOut")}</p>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    asChild
+                    size="sm"
+                    variant="default"
+                    aria-label="Sign In"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/sign-in");
+                    }}
+                    className="w-full justify-start"
+                  >
+                    <p>{t("signIn")}</p>
+                  </Button>
+                )}
+
+                <Button 
+                  asChild 
+                  size="sm" 
+                  variant="outline" 
+                  aria-label="View on GitHub"
+                  className="w-full justify-start"
+                >
+                  <Link
+                    href="https://github.com/abigailbrionesa/yachaybot"
+                    target="_blank"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Github className="size-5 mr-2" /> {t("viewOnGithub")}
+                  </Link>
+                </Button>
+              </div>
             </SheetFooter>
           </SheetContent>
         </Sheet>
