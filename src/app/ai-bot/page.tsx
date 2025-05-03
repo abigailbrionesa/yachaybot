@@ -8,7 +8,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 
 function AIChat() {
-  const { messages, input, handleInputChange, handleSubmit, setInput } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, setInput, isLoading } = useChat({
+    api: '/api/chat'
+  });
 
   const premadeQuestions = [
     "¿Cómo puedo usar plantas medicinales para el dolor de estómago?",
@@ -32,18 +34,18 @@ function AIChat() {
       </div>
 
       <div className="w-full max-w-md flex flex-col gap-6 flex-1">
-
         <div className="grid grid-cols-2 gap-3">
           {premadeQuestions.map((question, index) => (
             <Button
-            key={index}
-            type="button"
-            variant="default"
-            className="h-auto py-2 px-3 text-xs text-left whitespace-normal break-words"
-            onClick={() => setInput(question)}
-          >
-            {question}
-          </Button>
+              key={index}
+              type="button"
+              variant="default"
+              className="h-auto py-2 px-3 text-xs text-left whitespace-normal break-words"
+              onClick={() => setInput(question)}
+              disabled={isLoading}
+            >
+              {question}
+            </Button>
           ))}
         </div>
 
@@ -58,29 +60,45 @@ function AIChat() {
                     : "bg-foreground text-background mr-auto max-w-[80%]"
                 }`}
               >
-                <strong className="block font-medium mb-1">
                 {message.role === "user" ? (
-  <strong className="block font-medium mb-1">Tú:</strong>
-) : (
-  <div className="flex items-center gap-2 mb-1">
-    <Image
-      src="/images/logo/yachaybot_logo2.png"
-      alt="Logo YachayBot"
-      width={40}
-      height={40}
-      className="rounded-sm"
-    />
-    <strong className="font-medium">YachayBot:</strong>
-  </div>
-)}
-                </strong>
+                  <strong className="block font-medium mb-1">Tú:</strong>
+                ) : (
+                  <div className="flex items-center gap-2 mb-1">
+                    <Image
+                      src="/images/logo/yachaybot_logo2.png"
+                      alt="Logo YachayBot"
+                      width={40}
+                      height={40}
+                      className="rounded-sm"
+                    />
+                    <strong className="font-medium">YachayBot:</strong>
+                  </div>
+                )}
                 {message.content}
               </div>
             ))}
+            {isLoading && messages[messages.length - 1]?.role === "user" && (
+              <div className="p-3 rounded-lg bg-foreground text-background mr-auto max-w-[80%]">
+                <div className="flex items-center gap-2 mb-1">
+                  <Image
+                    src="/images/logo/yachaybot_logo2.png"
+                    alt="Logo YachayBot"
+                    width={40}
+                    height={40}
+                    className="rounded-sm"
+                  />
+                  <strong className="font-medium">YachayBot:</strong>
+                </div>
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" />
+                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" style={{ animationDelay: '0.2s' }} />
+                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" style={{ animationDelay: '0.4s' }} />
+                </div>
+              </div>
+            )}
           </div>
         </ScrollArea>
 
-        {/* Chat input */}
         <form 
           onSubmit={handleSubmit} 
           className="w-full sticky bottom-0 bg-background border-t pt-4"
@@ -93,8 +111,11 @@ function AIChat() {
               placeholder="Pregunta sobre saberes ancestrales..."
               className="flex-1"
               aria-label="Escribe tu pregunta"
+              disabled={isLoading}
             />
-            <Button type="submit">Enviar</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Pensando...' : 'Enviar'}
+            </Button>
           </div>
         </form>
       </div>
