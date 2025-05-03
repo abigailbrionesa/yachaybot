@@ -33,12 +33,12 @@ export const HeroSection = () => {
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Link href="/ai-bot">
-  <Button className="w-5/6 md:w-1/4 font-bold group/arrow  bg-[#ed9238] hover:bg-[#ffa347da]">
-    Probar YachayBot
-    <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
-  </Button>
-</Link>
+            <Link href="/ai-bot">
+              <Button size={"lg"} className="font-bold group/arrow  bg-[#ed9238] hover:bg-[#ffa347da]">
+                Probar YachayBot
+                <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </div>
 
