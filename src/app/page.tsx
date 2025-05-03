@@ -4,23 +4,22 @@ import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Navbar } from "@/components/global/navbar";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
-import { TeamSection } from "@/components/sections/team";
 import { CommunitySection } from "@/components/sections/community";
 import { PricingSection } from "@/components/sections/pricing";
 import { ContactSection } from "@/components/sections/contact";
 import { FAQSection } from "@/components/sections/faq";
 import { FooterSection } from "@/components/sections/footer";
+import { Navbar } from "@/components/global/navbar";
 export default function MainPage() {
   const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace("/dashboard");
+      router.replace("/ai-bot");
     }
   }, [status]);
 
