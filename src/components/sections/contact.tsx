@@ -124,7 +124,7 @@ export const ContactSection = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="grid w-full gap-4">
                 <div className="flex flex-col md:flex-row gap-8">
-                  {["firstName", "lastName"].map((fieldName, index) => (
+                  {["firstName", "lastName"].map((fieldName) => (
                     <FormField
                       key={fieldName}
                       control={form.control}
