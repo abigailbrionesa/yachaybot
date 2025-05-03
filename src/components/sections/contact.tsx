@@ -36,33 +36,6 @@ const formSchema = z.object({
   message: z.string(),
 });
 
-const contactData = [
-  {
-    icon: <Building2 />,
-    label: "Oficina Principal",
-    value: "Av. Cultura 710, Cusco, Perú",
-  },
-  {
-    icon: <Phone />,
-    label: "Teléfono Quechua",
-    value: "+51 984 787 223 (WhatsApp)",
-  },
-  {
-    icon: <Mail />,
-    label: "Correo Electrónico",
-    value: "alianzas@yachaybot.org",
-  },
-  {
-    icon: <Clock />,
-    label: "Horario de Atención",
-    value: (
-      <>
-        <div>Lunes - Viernes</div>
-        <div>9AM - 5PM (GMT-5)</div>
-      </>
-    ),
-  },
-];
 
 const temasConsulta = [
   { value: "saberes", label: "Contribuir con saberes ancestrales" },
