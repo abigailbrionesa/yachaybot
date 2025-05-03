@@ -1,0 +1,14 @@
+{
+    "NavBar": {
+      "appName": "YachayBot",
+      "benefits": "Allin kaykuna",
+      "services": "Yanapakuykuna",
+      "contact": "Rimaykukuy",
+      "faq": "Tapukuykuna",
+      "chat": "Rimay",
+      "greeting": "Napaykullayki, {userName}",
+      "signOut": "Lloqsiy",
+      "signIn": "Yaykuy",
+      "viewOnGithub": "Githubpi rikuy"
+    }
+  }
