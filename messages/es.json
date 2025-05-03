@@ -1,0 +1,14 @@
+{
+  "NavBar": {
+    "appName": "YachayBot",
+    "benefits": "Beneficios",
+    "services": "Servicios",
+    "contact": "Contacto",
+    "faq": "FAQ",
+    "chat": "Chatear",
+    "greeting": "Hola, {userName}",
+    "signOut": "Cerrar Sesión",
+    "signIn": "Inicia Sesión",
+    "viewOnGithub": "Ver en Github"
+  }
+}
