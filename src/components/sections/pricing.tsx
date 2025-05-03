@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Check } from "lucide-react";
-
+import { useTranslations } from "next-intl";
 enum PopularPlan {
   NO = 0,
   YES = 1,
@@ -22,66 +22,50 @@ interface PlanProps {
   buttonText: string;
   benefitList: string[];
 }
-const plans: PlanProps[] = [
-  {
-    title: "Comunidad",
-    popular: 0,
-    price: 0,
-    description: "Acceso básico para preservar tu herencia cultural",
-    buttonText: "Únete Gratis",
-    benefitList: [
-      "Acceso a 5 saberes ancestrales/día",
-      "Consultas en quechua/aimara/español",
-      "Base de datos comunitaria",
-      "Soporte por correo electrónico",
-      "1 consulta mensual a ancianos validadores"
-    ],
-  },
-  {
-    title: "Educador EIB",
-    popular: 1,
-    price: 9, // Precio simbólico para docentes
-    description: "Para escuelas bilingües y promotores culturales",
-    buttonText: "Acceso Prioritario",
-    benefitList: [
-      "Consultas ilimitadas",
-      "Materiales didácticos descargables",
-      "Capacitación mensual en IA intercultural",
-      "Soporte prioritario (48h)",
-      "Acceso a red de docentes EIB",
-      "Validación directa con expertos"
-    ],
-  },
-  {
-    title: "Aliado Institucional",
-    popular: 0,
-    price: 120,
-    description: "Para ONGs, ministerios y organizaciones",
-    buttonText: "Solicitar Demo",
-    benefitList: [
-      "API para integración en plataformas",
-      "Dashboard de impacto comunitario",
-      "Capacitación personalizada",
-      "Soporte 24/7 con expertos culturales",
-      "Acceso a base de datos etnográfica",
-      "White-label para proyectos sociales"
-    ],
-  },
-];
+
 
 export const PricingSection = () => {
+  const t = useTranslations("PricingSection");
+
+  const plans: PlanProps[] = [
+    {
+      title: t("plans.Comunidad.title"),
+      popular: 0,
+      price: 0,
+      description: t("plans.Comunidad.description"),
+      buttonText: t("plans.Comunidad.buttonText"),
+      benefitList: t("plans.Comunidad.benefits").split(",")
+    },
+    {
+      title: t("plans.EducadorEIB.title"),
+      popular: 1,
+      price: 9,
+      description: t("plans.EducadorEIB.description"),
+      buttonText: t("plans.EducadorEIB.buttonText"),
+      benefitList: t("plans.EducadorEIB.benefits").split(",")
+    },
+    {
+      title: t("plans.AliadoInstitucional.title"),
+      popular: 0,
+      price: 120,
+      description: t("plans.AliadoInstitucional.description"),
+      buttonText: t("plans.AliadoInstitucional.buttonText"),
+      benefitList: t("plans.AliadoInstitucional.benefits").split(",")
+    }
+  ];
+
   return (
     <section className="container py-24 sm:py-32">
       <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
-        MODELO ÉTICO
+        {t("title")}
       </h2>
 
       <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-        Tecnología que devuelve valor a sus raíces
+        {t("heading")}
       </h2>
 
       <h3 className="md:w-1/2 mx-auto text-xl text-center text-muted-foreground pb-14">
-        El 100% de los ingresos se reinvierte en validación comunitaria y acceso rural
+        {t("subheading")}
       </h3>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-4">
@@ -104,7 +88,7 @@ export const PricingSection = () => {
 
                 <div>
                   <span className="text-3xl font-bold">${price}</span>
-                  <span className="text-muted-foreground"> /month</span>
+                  <span className="text-muted-foreground"> {t("priceSuffix")}</span>
                 </div>
               </CardHeader>
 

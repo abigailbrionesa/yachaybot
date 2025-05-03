@@ -1,5 +1,5 @@
 "use client";
-
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -65,28 +65,58 @@ const contactData = [
 ];
 
 const temasConsulta = [
-  { value: "Saberes Ancestrales", label: "Contribuir con saberes ancestrales" },
-  { value: "Alianza Educativa", label: "Alianza con escuela EIB" },
-  { value: "Investigación", label: "Investigación académica" },
-  { value: "Voluntariado", label: "Voluntariado lingüístico" },
-  { value: "Otro", label: "Otra colaboración" },
+  { value: "saberes", label: "Contribuir con saberes ancestrales" },
+  { value: "alianza", label: "Alianza con escuela EIB" },
+  { value: "investigacion", label: "Investigación académica" },
+  { value: "voluntariado", label: "Voluntariado lingüístico" },
+  { value: "otro", label: "Otra colaboración" },
 ];
 
 export const ContactSection = () => {
+  const t = useTranslations("ContactSection");
+  
+  const contactData = [
+    {
+      icon: <Building2 />,
+      label: t("contactData.office"),
+      value: "Av. Cultura 710, Cusco, Perú",
+    },
+    {
+      icon: <Phone />,
+      label: t("contactData.phone"),
+      value: "+51 984 787 223 (WhatsApp)",
+    },
+    {
+      icon: <Mail />,
+      label: t("contactData.email"),
+      value: "alianzas@yachaybot.org",
+    },
+    {
+      icon: <Clock />,
+      label: t("contactData.hours"),
+      value: (
+        <>
+          <div>{t("contactData.hoursValue.0")}</div>
+          <div>{t("contactData.hoursValue.1")}</div>
+        </>
+      ),
+    },
+  ];
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
-      subject: "Saberes Ancestrales",
+      subject: "saberes",
       message: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { firstName, lastName, email, subject, message } = values;
-    const mailToLink = `mailto:leomirandadev@gmail.com?subject=${subject}&body=Hola, soy ${firstName} ${lastName}, mi correo es ${email}.%0D%0A${message}`;
+    const mailToLink = `mailto:leomirandadev@gmail.com?subject=${subject}&body= ${firstName} ${lastName}, ${email}.%0D%0A${message}`;
     window.location.href = mailToLink;
   }
 
@@ -95,14 +125,13 @@ export const ContactSection = () => {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h2 className="text-lg text-primary mb-2 tracking-wider">
-            CONECTA CON NUESTRA COMUNIDAD
+            {t("title")}
           </h2>
           <h2 className="text-3xl md:text-4xl font-bold">
-            Tus saberes ancestrales nos importan
+            {t("heading")}
           </h2>
           <p className="mb-8 text-muted-foreground lg:w-5/6">
-            ¿Eres docente EIB, investigador cultural o miembro de una comunidad indígena? 
-            Únete a nuestra red de colaboradores para preservar y democratizar los conocimientos ancestrales.
+            {t("description")}
           </p>
 
           <div className="flex flex-col gap-4">
@@ -119,30 +148,43 @@ export const ContactSection = () => {
         </div>
 
         <Card className="bg-muted/60 dark:bg-card">
-          <CardHeader className="text-primary text-2xl">¿Cómo quieres colaborar?</CardHeader>
+          <CardHeader className="text-primary text-2xl">{t("cardTitle")}</CardHeader>
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="grid w-full gap-4">
                 <div className="flex flex-col md:flex-row gap-8">
-                  {["firstName", "lastName"].map((fieldName) => (
-                    <FormField
-                      key={fieldName}
-                      control={form.control}
-                      name={fieldName as "firstName" | "lastName"}
-                      render={({ field }) => (
-                        <FormItem className="w-full">
-                          <FormLabel>{fieldName === "firstName" ? "Nombre" : "Apellido"}</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder={fieldName === "firstName" ? "Leopoldo" : "Miranda"}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ))}
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>{t("form.firstName")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t("form.placeholders.firstName")}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>{t("form.lastName")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t("form.placeholders.lastName")}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <FormField
@@ -150,9 +192,13 @@ export const ContactSection = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Correo electrónico</FormLabel>
+                      <FormLabel>{t("form.email")}</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="tuemail@ejemplo.com" {...field} />
+                        <Input 
+                          type="email" 
+                          placeholder={t("form.placeholders.email")} 
+                          {...field} 
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -164,18 +210,18 @@ export const ContactSection = () => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tipo de consulta</FormLabel>
+                      <FormLabel>{t("form.subject")}</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Selecciona un tema" />
+                            <SelectValue placeholder={t("form.subject")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {temasConsulta.map((item) => (
                             <SelectItem key={item.value} value={item.value}>
-                              {item.label}
-                            </SelectItem>
+                            {t(`topics.${item.value}`)}
+                          </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -189,11 +235,11 @@ export const ContactSection = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mensaje</FormLabel>
+                      <FormLabel>{t("form.message")}</FormLabel>
                       <FormControl>
                         <Textarea
                           rows={5}
-                          placeholder="Escribe tu mensaje aquí..."
+                          placeholder={t("form.placeholders.message")}
                           className="resize-none"
                           {...field}
                         />
@@ -204,7 +250,7 @@ export const ContactSection = () => {
                 />
 
                 <Button type="submit" className="mt-4 bg-primary hover:bg-primary/90">
-                  Enviar mensaje
+                  {t("form.submit")}
                 </Button>
               </form>
             </Form>

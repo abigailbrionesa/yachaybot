@@ -1,54 +1,53 @@
+"use client";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-interface FAQProps {
-  question: string;
-  answer: string;
-  value: string;
-}
-
-const FAQList: FAQProps[] = [
-  {
-    question: "¿YachayBot es realmente gratuito?",
-    answer: "Sí, completamente. Nuestra misión es democratizar el acceso a los saberes ancestrales. Funciona sin costo en web y móvil, incluso con conexiones limitadas (tecnología offline-first).",
-    value: "item-1",
-  },
-  {
-    question: "¿Cómo garantizan la exactitud de los conocimientos que comparte el bot?",
-    answer: "Todo contenido es validado por una red de ancianos, lingüistas y antropólogos de las comunidades originarias. Usamos IA con base de datos cerrada (RAG) para evitar distorsiones.",
-    value: "item-2",
-  },
-  {
-    question: "¿Puedo usar YachayBot en mi escuela rural sin internet estable?",
-    answer: "¡Absolutamente! Diseñamos versiones SMS y PWA que funcionan con menos de 1MB/s de conexión. 87% de escuelas piloto en Cusco lo usan exitosamente (2024).",
-    value: "item-3",
-  },
-  {
-    question: "¿Por qué enfocarse en quechua y aimara si muchos hablan español?",
-    answer: "El 63% de materiales educativos digitales ignoran lenguas originarias (MINEDU). Preservar estos idiomas es clave para la identidad cultural - nuestro NLP nativo evita traducciones colonialistas.",
-    value: "item-4",
-  },
-  {
-    question: "¿Cómo contribuye esto al Plan Perú 2050?",
-    answer: "Cerramos 3 brechas clave: digital (ODS 9), educativa (ODS 4) y lingüística (ODS 10). Somos herramienta oficial para escuelas EIB y proyectos de innovación cultural sostenible.",
-    value: "item-5",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export const FAQSection = () => {
+  const t = useTranslations("FAQ");
+
+  const FAQList = [
+    {
+      question: t("faq1.question"),
+      answer: t("faq1.answer"),
+      value: "item-1",
+    },
+    {
+      question: t("faq2.question"),
+      answer: t("faq2.answer"),
+      value: "item-2",
+    },
+    {
+      question: t("faq3.question"),
+      answer: t("faq3.answer"),
+      value: "item-3",
+    },
+    {
+      question: t("faq4.question"),
+      answer: t("faq4.answer"),
+      value: "item-4",
+    },
+    {
+      question: t("faq5.question"),
+      answer: t("faq5.answer"),
+      value: "item-5",
+    },
+  ];
+
   return (
     <section id="faq" className="container md:w-[700px] py-24 sm:py-32">
       <div className="text-center mb-8">
         <h2 className="text-primary text-center mb-2 tracking-wider">
-          PREGUNTAS FRECUENTES
+          {t("subtitle")}
         </h2>
 
         <h2 className="text-3xl md:text-4xl text-center font-bold">
-          Sabiduría ancestral, respuestas modernas
+          {t("title")}
         </h2>
       </div>
 
@@ -58,8 +57,9 @@ export const FAQSection = () => {
             <AccordionTrigger className="text-left text-lg">
               {question}
             </AccordionTrigger>
-
-            <AccordionContent className="text-justify">{answer}</AccordionContent>
+            <AccordionContent className="text-justify">
+              {answer}
+            </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
