@@ -3,7 +3,6 @@
 import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
@@ -16,7 +15,6 @@ import { Navbar } from "@/components/global/navbar";
 
 export default function MainPage() {
   const { status } = useSession();
-  const router = useRouter();
 
   if (status === "loading") {
     return (
