@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ClientLayout from "./client-layout";
 import { Oswald } from "next/font/google";
 import { cn } from "@/lib/utils";
+import {NextIntlClientProvider, hasLocale} from 'next-intl';
+import {notFound} from 'next/navigation';
+import {routing} from '@/i18n/routing';
 import { ThemeProvider } from "@/components/global/theme-provider";
 const inter = Oswald({ subsets: ["latin"] });
 import "./globals.css";
@@ -22,13 +25,21 @@ export const metadata: Metadata = {
   description: "YachayBot",
 };
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
-}: Readonly<{
+  params
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{locale: string}>;
+}) {
+
+  const {locale} = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
         <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
@@ -48,7 +59,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+                    <NextIntlClientProvider>
+
             {children}
+            </NextIntlClientProvider>
           </ThemeProvider>
         </ClientLayout>
       </body>

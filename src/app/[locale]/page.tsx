@@ -25,10 +25,6 @@ export default function MainPage() {
 
   return (
     <>
-      {/*<h1>Bienvenido</h1>
-      <button type="button" onClick={() => router.push("/sign-in")}>
-        Inicia sesión
-      </button> */}
       <Navbar/>
       <HeroSection />
       <BenefitsSection /> 
