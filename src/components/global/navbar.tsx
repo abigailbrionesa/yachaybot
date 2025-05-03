@@ -77,8 +77,11 @@ export const Navbar = () => {
             ))}
           </NavigationMenuItem>
           <Button className="font-bold  bg-[#ed9238] hover:bg-[#ffa347da]">
+          <Link href="/ai-bot" target="_blank">
             Chatear
+          </Link>
           </Button>
+    
         </NavigationMenuList>
 
       </NavigationMenu>
