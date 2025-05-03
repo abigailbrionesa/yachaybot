@@ -10,7 +10,7 @@ async function generateEmbedding(text) {
     const result = await pc.inference.embed('llama-text-embed-v2', [text], {
         input_type: 'query',
     });
-    console.log(result, "IS RESULT");
+
     if (!result.data || result.data.length === 0 || !result.data[0].values) {
         throw new Error("No se recibieron embeddings de la API");
     }
