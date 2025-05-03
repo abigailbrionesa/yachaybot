@@ -24,7 +24,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     });
 
     if (res?.ok) {
-      router.replace("/dashboard");
+      router.replace("/ai-bot");
     } else {
       setError("Correo o contraseña inválidos");
     }
@@ -42,7 +42,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
               <Button
                 type="button"
-                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                onClick={() => signIn("google", { callbackUrl: "/ai-bot" })}
                 variant="outline"
                 className="w-full"
               >
