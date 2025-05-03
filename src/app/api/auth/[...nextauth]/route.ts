@@ -23,7 +23,7 @@ const authOption: NextAuthOptions = {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
@@ -56,12 +56,12 @@ const authOption: NextAuthOptions = {
 
       return true
     },
-    async session({ session, token }) {
+    async session({ session }) {
       const userSession = await getUserSession()
       session.user = userSession || {}
       return session
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, profile }) {
       if (profile?.email) {
         const existingUser = await prisma.user.findUnique({
           where: { email: profile.email },
@@ -71,7 +71,7 @@ const authOption: NextAuthOptions = {
       }
 
       if (user) {
-        token.id = (user as any).id
+        token.id = (user as { id: string }).id
       }
 
       return token
