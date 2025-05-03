@@ -1,6 +1,9 @@
 "use client";
 import { ChevronsDown, Github, Menu } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -28,74 +31,85 @@ interface RouteProps {
   label: string;
 }
 
-interface FeatureProps {
-  title: string;
-  description: string;
-}
-
 const routeList: RouteProps[] = [
   {
-    href: "#testimonials",
-    label: "Testimonials",
+    href: "/#benefits",
+    label: "Beneficios",
   },
   {
-    href: "#team",
-    label: "Team",
+    href: "/#services",
+    label: "Servicios",
   },
   {
-    href: "#contact",
-    label: "Contact",
+    href: "/#contact",
+    label: "Contacto",
   },
   {
-    href: "#faq",
+    href: "/#faq",
     label: "FAQ",
   },
 ];
 
-
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("Session Status:", status);
+    if (status === "authenticated") {
+      router.replace("/ai-bot");
+    }
+  }, [status, router]);
+
+  const userName = session?.user?.name?.split(' ')[0];
+
   return (
     <header className="shadow-inner bg-opacity-15
-    mx-auto  border border-secondary fixed w-full
-    z-40 flex justify-between items-center p-2  px-5 bg-card">
-      <Link href="/" className="font-bold text-lg  flex items-center">
+    mx-auto border border-secondary fixed w-full
+    z-40 flex justify-between items-center p-2 px-5 bg-card">
+
+      <Link href="/" className="font-bold text-lg flex items-center mr-5">
         <Image src="/images/logo/yachaybot_logo2.png" alt="logo" width={100} height={100} className="h-auto mr-4 w-auto max-w-10" />
         YachayBot
       </Link>
-      {/* <!-- Mobile --> */}
+
+
+
+      <NavigationMenu className="hidden lg:block mr-auto ">
+        <NavigationMenuList className="flex">
+          <NavigationMenuItem className="flex">
+            {routeList.map(({ href, label }) => (
+              <NavigationMenuLink key={href} asChild>
+                <Link href={href} className="text-base px-2">{label}</Link>
+              </NavigationMenuLink>
+            ))}
+          </NavigationMenuItem>
+          <Button className="font-bold  bg-[#ed9238] hover:bg-[#ffa347da]">
+            Chatear
+          </Button>
+        </NavigationMenuList>
+
+      </NavigationMenu>
+
       <div className="flex items-center lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Menu
-              onClick={() => setIsOpen(!isOpen)}
-              className="cursor-pointer lg:hidden"
-            />
+            <Menu onClick={() => setIsOpen(!isOpen)} className="cursor-pointer lg:hidden" />
           </SheetTrigger>
-
-          <SheetContent
-            side="left"
-            className="flex flex-col justify-between rounded-tr-2xl rounded-br-2xl bg-card border-secondary"
-          >
+          <SheetContent side="left" className="flex flex-col justify-between rounded-tr-2xl rounded-br-2xl bg-card border-secondary">
             <div>
               <SheetHeader className="mb-4 ml-4">
                 <SheetTitle className="flex items-center">
                   <Link href="/" className="flex items-center">
-                    <ChevronsDown className="bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white" />
-                    Shadcn
+                    <Image src="/images/logo/yachaybot_logo2.png" alt="logo" width={100} height={100} className="h-auto mr-4 w-auto max-w-10" />
+                    YACHAYBOT
                   </Link>
                 </SheetTitle>
               </SheetHeader>
-
               <div className="flex flex-col gap-2">
                 {routeList.map(({ href, label }) => (
-                  <Button
-                    key={href}
-                    onClick={() => setIsOpen(false)}
-                    asChild
-                    variant="ghost"
-                    className="justify-start text-base"
-                  >
+                  <Button key={href} onClick={() => setIsOpen(false)} asChild variant="ghost" className="justify-start text-base">
                     <Link href={href}>{label}</Link>
                   </Button>
                 ))}
@@ -104,37 +118,33 @@ export const Navbar = () => {
 
             <SheetFooter className="flex-col sm:flex-col justify-start items-start">
               <Separator className="mb-2" />
-
               <ToggleTheme />
             </SheetFooter>
           </SheetContent>
         </Sheet>
       </div>
 
-      {/* <!-- Desktop --> */}
-      <NavigationMenu className="hidden lg:block mx-auto">
-        <NavigationMenuList className="flex ">
-          <NavigationMenuItem className="flex">
-            {routeList.map(({ href, label }) => (
-              <NavigationMenuLink key={href} asChild>
-                <Link href={href} className="text-base px-2">
-                  {label}
-                </Link>
-              </NavigationMenuLink>
-            ))}
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
 
-      <div className="hidden lg:flex">
+      <div className="hidden lg:flex space-x-3">
         <ToggleTheme />
 
-        <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
-          <Link
-            aria-label="View on GitHub"
-            href="https://github.com/abigailbrionesa/yachaybot"
-            target="_blank"
-          >
+        {status === "loading" ? (
+          <Button disabled>Loading...</Button>
+        ) : status === "authenticated" ? (
+          <div className="flex items-center space-x-3">
+            <p className="text-sm">Hola, {userName}</p>
+            <Button asChild size="sm" variant="outline" aria-label="Sign Out" onClick={() => signOut()}>
+              <p>Sign Out</p>
+            </Button>
+          </div>
+        ) : (
+          <Button asChild size="sm" variant="default" aria-label="Sign In" onClick={() => router.push("/sign-in")}>
+            <p>Inicia Sesión</p>
+          </Button>
+        )}
+
+        <Button asChild size="sm" variant="outline" aria-label="View on GitHub">
+          <Link href="https://github.com/abigailbrionesa/yachaybot" target="_blank">
             <Github className="size-5" /> Ver en Github
           </Link>
         </Button>
