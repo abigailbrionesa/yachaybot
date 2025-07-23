@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Screenshot](/public/yachaybot.png)
 
-## Getting Started
+<samp>
 
-First, run the development server:
+<h1>YachayBot - 3rd Place, INFORTELGRAF Perú Hackathon 2025</h1>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p>
+<strong>YachayBot</strong> is an <strong>AI chatbot</strong> dedicated to preserving and democratizing the ancestral knowledge of Peru's Indigenous peoples — a mission aligned with <strong>SDGs 4 (Quality Education), 9 (Innovation), and 10 (Reduced Inequalities)</strong>. 
+<br><br>
+Built and deployed as a full-stack web application with end-to-end session-based authentication, it is intended to support real-time semantic search and multilingual interaction in <strong>Quechua, Aymara, and Spanish</strong>.
+</p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ 
+<h2>𝙵𝚎𝚊𝚝𝚞𝚛𝚎𝚜</h2>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<ul>
+  <li>
+    <strong>Multilingual Chatbot with Cultural Context</strong><br>
+    Trained to converse in Quechua, Aymara, and Spanish, YachayBot helps users explore traditional Indigenous knowledge through AI.
+  </li>
+  <li>
+    <strong>Semantic Search Pipeline</strong><br>
+    Research articles are transformed into <code>1024-dimensional embeddings</code> using LangChain and Hugging Face's gte-large model, enabling real-time search through Pinecone.
+  </li>
+  <li>
+    <strong>Full-Stack Application with Secure Auth</strong><br>
+    100% session-based authentication powered by Supabase and NextAuth.js ensures secure access for every user.
+  </li>
+</ul>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<h2>𝙻𝚒𝚟𝚎 𝙳𝚎𝚖𝚘</h2>
 
-## Learn More
+<p>
+🔗 <a href="https://github.com/abigailbrionesa/yachaybot" target="_blank">Explore on GitHub</a><br>
+</p>
 
-To learn more about Next.js, take a look at the following resources:
+<h2>𝚃𝚎𝚌𝚑 𝚂𝚝𝚊𝚌𝚔</h2>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<ul>
+  <li><strong>Frontend:</strong> Next.js (React + TypeScript), Tailwind CSS, Next-Intl (i18n)</li>
+  <li><strong>Backend:</strong> Supabase (PostgreSQL), Prisma ORM, NextAuth.js</li>
+  <li><strong>AI & NLP:</strong> Node.js, LangChain, Hugging Face gte-large, Pinecone Vector DB</li>
+</ul>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<h2>𝙰𝚌𝚔𝚗𝚘𝚠𝚕𝚎𝚍𝚐𝚖𝚎𝚗𝚝𝚜</h2>
 
-## Deploy on Vercel
+<p>
+Deep thanks to <strong>Alberth Jesús Vigo Saldaña</strong> and <strong>Pierina Ramos</strong> for supporting innovation in Peruvian tech. 
+And to the experts who inspire this work — <em>Jeff Barr, Lesly Zerna, Melissa Amado, Narciso Lema, Lennin Cenas Vasquez, and Nicolas Molina Monroy</em> — thank you for openly sharing your wisdom.
+</p>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+</samp>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
