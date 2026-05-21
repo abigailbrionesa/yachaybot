@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { GET as getPausedAuth, POST as postPausedAuth } from "../app/api/auth/[...nextauth]/route";
 import { POST as postLogin } from "../app/api/auth/login/route";
 import { POST as postChat } from "../app/api/chat/route";
 import { POST as postAnswer } from "../app/api/v1/answers/route";
+import { GET as getEvalRun } from "../app/api/v1/evals/runs/[runId]/route";
 import { POST as postSearch } from "../app/api/v1/search/route";
 
 delete process.env.MISTRAL_API_KEY;
@@ -124,6 +126,38 @@ test("/api/auth/login is intentionally paused for the v2 MVP", async () => {
 
   assert.equal(response.status, 503);
   assert.equal(payload.error.code, "FEATURE_UNAVAILABLE");
+});
+
+test("/api/auth catch-all is intentionally paused for the v2 MVP", async () => {
+  const getResponse = await getPausedAuth();
+  const postResponse = await postPausedAuth();
+  const getPayload = await getResponse.json();
+  const postPayload = await postResponse.json();
+
+  assert.equal(getResponse.status, 503);
+  assert.equal(postResponse.status, 503);
+  assert.equal(getPayload.error.code, "FEATURE_UNAVAILABLE");
+  assert.equal(postPayload.error.code, "FEATURE_UNAVAILABLE");
+});
+
+test("/api/v1/evals/runs/[runId] returns the known local eval run", async () => {
+  const response = await getEvalRun(new Request("http://localhost.test"), {
+    params: Promise.resolve({ runId: "local-eval-run-001" }),
+  });
+  const payload = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(payload.run.id, "local-eval-run-001");
+});
+
+test("/api/v1/evals/runs/[runId] rejects unknown eval runs", async () => {
+  const response = await getEvalRun(new Request("http://localhost.test"), {
+    params: Promise.resolve({ runId: "not-real" }),
+  });
+  const payload = await response.json();
+
+  assert.equal(response.status, 404);
+  assert.equal(payload.error.code, "NOT_FOUND");
 });
 
 test("/api/chat rate limits repeated requests", async () => {

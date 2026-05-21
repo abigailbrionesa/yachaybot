@@ -1,26 +1,38 @@
-"use client";
+import Link from "next/link";
+import { Navbar } from "@/components/global/navbar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { signOut, useSession } from "next-auth/react";
-
-function Dashboard() {
-  const { data: session } = useSession();
-
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <h1 className="text-2xl font-bold mb-4">Holaa</h1>
-      {session?.user && (
-        <>
-          <p className="mb-2">Logged in as: {session.user.email}</p>
-          <button
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-          >
-            Log Out
-          </button>
-        </>
-      )}
-    </div>
-  );
+interface DashboardPageProps {
+  params: Promise<{
+    locale: string;
+  }>;
 }
 
-export default Dashboard;
+export default async function DashboardPage({ params }: DashboardPageProps) {
+  const { locale } = await params;
+
+  return (
+    <>
+      <Navbar />
+      <main className="container flex min-h-svh items-center justify-center pt-24">
+        <Card className="max-w-2xl">
+          <CardHeader>
+            <CardTitle>Educator workspace is paused for the v2 MVP</CardTitle>
+            <CardDescription>
+              The current public release focuses on source-grounded search, visible citations, and retrieval evals.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href={`/${locale}`}>Back to search</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href={`/${locale}/sources`}>View sources</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    </>
+  );
+}
