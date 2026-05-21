@@ -10,8 +10,6 @@
 
 YachayBot is a full-stack AI search application for exploring public Peruvian cultural and educational resources. It combines a localized Next.js interface, typed API routes, deterministic retrieval, citation-aware answer generation, refusal behavior for weak evidence, and a lightweight evaluation dashboard.
 
-Built as a completed SWE + AI portfolio project, YachayBot demonstrates the engineering judgment expected in production-minded AI systems: clear API contracts, explicit retrieval behavior, model-output validation, reproducible tests, scoped product decisions, and transparent limitations.
-
 ![YachayBot search-first homepage](public/demo/search-home.svg)
 
 ## Table Of Contents
@@ -27,7 +25,6 @@ Built as a completed SWE + AI portfolio project, YachayBot demonstrates the engi
 - [API Overview](#api-overview)
 - [Project Structure](#project-structure)
 - [Validation](#validation)
-- [Project Scope](#project-scope)
 
 ## Highlights
 
@@ -308,29 +305,7 @@ Validation coverage includes:
 - [ADR 0003: Search-first UI](docs/adr/0003-use-search-first-ui.md)
 - [ADR 0004: Source-grounded generation](docs/adr/0004-use-source-grounded-generation.md)
 
-## Project Scope
-
-YachayBot is complete as a portfolio-grade AI search project. Its scope is intentionally focused:
-
-- The corpus is small and curated for demonstration.
-- Retrieval uses deterministic token overlap rather than production vector search.
-- Quechua and Aymara routes are localized shells with source-bound behavior, not claims of full conversational fluency.
-- Curated notes are methodology notes, not primary cultural sources.
-- Sign-in and educator workspace flows are out of scope for the public build.
-- Rate limiting is an in-memory application guard, not a distributed Redis or KV limiter.
-- The project does not claim community validation.
-- The project does not claim zero hallucinations.
-- The project does not claim to preserve ancestral knowledge by itself.
-- No license file is currently included.
-
-## Repository Topics
-
-Suggested GitHub topics:
-
-`ai-search`, `evidence-first`, `rag`, `retrieval-augmented-generation`, `source-grounded`, `citations`, `peru`, `education`, `cultural-heritage`, `multilingual`, `nextjs`, `typescript`, `tailwindcss`, `zod`, `mistral-ai`, `evals`, `playwright`, `postgresql`, `pgvector`, `open-source`
 
 ## Recognition And Acknowledgements
 
 YachayBot placed third at INFORTELGRAF Peru Hackathon 2025. The project is aligned with educational access, responsible AI, and public-interest technology.
-
-Thank you to Alberth Jesus Vigo Saldana and Pierina Ramos for supporting innovation in Peruvian tech, and to Jeff Barr, Lesly Zerna, Melissa Amado, Narciso Lema, Lennin Cenas Vasquez, and Nicolas Molina Monroy for openly sharing knowledge that inspires this work.
