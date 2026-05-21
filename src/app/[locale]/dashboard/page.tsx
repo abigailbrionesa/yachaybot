@@ -18,7 +18,9 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
       <main className="container flex min-h-svh items-center justify-center pt-24">
         <Card className="max-w-2xl">
           <CardHeader>
-            <CardTitle>Educator workspace is paused for the v2 MVP</CardTitle>
+            <CardTitle>
+              <h1>Educator workspace is paused for the v2 MVP</h1>
+            </CardTitle>
             <CardDescription>
               The current public release focuses on source-grounded search, visible citations, and retrieval evals.
             </CardDescription>
