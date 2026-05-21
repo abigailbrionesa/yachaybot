@@ -6,7 +6,6 @@ import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
 import { CommunitySection } from "@/components/sections/community";
-import { PricingSection } from "@/components/sections/pricing";
 import { ContactSection } from "@/components/sections/contact";
 import { FAQSection } from "@/components/sections/faq";
 import { FooterSection } from "@/components/sections/footer";
@@ -31,7 +30,6 @@ export default function MainPage() {
       <FeaturesSection />
       <ServicesSection />
       <CommunitySection />
-      <PricingSection />
       <ContactSection />
       <FAQSection />
       <FooterSection />

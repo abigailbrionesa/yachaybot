@@ -13,126 +13,138 @@
   },
   "Hero": {
     "badge": {
-      "innovation": "Innovación",
-      "text": "Patente pendiente en NLP para lenguas indígenas"
+      "innovation": "Reconstruccion v2",
+      "text": "Busqueda educativa basada en fuentes publicas"
     },
     "title": {
-      "part1": "Conecta con saberes ancestrales en",
-      "part2": "tu lengua materna"
+      "part1": "Explora recursos culturales y educativos con",
+      "part2": "evidencia visible"
     },
-    "description": "El primer chatbot educativo que preserva conocimientos indígenas en quechua, aimara y español - validado por ancianos y comunidades.",
-    "button": "Probar YachayBot"
+    "description": "YachayBot se esta reconstruyendo como un sistema de busqueda educativa que muestra fuentes, metadatos y limites antes de generar respuestas.",
+    "button": "Explorar YachayBot"
   },
   "BenefitsSection": {
-    "subtitle": "IMPACTO MEDIBLE",
-    "title": "Tecnología que Preserva Identidades",
-    "description": "Combinamos innovación de punta con sabiduría ancestral para crear soluciones que:",
+    "subtitle": "ENFOQUE",
+    "title": "Tecnologia para aprender con fuentes",
+    "description": "La version v2 prioriza busqueda verificable, documentacion clara y respuestas que reconocen sus limites.",
     "benefits": [
       {
-        "title": "Saberes Validados",
-        "description": "Acceso a conocimientos ancestrales certificados por ancianos y lingüistas, con un 93% de precisión cultural en pruebas piloto."
+        "title": "Fuentes visibles",
+        "description": "Las respuestas deben apoyarse en documentos publicos o notas curadas claramente identificadas."
       },
       {
-        "title": "Educación Intercultural",
-        "description": "Herramienta preferida por docentes EIB: 70% mejora en engagement estudiantil versus materiales tradicionales (Cusco, 2023)."
+        "title": "Aprendizaje bilingue",
+        "description": "El MVP se enfoca en consultas en espanol e ingles, con soporte Quechua y Aymara tratado como experimental y dependiente de fuentes."
       },
       {
-        "title": "Tecnología Inclusiva",
-        "description": "Funciona con conexiones limitadas (hasta 1MB/s) y en 3 idiomas: quechua, aimara y español."
+        "title": "Arquitectura inspeccionable",
+        "description": "La ingestion, busqueda, citas y evaluaciones se documentan para que el sistema pueda revisarse tecnicamente."
       },
       {
-        "title": "Puente Generacional",
-        "description": "87% de jóvenes usuarios comparten conocimientos con sus familias, revitalizando la transmisión oral tradicional."
+        "title": "Limitaciones claras",
+        "description": "Cuando no hay evidencia suficiente, la experiencia debe decirlo en lugar de presentar una respuesta como autoridad cultural."
       }
     ]
   },
   "FeaturesSection": {
-    "subtitle": "INNOVACIÓN CON RAÍCES",
-    "title": "Tecnología que Honra la Sabiduría Andina",
-    "description": "Combinamos IA de vanguardia con metodologías interculturales validadas por comunidades quechuas y aimaras. Más que un chatbot, es un puente generacional.",
+    "subtitle": "BUSQUEDA CON EVIDENCIA",
+    "title": "De chatbot demo a sistema RAG verificable",
+    "description": "YachayBot v2 separa interfaz, API, corpus, recuperacion, generacion y evaluaciones para mostrar como se construyen respuestas basadas en fuentes.",
     "features": {
       "offline": {
-        "title": "Funciona sin Internet",
-        "description": "Tecnología offline-first: accesible via SMS y navegadores básicos para comunidades con baja conectividad (60% zonas rurales según INEI)."
+        "title": "Corpus documentado",
+        "description": "El MVP trabajara con fuentes publicas y notas curadas, cada una con metadatos, idioma, tema, institucion y nota de derechos."
       },
       "validated": {
-        "title": "Saberes Validados",
-        "description": "Contenido certificado por ancianos y antropólogos - 0% hallucinations. Base de datos ética con 1,200+ conocimientos ancestrales documentados."
+        "title": "Respuestas con citas",
+        "description": "La generacion debe usar solo fragmentos recuperados y enlazar cada afirmacion importante con tarjetas de fuente."
       },
       "multilingual": {
-        "title": "Multilingüe Ancestral",
-        "description": "NLP nativo en quechua/aimara (no traducciones). Primer modelo para lenguas aglutinantes con 94% de precisión en pilotos (Cusco 2024)."
+        "title": "Multilingue con cautela",
+        "description": "Espanol e ingles son el foco inicial. Quechua y Aymara se presentan como experimentales hasta contar con evidencia indexada suficiente."
       },
       "interface": {
-        "title": "Interfaz Cultural",
-        "description": "Diseño co-creado con comunidades: iconografía andina y patrones de diálogo tipo 'Yachachiq' (sabio que enseña)."
+        "title": "Interfaz de busqueda",
+        "description": "La primera pantalla debe ayudar a buscar, revisar fragmentos y comparar fuentes antes de confiar en una respuesta generada."
       },
       "impact": {
-        "title": "Impacto Medible",
-        "description": "87% engagement en escuelas EIB (vs. 35% apps genéricas). 70% de usuarios comparten conocimientos con sus familias."
+        "title": "Evaluaciones visibles",
+        "description": "El proyecto medira recuperacion, rechazos y latencia con un dashboard de evaluaciones y casos fallidos inspeccionables."
       },
       "alliance": {
-        "title": "Alianza ODS",
-        "description": "Contribuye directamente a 3 Objetivos de Desarrollo Sostenible: Educación de calidad (4), Innovación (9) y Reducción de desigualdades (10)."
+        "title": "Proposito educativo",
+        "description": "El objetivo es apoyar aprendizaje y acceso a recursos publicos sin afirmar representacion cultural ni validacion comunitaria no documentada."
       }
     }
   },
   "ServicesSection": {
-    "impactTitle": "IMPACTO MEDIBLE",
-    "mainTitle": "Tecnología que Preserva Futuros",
-    "subtitle": "Combinamos innovación de punta con metodologías ancestrales para cerrar brechas educativas y digitales en 3 ejes clave.",
+    "impactTitle": "SISTEMA EN RECONSTRUCCION",
+    "mainTitle": "Busqueda educativa con fuentes visibles",
+    "subtitle": "YachayBot v2 prioriza corpus documentado, citas, evaluaciones y limites claros antes de ampliar capacidades.",
     "services": {
       "multilingualAccess": {
-        "title": "Acceso Multilingüe Ancestral",
-        "description": "Interacción fluida en quechua, aimara y español con saberes validados por ancianos y lingüistas. Tecnología offline-first para zonas rurales."
+        "title": "Soporte multilingue responsable",
+        "description": "Espanol e ingles son el foco inicial; Quechua y Aymara se tratan como experimentales y dependientes de fuentes."
       },
       "interculturalEducation": {
-        "title": "Educación Intercultural EIB",
-        "description": "Herramientas para docentes bilingües con contenidos alineados al currículo nacional y saberes locales. Reduce 15% la deserción escolar (UNICEF)."
+        "title": "Recursos para aprendizaje",
+        "description": "La experiencia ayuda a explorar documentos publicos, fragmentos y metadatos sin afirmar resultados educativos no medidos."
       },
       "ethicalPreservation": {
-        "title": "Preservación Ética de Saberes",
-        "description": "IA con corpus cerrado y validado por comunidades indígenas. Zero hallucinations, 100% fuentes ancestrales certificadas."
+        "title": "Fuentes antes que autoridad",
+        "description": "El sistema debe mostrar de donde viene la informacion y rechazar preguntas cuando la evidencia recuperada no alcanza."
       },
       "generationalConnection": {
-        "title": "Conexión Generacional",
-        "description": "Puente digital entre jóvenes urbanos y sabios rurales. 87% de engagement en pilotos (Cusco, 2024)."
+        "title": "Colaboracion futura documentada",
+        "description": "Cualquier conocimiento comunitario no publico queda fuera del MVP hasta contar con consentimiento, alcance y revision claros."
+      },
+      "cultural": {
+        "description": "Exploracion de recursos culturales y educativos con fuentes visibles y limitaciones claras."
+      },
+      "ai": {
+        "description": "Busqueda RAG con corpus documentado, citas y rechazo cuando la evidencia recuperada es insuficiente."
+      },
+      "education": {
+        "description": "Experiencia de aprendizaje que ayuda a revisar documentos, fragmentos y metadatos antes de aceptar una respuesta."
+      },
+      "community": {
+        "description": "Espacio futuro para colaboraciones documentadas, con consentimiento y criterios claros antes de publicar conocimiento no publico."
       }
     },
-    "innovationBadge": "INNOVACIÓN"
+    "innovationBadge": "V2"
   },
   "CommunitySection": {
-    "titlePart1": "¿Listo para ser guardian@ de los",
-    "titlePart2": "saberes ancestrales?",
-    "description": "Únete a nuestra red intercultural de docentes, jóvenes y sabios quechuas/aimaras. Comparte conocimientos, resuelve dudas y ayuda a preservar nuestra herencia. ¡Tu voz importa! 🌱",
-    "button": "Unirme a la Comunidad"
+    "titlePart1": "Ayuda a revisar recursos para",
+    "titlePart2": "aprendizaje con evidencia",
+    "description": "YachayBot v2 esta en reconstruccion. El proyecto busca trabajar con fuentes publicas, notas curadas y limites visibles antes de invitar colaboraciones mas amplias.",
+    "button": "Ver el proyecto"
   },
-"PricingSection": {
-  "title": "MODELO ÉTICO",
-  "heading": "Tecnología que devuelve valor a sus raíces",
-  "subheading": "El 100% de los ingresos se reinvierte en validación comunitaria y acceso rural",
-  "plans": {
-    "Comunidad": {
-      "title": "Comunidad",
-      "description": "Acceso básico para preservar tu herencia cultural",
-      "buttonText": "Únete Gratis",
-      "benefits": "Acceso a 5 saberes ancestrales/día,Consultas en quechua/aimara/español,Base de datos comunitaria,Soporte por correo electrónico,1 consulta mensual a ancianos validadores"
+  "PricingSection": {
+    "title": "MVP",
+    "heading": "Sin planes de pago en esta version",
+    "subheading": "La version actual se enfoca en busqueda, fuentes, citas, evaluaciones y documentacion tecnica.",
+    "plans": {
+      "Comunidad": {
+        "title": "Exploracion",
+        "description": "Acceso al demo tecnico cuando este disponible.",
+        "buttonText": "Ver avance",
+        "benefits": "Busqueda con fuentes,Limitaciones visibles,Documentacion abierta"
+      },
+      "EducadorEIB": {
+        "title": "Revision educativa",
+        "description": "Flujo previsto para revisar fuentes y casos de uso.",
+        "buttonText": "Ver metodologia",
+        "benefits": "Fuentes inspeccionables,Citas,Ejemplos de preguntas"
+      },
+      "AliadoInstitucional": {
+        "title": "Colaboracion futura",
+        "description": "Cualquier colaboracion requerira permisos, alcance y documentacion claros.",
+        "buttonText": "Ver limites",
+        "benefits": "Consentimiento documentado,Metadatos,Revision de alcance"
+      }
     },
-    "EducadorEIB": {
-      "title": "Educador EIB",
-      "description": "Para escuelas bilingües y promotores culturales",
-      "buttonText": "Acceso Prioritario",
-      "benefits": "Consultas ilimitadas,Materiales didácticos descargables,Capacitación mensual en IA intercultural,Soporte prioritario (48h),Acceso a red de docentes EIB,Validación directa con expertos"
-    },
-    "AliadoInstitucional": {
-      "title": "Aliado Institucional",
-      "description": "Para ONGs, ministerios y organizaciones",
-      "buttonText": "Solicitar Demo",
-      "benefits": "API para integración en plataformas,Dashboard de impacto comunitario,Capacitación personalizada,Soporte 24/7 con expertos culturales,Acceso a base de datos etnográfica,White-label para proyectos sociales"
-    }
+    "priceSuffix": "MVP"
   },
-  "priceSuffix": "/month"
-},
   "ContactSection": {
     "title": "CONECTA CON NUESTRA COMUNIDAD",
     "heading": "Tus saberes ancestrales nos importan",
@@ -158,7 +170,10 @@
       "phone": "Teléfono Quechua",
       "email": "Correo Electrónico",
       "hours": "Horario de Atención",
-      "hoursValue": ["Lunes - Viernes", "9AM - 5PM (GMT-5)"]
+      "hoursValue": [
+        "Lunes - Viernes",
+        "9AM - 5PM (GMT-5)"
+      ]
     },
     "topics": {
       "saberes": "Contribuir con saberes ancestrales",
@@ -169,27 +184,27 @@
     }
   },
   "FAQ": {
-    "subtitle": "PREGUNTAS FRECUENTES",
-    "title": "Sabiduría ancestral, respuestas modernas",
+    "subtitle": "FAQ",
+    "title": "Preguntas frecuentes",
     "faq1": {
-      "question": "¿YachayBot es realmente gratuito?",
-      "answer": "Sí, completamente. Nuestra misión es democratizar el acceso a los saberes ancestrales. Funciona sin costo en web y móvil, incluso con conexiones limitadas (tecnología offline-first)."
+      "question": "?Que es YachayBot v2?",
+      "answer": "Es una reconstruccion del demo original hacia un sistema de busqueda educativa con fuentes, citas, evaluaciones y limitaciones claras."
     },
     "faq2": {
-      "question": "¿Cómo garantizan la exactitud de los conocimientos que comparte el bot?",
-      "answer": "Todo contenido es validado por una red de ancianos, lingüistas y antropólogos de las comunidades originarias. Usamos IA con base de datos cerrada (RAG) para evitar distorsiones."
+      "question": "?Las respuestas representan conocimiento cultural oficial?",
+      "answer": "No. El sistema solo debe responder desde fuentes publicas o notas curadas identificadas, y debe reconocer cuando no tiene evidencia suficiente."
     },
     "faq3": {
-      "question": "¿Puedo usar YachayBot en mi escuela rural sin internet estable?",
-      "answer": "¡Absolutamente! Diseñamos versiones SMS y PWA que funcionan con menos de 1MB/s de conexión. 87% de escuelas piloto en Cusco lo usan exitosamente (2024)."
+      "question": "?Funciona en Quechua y Aymara?",
+      "answer": "Ese soporte es experimental y depende de contar con fuentes indexadas en esos idiomas. El MVP no afirma cobertura completa."
     },
     "faq4": {
-      "question": "¿Por qué enfocarse en quechua y aimara si muchos hablan español?",
-      "answer": "El 63% de materiales educativos digitales ignoran lenguas originarias (MINEDU). Preservar estos idiomas es clave para la identidad cultural - nuestro NLP nativo evita traducciones colonialistas."
+      "question": "?Por que mostrar fuentes?",
+      "answer": "Porque la evidencia es parte del producto. Las tarjetas de fuente ayudan a revisar de donde sale una respuesta."
     },
     "faq5": {
-      "question": "¿Cómo contribuye esto al Plan Perú 2050?",
-      "answer": "Cerramos 3 brechas clave: digital (ODS 9), educativa (ODS 4) y lingüística (ODS 10). Somos herramienta oficial para escuelas EIB y proyectos de innovación cultural sostenible."
+      "question": "?Hay planes de pago?",
+      "answer": "No para el MVP. La version actual se enfoca en arquitectura, busqueda, fuentes, citas, evaluaciones y documentacion."
     }
   },
   "footer": {
@@ -208,5 +223,25 @@
     "shareKnowledge": "Comparte saberes",
     "translateContent": "Traduce contenidos",
     "donate": "Donaciones"
+  },
+  "FAQSection": {
+    "questions": [
+      {
+        "question": "?Que es YachayBot v2?",
+        "answer": "Es una reconstruccion del demo original hacia un sistema de busqueda educativa con fuentes, citas, evaluaciones y limitaciones claras."
+      },
+      {
+        "question": "?Las respuestas representan conocimiento cultural oficial?",
+        "answer": "No. El sistema solo debe responder desde fuentes publicas o notas curadas identificadas, y debe reconocer cuando no tiene evidencia suficiente."
+      },
+      {
+        "question": "?Funciona en Quechua y Aymara?",
+        "answer": "Ese soporte es experimental y depende de contar con fuentes indexadas en esos idiomas. El MVP no afirma cobertura completa."
+      },
+      {
+        "question": "?Por que mostrar fuentes?",
+        "answer": "Porque la evidencia es parte del producto. Las tarjetas de fuente ayudan a revisar de donde sale una respuesta."
+      }
+    ]
   }
 }

@@ -9,7 +9,7 @@
 <p>
 <strong>YachayBot</strong> is an <strong>AI chatbot</strong> dedicated to preserving and democratizing the ancestral knowledge of Peru's Indigenous peoples — a mission aligned with <strong>SDGs 4 (Quality Education), 9 (Innovation), and 10 (Reduced Inequalities)</strong>. 
 <br><br>
-Built and deployed as a full-stack web application with end-to-end session-based authentication, it is intended to support real-time semantic search and multilingual interaction in <strong>Quechua, Aymara, and Spanish</strong>.
+Built and deployed as a full-stack web application with session-based authentication, it is being rebuilt to support source-grounded search and carefully scoped multilingual interaction.
 </p>
 
 * . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ 
@@ -17,16 +17,16 @@ Built and deployed as a full-stack web application with end-to-end session-based
 
 <ul>
   <li>
-    <strong>Multilingual Chatbot with Cultural Context</strong><br>
-    Trained to converse in Quechua, Aymara, and Spanish, YachayBot helps users explore traditional Indigenous knowledge through AI.
+    <strong>Evidence-first educational search</strong><br>
+    YachayBot v2 is being rebuilt to help users explore public Peruvian cultural and educational resources with visible sources and limitations.
   </li>
   <li>
-    <strong>Semantic Search Pipeline</strong><br>
-    Research articles are transformed into <code>1024-dimensional embeddings</code> using LangChain and Hugging Face's gte-large model, enabling real-time search through Pinecone.
+    <strong>Inspectable retrieval pipeline</strong><br>
+    The v2 roadmap separates ingestion, chunking, embeddings, retrieval, source-grounded answers, citations, and evaluation metrics.
   </li>
   <li>
-    <strong>Full-Stack Application with Secure Auth</strong><br>
-    100% session-based authentication powered by Supabase and NextAuth.js ensures secure access for every user.
+    <strong>Full-stack rebuild</strong><br>
+    The existing Next.js demo is being extended with a FastAPI backend, documented data model, migrations, and evaluation workflow.
   </li>
 </ul>
 
