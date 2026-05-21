@@ -64,7 +64,7 @@ Resolve the PRD follow-up issues created from `.github/PRDs/PRD.md`: unblock Ver
 - [x] Request validation and `npm test` exist.
 - [x] README is clean and v2-focused.
 - [x] Demo evidence assets are linked.
-- [ ] GitHub issues #15-#21 are updated or closed with validation evidence.
+- [x] GitHub issues #15-#21 are updated or closed with validation evidence.
 
 ## Validation Evidence
 
@@ -73,4 +73,6 @@ Resolve the PRD follow-up issues created from `.github/PRDs/PRD.md`: unblock Ver
 - `npm test`: passed
 - `npm run build`: passed on Next.js 15.5.18
 - Local smoke: `/es`, `/es/sources`, `/es/evals`, `/api/v1/search`, and `/api/v1/answers` passed on port 3001
+- Remote smoke: PR #14 Vercel preview passed
+- GitHub issues #1-#13 and #15-#21 were closed with resolution comments
 - Historical Bun commands were not run because Bun is not installed in this environment
