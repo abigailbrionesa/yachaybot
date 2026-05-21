@@ -1,0 +1,6 @@
+{
+  "note": "Runtime source data lives in src/lib/v2-data.ts for the local MVP. This file marks the data boundary for future ingestion from JSON/CSV sources.",
+  "sourceCount": 20,
+  "publicOrOfficialSources": 15,
+  "curatedNotes": 5
+}

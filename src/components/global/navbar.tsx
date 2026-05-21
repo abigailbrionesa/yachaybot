@@ -49,6 +49,14 @@ export const Navbar = () => {
       href: "/#faq",
       label: t("faq"),
     },
+    {
+      href: "/sources",
+      label: "Sources",
+    },
+    {
+      href: "/evals",
+      label: "Evals",
+    },
   ];
 
   const { data: session, status } = useSession();

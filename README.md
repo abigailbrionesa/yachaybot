@@ -2,6 +2,54 @@
 
 > **v2 rebuild note:** YachayBot is being rebuilt as a source-grounded AI search system for public Peruvian cultural and educational resources. The v2 architecture separates the Next.js web app, FastAPI backend, source corpus, migrations, evals, and documentation. See [`docs/architecture.md`](docs/architecture.md) and the v2 skeleton directories: [`web/`](web/), [`api/`](api/), [`data/`](data/), [`evals/`](evals/), and [`migrations/`](migrations/).
 
+## YachayBot v2 MVP
+
+The current branch includes a local, inspectable vertical slice for the v2 rebuild:
+
+- search-first homepage
+- source cards with metadata, snippets, rights notes, and URLs
+- `/sources` browser with filters for language, topic, and source type
+- `/api/v1/documents`
+- `/api/v1/search`
+- `/api/v1/answers`
+- `/api/v1/evals/runs`
+- `/evals` dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency
+
+### Local Setup
+
+```bash
+npm install
+npm run prisma-generate
+npm run dev
+```
+
+Then open `http://localhost:3000/es`.
+
+### Validation
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
+The slash-command validation contract also calls `bun run lint`, `bunx tsc --noEmit`, and `bun test`; those require Bun to be installed. This repo does not yet define an `npm test` script.
+
+### API Overview
+
+- `GET /api/v1/documents`: returns source records and inspectable chunks
+- `POST /api/v1/search`: accepts `{ "query": "..." }` and returns ranked chunks, latency, language, evidence strength, and a grounded answer preview
+- `POST /api/v1/answers`: accepts `{ "query": "..." }` and returns a source-grounded answer with citations or refusal
+- `GET /api/v1/evals/runs`: returns the local deterministic eval run
+
+### Documentation
+
+- [Architecture](docs/architecture.md)
+- [Methodology](docs/methodology.md)
+- [Limitations](docs/limitations.md)
+- [Demo script](docs/demo-script.md)
+- [Portfolio summary](docs/portfolio-summary.md)
+
 <samp>
 
 <h1>YachayBot - 3rd Place, INFORTELGRAF Perú Hackathon 2025</h1>

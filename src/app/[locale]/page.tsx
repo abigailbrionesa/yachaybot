@@ -2,6 +2,7 @@
 
 import { HeroSection } from "@/components/sections/hero";
 import { useSession } from "next-auth/react";
+import { SearchExperience } from "@/components/v2/search-experience";
 import { BenefitsSection } from "@/components/sections/benefits";
 import { FeaturesSection } from "@/components/sections/features";
 import { ServicesSection } from "@/components/sections/services";
@@ -25,6 +26,7 @@ export default function MainPage() {
   return (
     <>
       <Navbar/>
+      <SearchExperience />
       <HeroSection />
       <BenefitsSection /> 
       <FeaturesSection />
