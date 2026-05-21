@@ -6,7 +6,10 @@ import { validationError } from "@/lib/v2-schemas";
 export const maxDuration = 30;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
+const RATE_LIMIT_MAX_BUCKETS = 500;
+const RATE_LIMIT_CLEANUP_INTERVAL_MS = 60_000;
 const requestCounts = new Map<string, { count: number; resetAt: number }>();
+let lastRateLimitCleanup = 0;
 
 const chatRequestSchema = z.object({
   messages: z.array(z.object({
@@ -51,30 +54,86 @@ export async function POST(req: Request) {
   }
 
   const modelAnswer = await generateGroundedAnswer(lastUserMessage.content, grounded.answer, search.results);
+  const safeModelAnswer = modelAnswer && hasValidCitationMarkers(modelAnswer, grounded.citations.map((citation) => citation.marker))
+    ? modelAnswer
+    : null;
 
   return NextResponse.json({
     query: lastUserMessage.content,
     language: grounded.language,
     retrievedChunkIds: search.results.map((result) => result.chunkId),
     results: search.results,
-    answer: modelAnswer ? { ...grounded, answer: modelAnswer } : grounded,
-    modelUsed: modelAnswer ? "mistral-small-latest" : "local-grounded",
+    answer: safeModelAnswer ? { ...grounded, answer: safeModelAnswer } : grounded,
+    modelUsed: safeModelAnswer ? "mistral-small-latest" : "local-grounded",
   });
 }
 
 function isRateLimited(req: Request) {
-  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const key = forwardedFor || "local";
+  const key = getRateLimitKey(req);
   const now = Date.now();
+
+  if (requestCounts.size >= RATE_LIMIT_MAX_BUCKETS || now - lastRateLimitCleanup >= RATE_LIMIT_CLEANUP_INTERVAL_MS) {
+    pruneExpiredRateLimitBuckets(now);
+  }
+
   const current = requestCounts.get(key);
 
   if (!current || current.resetAt <= now) {
+    if (requestCounts.size >= RATE_LIMIT_MAX_BUCKETS && !current) {
+      evictOldestRateLimitBucket();
+    }
+
     requestCounts.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
     return false;
   }
 
   current.count += 1;
   return current.count > RATE_LIMIT_MAX;
+}
+
+function getRateLimitKey(req: Request) {
+  const realIp = cleanClientIdentifier(req.headers.get("x-real-ip"));
+  if (realIp) return realIp;
+
+  const vercelForwardedFor = firstForwardedIdentifier(req.headers.get("x-vercel-forwarded-for"));
+  if (vercelForwardedFor) return vercelForwardedFor;
+
+  const forwardedFor = firstForwardedIdentifier(req.headers.get("x-forwarded-for"));
+  return forwardedFor || "local";
+}
+
+function firstForwardedIdentifier(value: string | null) {
+  return cleanClientIdentifier(value?.split(",")[0]);
+}
+
+function cleanClientIdentifier(value: string | null | undefined) {
+  const trimmed = value?.trim();
+  if (!trimmed || trimmed.length > 128 || /[\s"'\\]/.test(trimmed)) return null;
+  return trimmed;
+}
+
+function pruneExpiredRateLimitBuckets(now = Date.now()) {
+  lastRateLimitCleanup = now;
+
+  for (const [key, bucket] of requestCounts) {
+    if (bucket.resetAt <= now) {
+      requestCounts.delete(key);
+    }
+  }
+}
+
+function evictOldestRateLimitBucket() {
+  const oldestKey = requestCounts.keys().next().value;
+  if (oldestKey) {
+    requestCounts.delete(oldestKey);
+  }
+}
+
+function hasValidCitationMarkers(candidate: string, knownMarkers: string[]) {
+  const markers = candidate.match(/\[\d+\]/g) ?? [];
+  const known = new Set(knownMarkers);
+
+  return markers.length > 0 && markers.every((marker) => known.has(marker));
 }
 
 async function generateGroundedAnswer(query: string, fallbackAnswer: string, results: ReturnType<typeof searchCorpus>["results"]) {
