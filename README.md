@@ -1,258 +1,298 @@
+
+<samp>
+
 # YachayBot
 
-> Source-grounded AI search for public Peruvian cultural and educational knowledge.
+<p>
+YachayBot is a source-grounded AI search application for exploring public Peruvian cultural and educational knowledge. It turns a question into an inspectable path: source cards, cited answers, evidence strength, and refusal behavior when the indexed corpus cannot support a confident response.
+</p>
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-20%20passing-brightgreen)](#validation)
-[![AI](https://img.shields.io/badge/AI-source--grounded-purple)](#ai-system-design)
-[![Status](https://img.shields.io/badge/status-complete%20portfolio%20build-brightgreen)](#project-scope)
+<p>
+Built with <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Zod</strong>, and optional <strong>Mistral</strong> answer polishing, the project demonstrates production-minded AI engineering through typed API contracts, deterministic retrieval, citation validation, reproducible tests, and transparent product scope.
+</p>
 
-YachayBot is a full-stack AI search application for exploring public Peruvian cultural and educational resources. It combines a localized Next.js interface, typed API routes, deterministic retrieval, citation-aware answer generation, refusal behavior for weak evidence, and a lightweight evaluation dashboard.
+## Topic Rationale
 
-![YachayBot search-first homepage](public/demo/search-home.svg)
+<p>
+I built YachayBot around one principle: AI education tools are only useful when people can inspect where an answer came from. The project connects cultural access, public educational resources, and responsible AI by making evidence visible instead of hiding it behind a chatbot response.
+</p>
 
-## Table Of Contents
+<p>
+For a SWE + AI portfolio, YachayBot showcases end-to-end engineering judgment: product scope, retrieval design, API validation, model-output constraints, evaluation metrics, browser-tested flows, and user-facing polish.
+</p>
 
-- [Highlights](#highlights)
-- [Product Surface](#product-surface)
-- [Architecture](#architecture)
-- [AI System Design](#ai-system-design)
-- [Corpus And Evaluation](#corpus-and-evaluation)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [API Overview](#api-overview)
-- [Project Structure](#project-structure)
-- [Validation](#validation)
+## 𝙷𝚒𝚐𝚑𝚕𝚒𝚐𝚑𝚝𝚜
 
-## Highlights
+<ul>
+  <li>
+    <strong>Source-Grounded AI Search</strong><br>
+    Search public Peruvian cultural and educational resources through inspectable source cards, snippets, metadata, rights notes, and URLs.
+  </li>
+  <li>
+    <strong>Citation-Aware Answering</strong><br>
+    Generate cited answers from retrieved evidence, with refusal behavior when indexed sources are too weak or absent.
+  </li>
+  <li>
+    <strong>Model Output Safety</strong><br>
+    Optional Mistral polishing is accepted only when the model preserves known citation markers instead of dropping or inventing citations.
+  </li>
+  <li>
+    <strong>Evaluation Dashboard</strong><br>
+    Review top-3 hit rate, top-5 hit rate, refusal pass rate, and latency for the deterministic retrieval baseline.
+  </li>
+  <li>
+    <strong>Typed Full-Stack Implementation</strong><br>
+    Next.js route handlers, TypeScript contracts, Zod request validation, unit tests, and browser-smoked public flows.
+  </li>
+</ul>
 
-- Search-first interface for public Peruvian cultural and educational resources.
-- Localized routes for Spanish, Quechua, and Aymara user journeys.
-- Source cards with snippets, language, institution, region, topic tags, rights notes, and URLs.
-- Evidence-grounded answer generation with citation markers.
-- Refusal behavior when indexed evidence is weak or absent.
-- Optional Mistral polishing after deterministic retrieval succeeds.
-- Citation safety check that rejects model output if markers are missing or invented.
-- Evaluation dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency.
-- Typed API contracts with Zod validation and TypeScript tests.
-- Browser-smoked public flows covering search, sources, chat, evals, mobile navigation, and API contracts.
+## 𝙿𝚛𝚘𝚍𝚞𝚌𝚝 𝚂𝚞𝚛𝚏𝚊𝚌𝚎
 
-## Product Surface
+<table>
+  <tr>
+    <th>Route</th>
+    <th>Purpose</th>
+  </tr>
+  <tr>
+    <td><code>/es</code></td>
+    <td>Spanish search experience</td>
+  </tr>
+  <tr>
+    <td><code>/qu</code></td>
+    <td>Quechua-locale search shell with source-bound behavior</td>
+  </tr>
+  <tr>
+    <td><code>/ay</code></td>
+    <td>Aymara-locale search shell with source-bound behavior</td>
+  </tr>
+  <tr>
+    <td><code>/es/sources</code></td>
+    <td>Source browser with language, topic, and source-type filters</td>
+  </tr>
+  <tr>
+    <td><code>/es/evals</code></td>
+    <td>Retrieval and refusal evaluation dashboard</td>
+  </tr>
+  <tr>
+    <td><code>/es/ai-bot</code></td>
+    <td>Chat UI over the same retrieval, citation, and refusal rules</td>
+  </tr>
+</table>
 
-| Route | Purpose |
-| --- | --- |
-| `/es` | Spanish search experience |
-| `/qu` | Quechua-locale search shell with source-bound behavior |
-| `/ay` | Aymara-locale search shell with source-bound behavior |
-| `/es/sources` | Source browser with language, topic, and source-type filters |
-| `/es/evals` | Retrieval and refusal evaluation dashboard |
-| `/es/ai-bot` | Chat UI over the same retrieval, citation, and refusal rules |
+<p>
+Account and educator workspace routes are intentionally scoped out of the public build. <code>/sign-in</code> and <code>/dashboard</code> show scope pages, while <code>/api/auth/*</code> returns <code>503 FEATURE_UNAVAILABLE</code>. This keeps the project focused on the AI search system instead of presenting unfinished authentication as a feature.
+</p>
 
-Account and educator workspace routes are intentionally scoped out of the public build:
+## 𝙰𝙸 𝚂𝚢𝚜𝚝𝚎𝚖 𝙳𝚎𝚜𝚒𝚐𝚗
 
-| Route | Current behavior |
-| --- | --- |
-| `/sign-in` | Shows an auth-out-of-scope page |
-| `/dashboard` | Shows an educator-workspace scope page |
-| `/api/auth/*` | Returns `503 FEATURE_UNAVAILABLE` |
-
-This keeps the project focused on the AI search system rather than presenting unfinished authentication as a feature.
-
-## Architecture
-
-```mermaid
-flowchart LR
-  User["User question"] --> UI["Next.js localized UI"]
-  UI --> SearchAPI["/api/v1/search"]
-  UI --> ChatAPI["/api/chat"]
-  SearchAPI --> Corpus["Inspectable local corpus"]
-  ChatAPI --> Corpus
-  Corpus --> Retrieval["Deterministic retrieval"]
-  Retrieval --> Evidence["Evidence strength check"]
-  Evidence --> Refusal["Refusal for weak evidence"]
-  Evidence --> LocalAnswer["Cited grounded answer"]
-  LocalAnswer --> CitationCheck["Citation marker validation"]
-  CitationCheck --> UI
-  CitationCheck -. optional .-> Mistral["Mistral polishing"]
-  Mistral --> CitationCheck
-  Retrieval --> Evals["Eval dashboard"]
-```
-
-Important implementation files:
-
-- `src/app/[locale]/page.tsx`: localized search-first homepage
-- `src/app/[locale]/sources/page.tsx`: source browser
-- `src/app/[locale]/evals/page.tsx`: evaluation dashboard
-- `src/app/[locale]/ai-bot/page.tsx`: chat UI
-- `src/app/api/v1/*`: public API routes
-- `src/app/api/chat/route.ts`: evidence-first chat endpoint
-- `src/lib/v2-data.ts`: corpus, retrieval, answer generation, and eval logic
-- `src/lib/v2-schemas.ts`: Zod request validation schemas
-- `src/lib/v2-types.ts`: shared TypeScript contracts
-- `migrations/001_v2_core.sql`: Postgres/pgvector schema design
-- `docs/adr/*`: architecture decision records
-
-## AI System Design
-
+<p>
 YachayBot is designed around a simple rule: the answer is not useful unless the evidence is visible.
+</p>
 
-1. A user submits a query from search or chat.
-2. API routes validate input with Zod.
-3. `searchCorpus` ranks local chunks with deterministic token-overlap scoring.
-4. `buildAnswer` classifies evidence as strong, moderate, or weak.
-5. Weak evidence returns a refusal instead of a confident answer.
-6. Usable evidence returns a cited grounded answer.
-7. If `MISTRAL_API_KEY` is configured, Mistral can polish the grounded answer.
-8. Polished output is accepted only if it preserves known citation markers.
+<ol>
+  <li>A user submits a query from search or chat.</li>
+  <li>API routes validate input with <strong>Zod</strong>.</li>
+  <li><code>searchCorpus</code> ranks local chunks with deterministic token-overlap scoring.</li>
+  <li><code>buildAnswer</code> classifies evidence as strong, moderate, or weak.</li>
+  <li>Weak evidence returns a refusal instead of a confident answer.</li>
+  <li>Usable evidence returns a cited grounded answer.</li>
+  <li>If <code>MISTRAL_API_KEY</code> is configured, Mistral can polish the grounded answer.</li>
+  <li>Polished output is accepted only if it preserves known citation markers.</li>
+</ol>
 
-### AI / RAG Card
+## 𝙰𝚛𝚌𝚑𝚒𝚝𝚎𝚌𝚝𝚞𝚛𝚎
 
-| Area | Implementation |
-| --- | --- |
-| Intended use | Discover and inspect public Peruvian cultural and educational resources |
-| Retrieval source | Local TypeScript corpus in `src/lib/v2-data.ts` |
-| Retrieval method | Deterministic token-overlap baseline |
-| Generation | Template-based grounded answer, with optional Mistral polishing |
-| Guardrails | Zod validation, evidence-strength refusal, citation marker validation, rate limiting |
-| Citations | Answers cite retrieved chunks with markers such as `[1]` |
-| Unsupported requests | Refused when indexed evidence is weak or absent |
-| Reproducibility | Works locally without provider keys or hosted databases |
-| Database design | Postgres/pgvector schema included in `migrations/001_v2_core.sql` |
+<pre>
+User question
+     |
+     v
+Next.js localized UI
+     |--------------------------|
+     v                          v
+/api/v1/search              /api/chat
+     |                          |
+     v                          v
+Inspectable local corpus -> Deterministic retrieval
+                                |
+                                v
+                         Evidence strength check
+                          |                 |
+                          v                 v
+                 Refusal for weak     Cited grounded answer
+                     evidence                 |
+                                              v
+                                  Citation marker validation
+                                      |              |
+                                      v              v
+                                      UI     Optional Mistral polishing
+</pre>
 
-## Corpus And Evaluation
+<p>
+Important implementation files:
+</p>
 
-The corpus contains:
+<ul>
+  <li><code>src/app/[locale]/page.tsx</code>: localized search-first homepage</li>
+  <li><code>src/app/[locale]/sources/page.tsx</code>: source browser</li>
+  <li><code>src/app/[locale]/evals/page.tsx</code>: evaluation dashboard</li>
+  <li><code>src/app/[locale]/ai-bot/page.tsx</code>: chat UI</li>
+  <li><code>src/app/api/v1/*</code>: public API routes</li>
+  <li><code>src/app/api/chat/route.ts</code>: evidence-first chat endpoint</li>
+  <li><code>src/lib/v2-data.ts</code>: corpus, retrieval, answer generation, and eval logic</li>
+  <li><code>src/lib/v2-schemas.ts</code>: Zod request validation schemas</li>
+  <li><code>src/lib/v2-types.ts</code>: shared TypeScript contracts</li>
+  <li><code>migrations/001_v2_core.sql</code>: Postgres/pgvector schema design</li>
+</ul>
 
-- 15 public or official source records
-- 5 curated methodology notes
-- 1 inspectable chunk per source record
-- metadata for institution, language, region, topic tags, rights notes, and source URL
+## 𝙰𝙸 / 𝚁𝙰𝙶 𝙲𝚊𝚛𝚍
 
-The evaluation set contains 10 questions:
+<table>
+  <tr>
+    <th>Area</th>
+    <th>Implementation</th>
+  </tr>
+  <tr>
+    <td>Intended use</td>
+    <td>Discover and inspect public Peruvian cultural and educational resources</td>
+  </tr>
+  <tr>
+    <td>Retrieval source</td>
+    <td>Local TypeScript corpus in <code>src/lib/v2-data.ts</code></td>
+  </tr>
+  <tr>
+    <td>Retrieval method</td>
+    <td>Deterministic token-overlap baseline</td>
+  </tr>
+  <tr>
+    <td>Generation</td>
+    <td>Template-based grounded answer, with optional Mistral polishing</td>
+  </tr>
+  <tr>
+    <td>Guardrails</td>
+    <td>Zod validation, evidence-strength refusal, citation marker validation, rate limiting</td>
+  </tr>
+  <tr>
+    <td>Citations</td>
+    <td>Answers cite retrieved chunks with markers such as <code>[1]</code></td>
+  </tr>
+  <tr>
+    <td>Unsupported requests</td>
+    <td>Refused when indexed evidence is weak or absent</td>
+  </tr>
+  <tr>
+    <td>Reproducibility</td>
+    <td>Works locally without provider keys or hosted databases</td>
+  </tr>
+  <tr>
+    <td>Database design</td>
+    <td>Postgres/pgvector schema included in <code>migrations/001_v2_core.sql</code></td>
+  </tr>
+</table>
 
-- factual retrieval checks with expected source IDs
-- refusal checks for unsupported or unsafe requests
-- metrics for top-3 hit rate, top-5 hit rate, refusal pass rate, and average latency
+## 𝙲𝚘𝚛𝚙𝚞𝚜 𝚊𝚗𝚍 𝙴𝚟𝚊𝚕𝚞𝚊𝚝𝚒𝚘𝚗
 
-Current deterministic eval metrics:
+<ul>
+  <li><strong>15</strong> public or official source records</li>
+  <li><strong>5</strong> curated methodology notes</li>
+  <li><strong>1</strong> inspectable chunk per source record</li>
+  <li>Metadata for institution, language, region, topic tags, rights notes, and source URL</li>
+</ul>
 
-| Metric | Value |
-| --- | ---: |
-| Top-3 hit rate | 1.00 |
-| Top-5 hit rate | 1.00 |
-| Refusal pass rate | 1.00 |
+<p>
+The evaluation set contains 10 questions: factual retrieval checks with expected source IDs, refusal checks for unsupported or unsafe requests, and metrics for retrieval quality and response behavior.
+</p>
 
+<table>
+  <tr>
+    <th>Metric</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>Top-3 hit rate</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>Top-5 hit rate</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>Refusal pass rate</td>
+    <td>1.00</td>
+  </tr>
+</table>
+
+<p>
 These metrics verify the project corpus and refusal rules. They are not presented as broad production accuracy claims.
+</p>
 
-## Screenshots
+## 𝚃𝚎𝚌𝚑 𝚂𝚝𝚊𝚌𝚔
 
-| Search | Sources | Evals |
-| --- | --- | --- |
-| ![Search homepage](public/demo/search-home.svg) | ![Source cards](public/demo/source-cards.svg) | ![Eval dashboard](public/demo/eval-dashboard.svg) |
+<ul>
+  <li><strong>Frontend:</strong> Next.js, React, TypeScript, Tailwind CSS, next-intl</li>
+  <li><strong>API:</strong> Next.js route handlers</li>
+  <li><strong>Validation:</strong> Zod request schemas</li>
+  <li><strong>Retrieval:</strong> Local TypeScript corpus with deterministic token-overlap scoring</li>
+  <li><strong>AI:</strong> Optional Mistral polishing after retrieval and citation checks</li>
+  <li><strong>Data Design:</strong> Supabase Postgres and pgvector migration schema</li>
+  <li><strong>Testing:</strong> TypeScript unit tests, Next.js build checks, browser smoke testing</li>
+</ul>
 
-## Tech Stack
+## 𝚀𝚞𝚒𝚌𝚔 𝚂𝚝𝚊𝚛𝚝
 
-| Layer | Tools |
-| --- | --- |
-| Frontend | Next.js, React, TypeScript, Tailwind CSS, next-intl |
-| API | Next.js route handlers |
-| Validation | Zod |
-| Retrieval | Local TypeScript corpus, deterministic token-overlap scoring |
-| AI | Optional Mistral polishing after retrieval and citation checks |
-| Data design | Supabase Postgres and pgvector migration schema |
-| Testing | TypeScript unit tests, Next.js build checks, browser smoke testing |
-
-## Quick Start
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Generate the Prisma client:
-
-```bash
+<pre><code>npm install
 npm run prisma-generate
-```
+npm run dev</code></pre>
 
-Start the app:
+<p>
+Open <code>http://localhost:3000/es</code>.
+</p>
 
-```bash
-npm run dev
-```
-
-Open:
-
-```text
-http://localhost:3000/es
-```
-
+<p>
 If port 3000 is busy:
+</p>
 
-```bash
-npm run dev -- -p 3001
-```
+<pre><code>npm run dev -- -p 3001</code></pre>
 
-## Configuration
+## 𝙲𝚘𝚗𝚏𝚒𝚐𝚞𝚛𝚊𝚝𝚒𝚘𝚗
 
-Create a local environment file:
+<pre><code>copy .env.example .env.local</code></pre>
 
-```bash
-copy .env.example .env.local
-```
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Current role</th>
+  </tr>
+  <tr>
+    <td><code>MISTRAL_API_KEY</code></td>
+    <td>Enables optional answer polishing after source-grounded retrieval</td>
+  </tr>
+  <tr>
+    <td><code>PINECONE_API_KEY</code></td>
+    <td>Reserved for vector-search migration experiments</td>
+  </tr>
+  <tr>
+    <td><code>PINECONE_HOST</code></td>
+    <td>Reserved for vector-search migration experiments</td>
+  </tr>
+</table>
 
-Optional variables:
-
-| Variable | Current role |
-| --- | --- |
-| `MISTRAL_API_KEY` | Enables optional answer polishing after source-grounded retrieval |
-| `PINECONE_API_KEY` | Reserved for vector-search migration experiments |
-| `PINECONE_HOST` | Reserved for vector-search migration experiments |
-
+<p>
 The deterministic search and evaluation flows work without Mistral or Pinecone credentials.
+</p>
 
-## API Overview
+## 𝙰𝙿𝙸 𝙾𝚟𝚎𝚛𝚟𝚒𝚎𝚠
 
-### `GET /api/v1/documents`
+<ul>
+  <li><code>GET /api/v1/documents</code>: returns source records and inspectable chunks.</li>
+  <li><code>POST /api/v1/search</code>: returns ranked chunks, source metadata, latency, detected language, evidence strength, and an answer preview.</li>
+  <li><code>POST /api/v1/answers</code>: generates an answer from reviewed chunks only, or refuses weak evidence.</li>
+  <li><code>GET /api/v1/evals/runs</code>: returns the deterministic eval run and metrics.</li>
+  <li><code>POST /api/chat</code>: validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral.</li>
+</ul>
 
-Returns source records and inspectable chunks.
+## 𝙿𝚛𝚘𝚓𝚎𝚌𝚝 𝚂𝚝𝚛𝚞𝚌𝚝𝚞𝚛𝚎
 
-### `POST /api/v1/search`
-
-Searches the corpus and returns ranked chunks, source metadata, latency, detected language, evidence strength, and an answer preview.
-
-```json
-{
-  "query": "Que recursos explican educacion intercultural bilingue?",
-  "limit": 5
-}
-```
-
-### `POST /api/v1/answers`
-
-Generates an answer from reviewed chunks only. If evidence is weak, the API refuses.
-
-```json
-{
-  "query": "Que recursos explican educacion intercultural bilingue?",
-  "chunkIds": ["chunk-doc-minedu-eib-001"]
-}
-```
-
-### `GET /api/v1/evals/runs`
-
-Returns the deterministic eval run and metrics.
-
-### `POST /api/chat`
-
-Validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral for grounded answer polishing.
-
-## Project Structure
-
-```text
+<pre>
 .
 |-- src/
 |   |-- app/                 # Localized pages and API routes
@@ -267,45 +307,34 @@ Validates chat messages, retrieves from the corpus, builds a cited answer or ref
 |-- api/                     # FastAPI service boundary notes
 |-- web/                     # Frontend boundary notes
 `-- prisma/                  # Prisma setup retained for data/client generation
-```
+</pre>
 
-## Validation
+## 𝚅𝚊𝚕𝚒𝚍𝚊𝚝𝚒𝚘𝚗
 
-Run the main local checks:
-
-```bash
-npm run lint
+<pre><code>npm run lint
 npx tsc --noEmit
 npm test
-npm run build
-```
+npm run build</code></pre>
 
-Validation coverage includes:
+<ul>
+  <li>20 TypeScript tests</li>
+  <li>Invalid API payload tests</li>
+  <li>Search and answer behavior tests</li>
+  <li>Mistral citation acceptance and rejection tests</li>
+  <li>Auth scope route tests</li>
+  <li>Eval run API tests</li>
+  <li>Chat rate-limiting tests</li>
+  <li>Production Next.js build</li>
+</ul>
 
-- 20 TypeScript tests
-- invalid API payloads
-- search and answer behavior
-- Mistral citation acceptance and rejection
-- auth scope routes
-- eval run API behavior
-- chat rate limiting
-- retrieval and refusal metrics
-- production Next.js build
+## 𝚁𝚎𝚌𝚘𝚐𝚗𝚒𝚝𝚒𝚘𝚗
 
-## Documentation
+<p>
+YachayBot placed third at <strong>INFORTELGRAF Peru Hackathon 2025</strong>. The project is aligned with educational access, responsible AI, and public-interest technology.
+</p>
 
-- [Architecture](docs/architecture.md)
-- [Methodology](docs/methodology.md)
-- [Limitations](docs/limitations.md)
-- [Demo script](docs/demo-script.md)
-- [Portfolio summary](docs/portfolio-summary.md)
-- [PRD](.github/PRDs/PRD.md)
-- [ADR 0001: FastAPI boundary](docs/adr/0001-use-fastapi-for-ai-search-service.md)
-- [ADR 0002: Supabase Postgres and pgvector](docs/adr/0002-use-supabase-postgres-with-pgvector.md)
-- [ADR 0003: Search-first UI](docs/adr/0003-use-search-first-ui.md)
-- [ADR 0004: Source-grounded generation](docs/adr/0004-use-source-grounded-generation.md)
+<p>
+Built by <strong>Abigail Briones</strong> as a SWE + AI portfolio project focused on source-grounded AI systems, multilingual product boundaries, and culturally mindful educational tooling.
+</p>
 
-
-## Recognition And Acknowledgements
-
-YachayBot placed third at INFORTELGRAF Peru Hackathon 2025. The project is aligned with educational access, responsible AI, and public-interest technology.
+</samp>
