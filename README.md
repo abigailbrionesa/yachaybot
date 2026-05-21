@@ -1,5 +1,7 @@
 ![Screenshot](/public/yachaybot.png)
 
+> **v2 rebuild note:** YachayBot is being rebuilt as a source-grounded AI search system for public Peruvian cultural and educational resources. The v2 architecture separates the Next.js web app, FastAPI backend, source corpus, migrations, evals, and documentation. See [`docs/architecture.md`](docs/architecture.md) and the v2 skeleton directories: [`web/`](web/), [`api/`](api/), [`data/`](data/), [`evals/`](evals/), and [`migrations/`](migrations/).
+
 <samp>
 
 <h1>YachayBot - 3rd Place, INFORTELGRAF Perú Hackathon 2025</h1>

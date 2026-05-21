@@ -1,10 +1,16 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 
-const pc = new Pinecone({ 
-    apiKey: process.env.PINECONE_API_KEY || '' 
-});
-
 const indexName = 'yachaybot-saberes';
+
+function getPineconeClient() {
+    const apiKey = process.env.PINECONE_API_KEY;
+
+    if (!apiKey) {
+        return null;
+    }
+
+    return new Pinecone({ apiKey });
+}
 
 async function generateEmbedding(text) {
     const result = await pc.inference.embed('llama-text-embed-v2', [text], {
@@ -19,6 +25,13 @@ async function generateEmbedding(text) {
 
 export async function queryKnowledgeBase(userQuestion) {
     try {
+        const pc = getPineconeClient();
+
+        if (!pc) {
+            console.warn("PINECONE_API_KEY no esta configurado; se omite la consulta Pinecone.");
+            return [];
+        }
+
         const index = pc.index(indexName).namespace("saberes_validados");
 
         const queryEmbedding = await generateEmbedding(userQuestion);
