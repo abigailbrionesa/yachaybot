@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">YachayBot eval dashboard</title>
+  <desc id="desc">A diagram-style screenshot showing retrieval eval metrics.</desc>
+  <rect width="1200" height="720" fill="#f8faf7"/>
+  <text x="80" y="90" font-family="Arial" font-size="42" font-weight="700" fill="#18251c">Retrieval eval dashboard</text>
+  <g fill="#ffffff" stroke="#d6ded2">
+    <rect x="80" y="140" width="240" height="130" rx="10"/>
+    <rect x="350" y="140" width="240" height="130" rx="10"/>
+    <rect x="620" y="140" width="240" height="130" rx="10"/>
+    <rect x="890" y="140" width="240" height="130" rx="10"/>
+  </g>
+  <text x="112" y="190" font-family="Arial" font-size="18" fill="#607064">Top-3 hit rate</text>
+  <text x="112" y="235" font-family="Arial" font-size="34" font-weight="700" fill="#18251c">70%</text>
+  <text x="382" y="190" font-family="Arial" font-size="18" fill="#607064">Top-5 hit rate</text>
+  <text x="382" y="235" font-family="Arial" font-size="34" font-weight="700" fill="#18251c">90%</text>
+  <text x="652" y="190" font-family="Arial" font-size="18" fill="#607064">Refusal pass</text>
+  <text x="652" y="235" font-family="Arial" font-size="34" font-weight="700" fill="#18251c">100%</text>
+  <text x="922" y="190" font-family="Arial" font-size="18" fill="#607064">Avg latency</text>
+  <text x="922" y="235" font-family="Arial" font-size="34" font-weight="700" fill="#18251c">1ms</text>
+  <rect x="80" y="330" width="1050" height="230" rx="10" fill="#ffffff" stroke="#d6ded2"/>
+  <text x="112" y="380" font-family="Arial" font-size="22" font-weight="700" fill="#18251c">Per-question results</text>
+  <text x="112" y="430" font-family="Arial" font-size="18" fill="#425348">Expected source vs retrieved source IDs, with failed cases highlighted.</text>
+</svg>

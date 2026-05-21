@@ -1,116 +1,116 @@
 {
-    "NavBar": {
-      "appName": "YachayBot",
-      "benefits": "Allin kaykuna",
-      "services": "Yanapakuykuna",
-      "contact": "Rimaykukuy",
-      "faq": "Tapukuykuna",
-      "chat": "Rimay",
-      "greeting": "Napaykullayki, {userName}",
-      "signOut": "Lloqsiy",
-      "signIn": "Yaykuy",
-      "viewOnGithub": "Githubpi rikuy"
+  "NavBar": {
+    "appName": "YachayBot",
+    "benefits": "Allin kaykuna",
+    "services": "Yanapakuykuna",
+    "contact": "Rimaykukuy",
+    "faq": "Tapukuykuna",
+    "chat": "Rimay",
+    "greeting": "Napaykullayki, {userName}",
+    "signOut": "Lloqsiy",
+    "signIn": "Yaykuy",
+    "viewOnGithub": "Githubpi rikuy"
+  },
+  "Hero": {
+    "badge": {
+      "innovation": "v2 reconstruccion",
+      "text": "Fuentes publicaswan yachay maskay"
     },
-    "Hero": {
-      "badge": {
-        "innovation": "Musuq",
-        "text": "Indígena rimaykunaq NLP nisqapi patenteta mañakushan"
+    "title": {
+      "part1": "Ñaupaq yachaykunata hayway",
+      "part2": "qamqaq mama rimaypi"
+    },
+    "description": "YachayBot v2qa fuentes, metadatos hinallataq limitaciones rikuchiq yachay maskay sistema kanqa.",
+    "button": "YachayBot probay"
+  },
+  "BenefitsSection": {
+    "subtitle": "TUPUY IMAPAS RURAN",
+    "title": "Tecnología Uyway Identidades",
+    "description": "Yachay tecnologíawan tayta mamapa yachayninwan hukllasqa ima allin ruwaykunata ruwanchik:",
+    "benefits": [
+      {
+        "title": "Fuentes visibles",
+        "description": "Kutichiykunaqa documentos publicos otaq notas curadas nisqawan hapipakusqa kanan."
       },
-      "title": {
-        "part1": "Ñaupaq yachaykunata hayway",
-        "part2": "qamqaq mama rimaypi"
+      {
+        "title": "Soporte experimental",
+        "description": "Quechua hinallataq Aymaraqa experimentalmi, fuentes indexadas kaptinlla llamkanqa."
       },
-      "description": "Quechua, aymara, castellano rimaykunapi yachayta waqaychanapaq primer chatbot, yachayniyuq machukuna, llaqtakunap qawasqan.",
-      "button": "YachayBot probay"
-    },
-    "BenefitsSection": {
-      "subtitle": "TUPUY IMAPAS RURAN",
-      "title": "Tecnología Uyway Identidades",
-      "description": "Yachay tecnologíawan tayta mamapa yachayninwan hukllasqa ima allin ruwaykunata ruwanchik:",
-      "benefits": [
-        {
-          "title": "Yachay Validado",
-          "description": "Tayta mamapa, simi yachaqkunapa certificasqan yachaykuna, 93% cultural precisiónwan pruebas pilotopi."
-        },
-        {
-          "title": "Yachachiy Intercultural",
-          "description": "EIB yachachiqkuna munasqan herramienta: 70% aswan allin engagement estudiantilwan (Cusco, 2023)."
-        },
-        {
-          "title": "Tecnología Inclusiva",
-          "description": "Pisi internetpi llamk'ay atiy (1MB/s kama) y 3 simipi: quechua, aymara, español."
-        },
-        {
-          "title": "Generacional Puente",
-          "description": "87% wayna usuarioqkuna yachayta qillqan famiylankupaq, yachay rimayta kawsarichispa."
-        }
-      ]
-    },
-    "FeaturesSection": {
+      {
+        "title": "Arquitectura rikuchina",
+        "description": "Ingestion, busqueda, citas hinallataq evaluacionesqa qillqasqa kanan."
+      },
+      {
+        "title": "Limitaciones claras",
+        "description": "Mana evidencia kanchu chayqa, sistemaqa sutita ninqa."
+      }
+    ]
+  },
+  "FeaturesSection": {
     "subtitle": "MUSUQ WAYRA INNOVACIÓN",
     "title": "Tecnología Yachay Tawantin Honorananpaq",
-    "description": "IA hunt'asqa, quechua, aymara llaqtakunawan ruwanakuna. Mana chatbot aswan, generacional puente.",
+    "description": "YachayBot v2qa fuenteswan hapipakusqa busqueda, citas hinallataq evaluaciones rikuchinapaq ruwachkan.",
     "features": {
       "offline": {
         "title": "Internet nisqamanta",
-        "description": "Offline-first tecnología: SMSwan, básico navegadoreswan (60% rural llaqtakuna INEI nisqamanta)."
+        "description": "MVPqa fuentes publicaswan notas curadas sutichasqawan llamkanqa."
       },
       "validated": {
         "title": "Yachaykunasqa",
-        "description": "Ayllu yachaqkuna, antropólogoswan allinchasqa - 0% hallucinations. 1,200+ yachay qillqasqa."
+        "description": "Kutichiyqa recuperasqa fragmentosllamanta hamunqa, citaswan."
       },
       "multilingual": {
         "title": "Achka Simi Yachay",
-        "description": "Quechua/aymara NLP (mana t'ikray). Aglutinante simikunapaq NLP, 94% allin Cusco 2024."
+        "description": "Espanol e inglesmi qallariy foco. Quechua/Aymaraqa experimentalmi."
       },
       "interface": {
         "title": "Cultural Interfaz",
-        "description": "Llaqtakunawan diseño: andino iconografía, 'Yachachiq' rimayninwan."
+        "description": "Interfazqa maskayta, fragmentos rikuyta, fuentes comparayta yanapanqa."
       },
       "impact": {
         "title": "Tupuy Impacto",
-        "description": "87% engagement EIB yachay wasikunapi (35% apps genéricaswan). 70% usuarios familiawan yachaykunata qillqachinku."
+        "description": "Evaluacionesqa recuperacion, rechazos hinallataq latencia rikuchinqa."
       },
       "alliance": {
         "title": "ODS Aliados",
-        "description": "3 Desarrollo Sostenible Metas: Educación allin (4), Innovación (9), Desigualdades chinkachiy (10)."
+        "description": "Yachay yanapaypaqmi, mana documentasqa validacion comunitaria nispa rimanchu."
       }
     }
   },
   "ServicesSection": {
-    "impactTitle": "TUPUY KUSKA YUPAY",
-    "mainTitle": "Tecnología Hanan Pacha Willaykuna Wañuchiy",
-    "subtitle": "Musuq yachaywan ñawpa yachaykunata tinkuchispa, iskay chunka yachay qhispiykunata hark'ay (educación digital) puchukay.",
+    "impactTitle": "V2 LLAMKAY",
+    "mainTitle": "Fuentes visibleswan yachay maskay",
+    "subtitle": "YachayBot v2qa corpus documentado, citas, evaluaciones hinallataq limites claros nisqakunata ?awpaqman churachkan.",
     "services": {
       "multilingualAccess": {
         "title": "Achka Rimaykunapi Qhapaq Yachay",
-        "description": "Runasimipi, aymarampi, kastellanapi rimanakuy, yachaqkunap qillqasqanwan. Mana internetniyuq llaqtakunapaq."
+        "description": "Espanol e inglesmi qallariy foco; Quechua hinallataq Aymaraqa experimentalmi, fuentes kaptinlla."
       },
       "interculturalEducation": {
         "title": "EIB Yachachiy",
-        "description": "Yachachiqkunapaq llamk'ana, llaqtap yachayninkunawan (UNICEF nisqanman hina 15% aswan yachaqkuna wañuchinku)."
+        "description": "Documentos publicos, fragmentos hinallataq metadatos qhawayta yanapan, mana resultados mana tupusqata willanchu."
       },
       "ethicalPreservation": {
         "title": "Allin Yachay Wañuchiy",
-        "description": "IA nisqaqa llaqtakunap qillqasqanwan. Mana pantasqachu, llapa yachaykuna chiqapmi."
+        "description": "Sistemaqa maymanta informacion hamusqanta rikuchinqa, evidencia pisiyaptinqa mana kutichinqachu."
       },
       "generationalConnection": {
         "title": "Wiñay Kawsay Tinku",
-        "description": "Llaqtapi yachaqkunawan hatun llaqtapi waynakuna tinkunaku (Qusqu, 2024 watapi 87% tinkusqaku)."
+        "description": "Mana publico yachayqa MVP hawapi kanqa consentimiento hinallataq revision sutichasqa kaptin kama."
       }
     },
-    "innovationBadge": "MUSUQ YACHAY"
+    "innovationBadge": "V2"
   },
   "CommunitySection": {
     "titlePart1": "¿Listu kachkankichu yachay",
     "titlePart2": "mama llaqtap guardián nispa?",
-    "description": "Yachachiqkuna, waynakuna, hamawt'akunawan tinkuy llikaman yaykuy. Yachaykunata rakiy, tapuykutata haywarichiy, ñuqanchikpa yachayta wiñaypaq waqaychay. ¡Rimayki ancha allinmi! 🌱",
+    "description": "YachayBot v2qa reconstruccionpi kachkan. Proyectoqa fuentes publicas, notas curadas hinallataq limites visibleswan llamkayta munan.",
     "button": "Llaqtaman huñunakuy"
   },
   "PricingSection": {
-    "title": "ALLIN KAWSAY RUNAYAY",
-    "heading": "Tecnología valor nisqaman kutichisqa",
-    "subheading": "100% ingresosninkuna comunidadman kutichisqa, llaktakunaman chayananpaq",
+    "title": "MVP",
+    "heading": "Kay versionpi mana pago planes kanchu",
+    "subheading": "Kunanqa busqueda, fuentes, citas, evaluaciones hinallataq documentacion tecnica nisqapi llamkachkan.",
     "plans": {
       "Comunidad": {
         "title": "Llaktamasi",
@@ -172,7 +172,10 @@
       "phone": "Quechua rimaypi llamk'ay",
       "email": "Correo electrónico",
       "hours": "Llamk'ay hora",
-      "hoursValue": ["Lunes - Viernes", "9AM - 5PM (GMT-5)"]
+      "hoursValue": [
+        "Lunes - Viernes",
+        "9AM - 5PM (GMT-5)"
+      ]
     },
     "topics": {
       "saberes": "Yachaykunawan yanapay",
@@ -187,23 +190,23 @@
     "title": "Yachay sutin, modernu kutin",
     "faq1": {
       "question": "¿YachayBot mana chaynapuni hinachu?",
-      "answer": "Arí, chaynapuni. Ñuqanchikpa yuyayninchikqa kay yachaykunaqa llapan runakunaq kamayuqninchis kaqmi. Mana chaynaqmi webpi hinallataq celularpi ruwasqa, mana allin internetwanpas (offline first tecnología)."
+      "answer": "Demo originalmanta fuentes, citas, evaluaciones hinallataq limitaciones clarasniyuq yachay maskay sistema ruwachkan."
     },
     "faq2": {
       "question": "¿Imayna yachaybotpa yachayninkunata cheqniyta ruwan?",
-      "answer": "Llapan yachaykunata qhapaq runakuna, simikamayuqkuna, antropólogokuna riksichinqa. IA (runa yachayniyuq) base de datos kichasqa qillqaywan llamk'an, manam pantaykunaqa kanqachu."
+      "answer": "Mana. Sistemaqa fuentes publicas otaq notas curadas sutichasqallamanta kutichinan, evidencia mana kaptinqa ninqa."
     },
     "faq3": {
       "question": "¿YachayBotta rurayta atinki rural yachaywasipi, mana internetninmi?",
-      "answer": "¡Arí, allinlla! SMS hinallataq PWA qhawanakuykuna q'ipiy, menos de 1MB/s internetmanta. Cusco llaqtapi 87% yachaywasiqa 2024 watapi ruwachkanku."
+      "answer": "Quechua hinallataq Aymara soporteqa experimentalmi, fuentes indexadas kaptinlla."
     },
     "faq4": {
       "question": "¿Imayna quechua aimara simita churasqayki, kastillanuta rimanakuqkuna chaykunam?",
-      "answer": "MINEDU nisqa: 63% digital yachaykunaqa mana runasimita riqsichinqachu. Runasimi yachayqa kawsay, identidadninchis, sumaq yachay. Ñuqanchik NLP nativoqa colonial yachayninta saqichin."
+      "answer": "Evidenciaqa producto ukhupi kan. Fuente tarjetasqa kutichiy maymanta hamusqanta rikuchin."
     },
     "faq5": {
       "question": "¿Imayna Perú 2050 planman yanapayta ruranki?",
-      "answer": "Kimsa chinkayta wicharichin: digital (ODS 9), yachay (ODS 4), simi (ODS 10). Kaymanta escuela EIBkuna, innovación culturalta yanapachinmi."
+      "answer": "MVPpi mana pago planes kanchu. Kunanqa arquitectura, busqueda, fuentes, citas, evaluaciones hinallataq docs."
     }
   },
   "footer": {
@@ -223,4 +226,4 @@
     "translateContent": "Ñawiriy rimanakuykuna",
     "donate": "Qhawaykuy"
   }
-  }
+}

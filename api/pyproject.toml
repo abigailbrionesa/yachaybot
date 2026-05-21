@@ -1,0 +1,12 @@
+[project]
+name = "yachaybot-api"
+version = "0.1.0"
+description = "FastAPI backend for the YachayBot v2 evidence-first RAG platform."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.30.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">YachayBot search-first homepage</title>
+  <desc id="desc">A diagram-style screenshot showing the YachayBot search-first homepage.</desc>
+  <rect width="1200" height="720" fill="#f8faf7"/>
+  <rect x="80" y="56" width="1040" height="64" rx="10" fill="#ffffff" stroke="#d6ded2"/>
+  <text x="116" y="96" font-family="Arial" font-size="26" font-weight="700" fill="#1f3325">YachayBot</text>
+  <text x="890" y="96" font-family="Arial" font-size="18" fill="#425348">Sources  Evals</text>
+  <text x="90" y="190" font-family="Arial" font-size="18" fill="#2f5f3d">YachayBot v2 MVP</text>
+  <text x="90" y="250" font-family="Arial" font-size="44" font-weight="700" fill="#18251c">Search resources with visible evidence</text>
+  <rect x="90" y="300" width="690" height="58" rx="8" fill="#ffffff" stroke="#b9c8b4"/>
+  <text x="116" y="336" font-family="Arial" font-size="18" fill="#607064">Que recursos explican educacion intercultural bilingue?</text>
+  <rect x="800" y="300" width="150" height="58" rx="8" fill="#2f6f43"/>
+  <text x="846" y="336" font-family="Arial" font-size="18" font-weight="700" fill="#ffffff">Search</text>
+  <rect x="90" y="410" width="520" height="170" rx="10" fill="#ffffff" stroke="#d6ded2"/>
+  <text x="116" y="452" font-family="Arial" font-size="24" font-weight="700" fill="#18251c">Grounded answer</text>
+  <text x="116" y="492" font-family="Arial" font-size="18" fill="#425348">Answer text stays inside retrieved context and cites sources [1].</text>
+  <rect x="660" y="410" width="420" height="170" rx="10" fill="#ffffff" stroke="#d6ded2"/>
+  <text x="686" y="452" font-family="Arial" font-size="24" font-weight="700" fill="#18251c">Retrieved source cards</text>
+  <text x="686" y="492" font-family="Arial" font-size="18" fill="#425348">Score, language, source type, institution, rights note.</text>
+</svg>
