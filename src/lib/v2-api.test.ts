@@ -138,18 +138,18 @@ test("/api/chat rate limits repeated requests", async () => {
   assert.equal(payload.error.code, "RATE_LIMITED");
 });
 
-test("/api/chat rate limit prefers real IP over spoofed forwarded chains", async () => {
+test("/api/chat rate limit ignores spoofed real IP headers", async () => {
   let response = await postChat(jsonRequest(
     { messages: [{ role: "user", content: "EIB" }] },
-    "spoofed-forwarded-0",
-    { "x-real-ip": "real-ip-priority" },
+    "forwarded-priority",
+    { "x-real-ip": "spoofed-real-ip-0" },
   ));
 
   for (let index = 1; index < 23; index += 1) {
     response = await postChat(jsonRequest(
       { messages: [{ role: "user", content: "EIB" }] },
-      `spoofed-forwarded-${index}`,
-      { "x-real-ip": "real-ip-priority" },
+      "forwarded-priority",
+      { "x-real-ip": `spoofed-real-ip-${index}` },
     ));
   }
 

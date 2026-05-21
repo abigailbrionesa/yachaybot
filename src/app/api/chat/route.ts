@@ -92,9 +92,6 @@ function isRateLimited(req: Request) {
 }
 
 function getRateLimitKey(req: Request) {
-  const realIp = cleanClientIdentifier(req.headers.get("x-real-ip"));
-  if (realIp) return realIp;
-
   const vercelForwardedFor = firstForwardedIdentifier(req.headers.get("x-vercel-forwarded-for"));
   if (vercelForwardedFor) return vercelForwardedFor;
 
