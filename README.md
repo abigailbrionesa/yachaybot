@@ -1,8 +1,10 @@
 # YachayBot v2
 
-YachayBot v2 rebuilds a hackathon chatbot into an evidence-first AI search prototype for public Peruvian cultural and educational resources.
+Evidence-first AI search for public Peruvian cultural and educational resources.
 
-The product goal is simple: a user should be able to ask a question, inspect retrieved source cards, read a source-grounded answer with citations, and understand when the system does not have enough evidence.
+YachayBot v2 rebuilds a hackathon chatbot into an inspectable RAG-style MVP. A user can ask a question, inspect retrieved source cards, read a grounded answer with citations, and see when the system does not have enough evidence.
+
+The project favors visible sources, honest limitations, and reproducible evaluation over broad AI claims.
 
 ## MVP Features
 
@@ -10,12 +12,14 @@ The product goal is simple: a user should be able to ask a question, inspect ret
 - Source cards with snippets, metadata, rights notes, and URLs
 - `/sources` browser with filters for language, topic, and source type
 - `/evals` dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency
+- `/ai-bot` chat wrapper over the same retrieval, citation, and refusal rules
 - `/api/v1/documents`
 - `/api/v1/search`
 - `/api/v1/answers`
 - `/api/v1/evals/runs`
 - Local corpus with 15 public or official sources and 5 curated project notes
 - Deterministic local retrieval baseline for demo and testing
+- Playwright-smoked public flows for search, sources, chat, evals, paused dashboard, mobile nav, and API contracts
 
 ## Supported Public Surface
 
@@ -30,8 +34,16 @@ Legacy account flows are paused:
 
 - `/api/chat` validates chat messages, retrieves from the v2 corpus, cites sources, and refuses weak evidence
 - `/sign-in` shows an auth-out-of-scope page
+- `/dashboard` shows a paused educator-workspace page
+- `/api/auth/*` returns `503 FEATURE_UNAVAILABLE`
 
 When `MISTRAL_API_KEY` is configured, `/api/chat` can polish grounded answers. Without it, the local evidence-grounded answer is returned. Pinecone credentials are reserved for the later vector-search migration and are not required for the current deterministic MVP.
+
+## Repository Tags
+
+Suggested GitHub topics for the current project state:
+
+`ai-search`, `evidence-first`, `rag`, `retrieval-augmented-generation`, `source-grounded`, `citations`, `peru`, `education`, `cultural-heritage`, `multilingual`, `nextjs`, `typescript`, `tailwindcss`, `zod`, `mistral-ai`, `evals`, `playwright`, `postgresql`, `pgvector`, `open-source`
 
 ## Demo Evidence
 
@@ -76,6 +88,16 @@ npm run build
 ```
 
 The historical slash-command validation contract also calls `bun run lint`, `bunx tsc --noEmit`, and `bun test`; those require Bun to be installed.
+
+Recent browser QA also exercised the public demo with Playwright:
+
+- search and source-card flow
+- sources navigation
+- chat with visible evidence
+- eval dashboard
+- paused dashboard
+- auth/eval API contracts
+- mobile navigation
 
 ## API Overview
 
@@ -142,6 +164,7 @@ Returns the local deterministic eval run and metrics.
 - Curated notes are methodology notes, not primary cultural sources.
 - Sign-in flows are paused for this MVP.
 - Chat uses the v2 retrieval baseline and must keep visible sources and refusal behavior.
+- Rate limiting is an in-memory MVP guard, not a production KV/Redis limiter.
 - The app does not claim community validation.
 - The app does not claim zero hallucinations.
 

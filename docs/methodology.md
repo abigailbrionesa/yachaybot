@@ -39,3 +39,7 @@ The first eval run includes factual questions with expected source IDs and refus
 - top-5 hit rate
 - refusal pass rate
 - average latency
+
+## Browser QA
+
+The current MVP has been smoke-tested with Playwright against the local Next.js app. The smoke path covers search, sources, chat, evals, the paused dashboard, auth/eval API contracts, and mobile navigation. This is not a full accessibility audit, but it does verify the main public demo flows in a real browser.

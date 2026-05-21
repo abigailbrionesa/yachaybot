@@ -1,7 +1,19 @@
 {
   "name": "yachaybot",
   "version": "0.1.0",
+  "description": "Evidence-first AI search for public Peruvian cultural and educational resources.",
   "private": true,
+  "keywords": [
+    "ai-search",
+    "evidence-first",
+    "rag",
+    "citations",
+    "peru",
+    "education",
+    "cultural-heritage",
+    "nextjs",
+    "typescript"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

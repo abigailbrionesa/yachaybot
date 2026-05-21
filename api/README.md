@@ -1,6 +1,8 @@
 # YachayBot v2 API
 
-This directory owns the FastAPI service for the v2 rebuild.
+This directory marks the intended FastAPI service boundary for the v2 rebuild.
+
+The current MVP keeps runnable API behavior inside Next.js route handlers under `src/app/api`. FastAPI remains scaffolding for the later ingestion, retrieval, and eval service split.
 
 Planned responsibilities:
 

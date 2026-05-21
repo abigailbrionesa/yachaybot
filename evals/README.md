@@ -10,3 +10,5 @@ MVP metrics:
 - average latency
 
 Eval runs should be reproducible and should include failed cases for inspection.
+
+The current local run ID is `local-eval-run-001`. Unknown run IDs should return `404` until persisted eval runs exist.

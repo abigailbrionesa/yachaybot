@@ -1,6 +1,6 @@
 # YachayBot v2 Architecture
 
-YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first multilingual RAG search system for public Peruvian cultural and educational resources.
+YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first, source-grounded AI search system for public Peruvian cultural and educational resources.
 
 ## Current State
 
@@ -8,7 +8,8 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first mult
 - The supported v2 public surface is search-first: search, source cards, sources, and evals.
 - Chat at `src/app/api/chat/route.ts` is an evidence-first wrapper over local v2 retrieval, citations, and refusal behavior.
 - `MISTRAL_API_KEY` is optional and only polishes answers after retrieval has produced sufficient evidence.
-- Legacy sign-in and credentials login are paused for the v2 MVP.
+- Legacy sign-in, credentials login, and catch-all auth routes are paused for the v2 MVP.
+- Dashboard routes show a paused educator-workspace message instead of depending on live session state.
 - Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
 
 ## Target State
@@ -30,6 +31,14 @@ The v2 system separates product surfaces from AI/search behavior:
 4. The API returns source cards with snippets and metadata.
 5. If requested, the API generates a grounded answer using retrieved chunks only.
 6. The UI displays the answer, citations, source cards, and evidence strength.
+
+## Public Contract
+
+- Search, sources, evals, and chat are supported MVP flows.
+- Auth and protected educator workspace flows are explicitly paused.
+- Unknown eval run IDs return `404`; the local deterministic run is `local-eval-run-001`.
+- `/api/chat` may use Mistral only after local retrieval and deterministic grounding have produced usable evidence.
+- Model-polished chat output must retain known citation markers or fall back to the deterministic answer.
 
 ## Design Rules
 
