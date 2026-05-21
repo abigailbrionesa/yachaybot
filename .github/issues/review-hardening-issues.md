@@ -16,11 +16,20 @@ The v2 RAG MVP is the supported public experience, but legacy credentials auth, 
 
 Acceptance criteria:
 
-- [ ] Credentials auth has a documented keep/fix/remove decision.
-- [ ] `/ai-bot` and `/api/chat` have a documented keep/fix/remove decision.
-- [ ] Navbar and README reflect the supported public surface.
-- [ ] Any intentionally disabled feature returns a clear unavailable state or is removed from navigation.
-- [ ] Follow-up implementation issues are updated if the decision changes scope.
+- [x] Credentials auth has a documented keep/fix/remove decision.
+- [x] `/ai-bot` and `/api/chat` have a documented keep/fix/remove decision.
+- [x] Navbar and README reflect the supported public surface.
+- [x] Any intentionally disabled feature returns a clear unavailable state or is removed from navigation.
+- [x] Follow-up implementation issues are updated if the decision changes scope.
+
+Decision:
+
+- Public v2 demo is search-first only.
+- Credentials login and visible auth are out of scope until a protected workspace exists.
+- `/ai-bot` shows evidence-first chat backed by v2 retrieval and citations.
+- `/sign-in` shows a graceful paused page.
+- `/api/chat` validates messages, retrieves sources, cites evidence, refuses weak evidence, and optionally uses Mistral from env.
+- Pinecone remains reserved for future vector retrieval.
 
 ## Issue #23: Secure or disable credentials login
 
@@ -36,11 +45,11 @@ The credentials login flow is inconsistent and unsafe: the client sends `email`,
 
 Acceptance criteria:
 
-- [ ] Credentials request fields are consistent between `LoginForm`, NextAuth credentials provider, and `/api/auth/login`.
-- [ ] Request body is validated before database lookup.
-- [ ] Password verification uses bcrypt hashes if credentials auth remains.
-- [ ] Invalid credentials return a generic 401 without leaking user existence.
-- [ ] Credentials auth tests or disabled-route tests are added.
+- [x] Credentials login is removed or disabled from the public v2 surface.
+- [x] `/sign-in` direct visits show an auth-paused page with a path back to search.
+- [x] No visible navbar auth controls are shown in the public v2 demo.
+- [x] Password verification code is not reachable from the public v2 path.
+- [x] Disabled-route tests or smoke checks are added.
 
 ## Issue #24: Fix or retire legacy `/api/chat` and Pinecone integration
 
@@ -52,15 +61,15 @@ Dependencies: Issue #22
 
 Description:
 
-The legacy `/api/chat` route accepts unvalidated payloads and the Pinecone embedding helper references an out-of-scope `pc` variable. If chat remains public, it must validate input, handle missing provider configuration clearly, and fix Pinecone client usage. If retired, the route and UI should fail intentionally and safely.
+The legacy `/api/chat` route accepted unvalidated payloads and the Pinecone embedding helper referenced an out-of-scope `pc` variable. Chat is now retained only as an evidence-first wrapper over the v2 local corpus; Pinecone remains reserved for a later vector-search migration.
 
 Acceptance criteria:
 
-- [ ] `/api/chat` validates `messages` as a bounded array before model/provider work.
-- [ ] Malformed chat requests return 400 instead of 500.
-- [ ] Pinecone embedding generation receives a valid client if the route remains enabled.
-- [ ] Missing provider configuration returns a maintainable unavailable state or intentionally falls back.
-- [ ] `/ai-bot` UI reflects whether chat is supported, experimental, or disabled.
+- [x] `/api/chat` validates messages before model/provider work.
+- [x] `/api/chat` retrieves from the v2 corpus before answering.
+- [x] Active route no longer contains the broken Pinecone client path.
+- [x] Missing Mistral configuration falls back to the local grounded answer.
+- [x] `/ai-bot` UI reflects evidence-first chat and visible sources.
 
 ## Issue #25: Add guardrails for expensive model-backed routes
 
@@ -76,10 +85,10 @@ Any retained model-backed route should have basic abuse prevention. Add rate lim
 
 Acceptance criteria:
 
-- [ ] Retained chat route has a rate limit, feature flag, or documented temporary guard.
-- [ ] Rate-limited responses return 429 with a generic error object.
-- [ ] Guard behavior is covered by a test or documented smoke check.
-- [ ] The README or limitations doc states whether legacy chat is enabled.
+- [x] Chat route has bounded request validation.
+- [x] Invalid chat requests return a generic error object.
+- [x] Repeated chat requests return 429 and are covered by a test.
+- [x] The README or limitations doc states that chat is evidence-first and Mistral is optional.
 
 ## Issue #26: Reduce dependency audit risk and document deferred major upgrades
 
@@ -95,11 +104,15 @@ Description:
 
 Acceptance criteria:
 
-- [ ] Safe non-major dependency upgrades are applied and committed.
-- [ ] `npm audit` has no high-severity findings that are fixable without a major migration.
-- [ ] Any remaining major-upgrade advisories are documented with package, risk, and migration owner.
-- [ ] `package-lock.json` is updated reproducibly.
-- [ ] Full validation passes after dependency changes.
+- [x] Safe non-major dependency upgrades are applied and committed.
+- [x] `npm audit` has no high-severity findings that are fixable without a major migration.
+- [x] Any remaining major-upgrade advisories are documented with package, risk, and migration owner.
+- [x] `package-lock.json` is updated reproducibly.
+- [x] Full validation passes after dependency changes.
+
+Validation note:
+
+- `npm audit` is reduced to two moderate Next/PostCSS advisories. The suggested npm fix is a breaking downgrade to `next@9.3.3`, so it is intentionally deferred until an upstream patched Next 15-compatible path is available.
 
 ## Issue #27: Add API validation and legacy-route regression tests
 
@@ -115,11 +128,11 @@ The v2 data helpers have tests, but API validation and retained legacy-route beh
 
 Acceptance criteria:
 
-- [ ] `/api/v1/search` invalid payload behavior is covered.
-- [ ] `/api/v1/answers` invalid payload behavior is covered.
-- [ ] Credentials login retained or disabled behavior is covered.
-- [ ] Chat retained or disabled behavior is covered.
-- [ ] `npm test` remains fast and deterministic.
+- [x] `/api/v1/search` invalid payload behavior is covered.
+- [x] `/api/v1/answers` invalid payload behavior is covered.
+- [x] Credentials login retained or disabled behavior is covered.
+- [x] Chat retained or disabled behavior is covered.
+- [x] `npm test` remains fast and deterministic.
 
 ## Issue #28: Harden public docs, navigation, and external links
 
@@ -135,8 +148,8 @@ Public docs and navigation should make the supported v2 experience unmistakable.
 
 Acceptance criteria:
 
-- [ ] External `target="_blank"` links include `rel="noreferrer"`.
-- [ ] Navbar links point to supported locale-aware public pages.
-- [ ] README states which surfaces are supported v2 and which are legacy or disabled.
-- [ ] Demo/limitations docs match the auth/chat decision.
-- [ ] `npm run lint` and `npm run build` pass after UI/doc updates.
+- [x] External `target="_blank"` links include `rel="noreferrer"`.
+- [x] Navbar links point to supported locale-aware public pages.
+- [x] README states which surfaces are supported v2 and which are legacy or disabled.
+- [x] Demo/limitations docs match the auth/chat decision.
+- [x] `npm run lint` and `npm run build` pass after UI/doc updates.

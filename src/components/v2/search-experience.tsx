@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Search, BarChart3, BookOpenCheck } from "lucide-react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,11 +17,13 @@ const examples = [
 ];
 
 export function SearchExperience() {
+  const locale = useLocale();
   const [query, setQuery] = useState(examples[0]);
   const [submittedQuery, setSubmittedQuery] = useState(examples[0]);
   const [search, setSearch] = useState<SearchResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const pathPrefix = `/${locale}`;
 
   useEffect(() => {
     let isActive = true;
@@ -143,10 +146,10 @@ export function SearchExperience() {
 
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="secondary">
-              <Link href="/sources"><BookOpenCheck className="size-4" /> Sources</Link>
+              <Link href={`${pathPrefix}/sources`}><BookOpenCheck className="size-4" /> Sources</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/evals"><BarChart3 className="size-4" /> Eval dashboard</Link>
+              <Link href={`${pathPrefix}/evals`}><BarChart3 className="size-4" /> Eval dashboard</Link>
             </Button>
           </div>
         </div>
@@ -186,7 +189,7 @@ function SourceCards({ results, evidenceStrength, isLoading }: { results: Search
           <CardContent className="space-y-3 text-sm">
             <p>{result.snippet}</p>
             <p className="text-muted-foreground">{result.rightsNote}</p>
-            <a className="text-primary underline" href={result.sourceUrl} target="_blank">
+            <a className="text-primary underline" href={result.sourceUrl} target="_blank" rel="noreferrer">
               Open source
             </a>
           </CardContent>

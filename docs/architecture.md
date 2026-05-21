@@ -5,9 +5,11 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first mult
 ## Current State
 
 - The existing user interface is a localized Next.js application in `src/`.
-- The current chat endpoint lives in `src/app/api/chat/route.js`.
-- Retrieval currently depends on Pinecone from `src/lib/pinecone.js`.
-- Prisma currently stores only demo authentication data.
+- The supported v2 public surface is search-first: search, source cards, sources, and evals.
+- Chat at `src/app/api/chat/route.ts` is an evidence-first wrapper over local v2 retrieval, citations, and refusal behavior.
+- `MISTRAL_API_KEY` is optional and only polishes answers after retrieval has produced sufficient evidence.
+- Legacy sign-in and credentials login are paused for the v2 MVP.
+- Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
 
 ## Target State
 
@@ -23,8 +25,8 @@ The v2 system separates product surfaces from AI/search behavior:
 ## Request Flow
 
 1. A user submits a question from the search-first web UI.
-2. The web app calls the FastAPI search endpoint.
-3. The API embeds the query and retrieves ranked chunks from Postgres with pgvector.
+2. The web app calls the Next.js v2 API route or the evidence-first chat wrapper.
+3. The current MVP retrieves ranked chunks from the deterministic local corpus.
 4. The API returns source cards with snippets and metadata.
 5. If requested, the API generates a grounded answer using retrieved chunks only.
 6. The UI displays the answer, citations, source cards, and evidence strength.

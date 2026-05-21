@@ -63,15 +63,15 @@ Needs:
 
 In scope:
 
-- [ ] Fix or disable credentials login.
-- [ ] Fix or retire legacy `/api/chat`.
+- [x] Fix or disable credentials login.
+- [x] Fix or retire legacy `/api/chat`.
 - [ ] Add request validation to legacy public API routes that remain enabled.
 - [ ] Add rate limiting or a documented temporary guard for model-backed routes.
 - [ ] Resolve high-severity dependency audit findings where non-breaking updates are available.
 - [ ] Plan the major `ai` SDK upgrade if it cannot be safely done in this pass.
 - [ ] Add tests covering auth helper behavior and chat request validation if those routes remain.
 - [ ] Add `rel="noreferrer"` to external `target="_blank"` links.
-- [ ] Update README/docs to state which surface is the supported v2 experience.
+- [x] Update README/docs to state which surface is the supported v2 experience.
 
 Out of scope:
 
@@ -99,7 +99,7 @@ Current architecture:
 - `src/components/v2/search-experience.tsx` calls `/api/v1/search`.
 - `src/app/api/v1/*` owns the supported v2 API routes.
 - `src/lib/v2-data.ts`, `src/lib/v2-schemas.ts`, and `src/lib/v2-types.ts` support the deterministic v2 MVP.
-- `src/app/api/chat/route.js` remains as a legacy Mistral/Pinecone route.
+- `src/app/api/chat/route.ts` is an evidence-first chat wrapper over the v2 corpus.
 - `src/app/api/auth/*` and `src/components/ui/login-form.tsx` remain as legacy auth surfaces.
 
 Target architecture for this hardening pass:
@@ -109,6 +109,19 @@ Target architecture for this hardening pass:
 - Credentials auth is either removed in favor of Google-only auth or upgraded to hashed-password verification.
 - Shared validation schemas live near API boundaries.
 - Tests distinguish supported v2 behavior from intentionally disabled legacy features.
+
+Locked decisions from product review:
+
+- The public v2 demo is search-first, with chat as a source-grounded wrapper around the same retrieval and citation flow.
+- `/ai-bot` chat is rebuilt as a conversational wrapper around source cards, citations, and refusal behavior.
+- `/api/chat` validates messages, retrieves from the v2 corpus, cites sources, refuses weak evidence, and optionally uses `MISTRAL_API_KEY` to polish grounded answers.
+- Pinecone credentials are reserved for the later vector-search migration and are not required for the deterministic MVP.
+- Credentials login is out of scope for the v2 MVP.
+- All visible auth/sign-in UI is hidden until there is a real protected workspace.
+- Direct `/ai-bot` visits show evidence-first chat.
+- Direct `/sign-in` visits show a graceful paused page with a route back to search.
+- Dependency hardening follows after the legacy public surface is disabled.
+- Issue #22 closes once these decisions are documented; execution continues in #23-#28.
 
 ## 7. Tools and Features
 
@@ -130,7 +143,7 @@ Requirements:
 - If retained, validate `messages` as a bounded array.
 - Return 400 for malformed payloads.
 - Rate limit or guard expensive model calls.
-- Fix Pinecone embedding client usage.
+- Keep Pinecone out of the active route until vector retrieval is intentionally implemented.
 - Surface provider configuration errors in maintainable logs without leaking secrets.
 
 ### Dependency Hardening
@@ -174,7 +187,8 @@ Backend/API:
 - Next.js app router API routes.
 - NextAuth for OAuth if auth remains.
 - Prisma for user records if credentials auth remains.
-- Pinecone and Mistral only if legacy chat remains enabled.
+- Mistral is optional for evidence-first chat answer polishing.
+- Pinecone is reserved for the future vector retrieval migration.
 
 Validation and testing:
 
@@ -191,8 +205,9 @@ Environment variables:
 - `NEXTAUTH_SECRET`: required for production NextAuth security.
 - `GOOGLE_CLIENT_ID`: required only if Google login remains.
 - `GOOGLE_CLIENT_SECRET`: required only if Google login remains.
-- `PINECONE_API_KEY`: required only if legacy Pinecone chat remains.
-- Model-provider keys: required only for retained model-backed chat.
+- `MISTRAL_API_KEY`: optional for model-polished grounded chat answers.
+- `PINECONE_API_KEY`: reserved for future vector retrieval migration.
+- `PINECONE_HOST`: reserved for future vector retrieval migration.
 
 Security requirements:
 
@@ -207,7 +222,7 @@ Security requirements:
 
 ### `POST /api/auth/login`
 
-If credentials auth remains enabled, request:
+Credentials auth is paused for the v2 MVP. The old contract is retained here only as future reference if password auth returns.
 
 ```json
 {
@@ -233,7 +248,7 @@ Failure responses:
 
 ### `POST /api/chat`
 
-If legacy chat remains enabled, request:
+Chat is active as an evidence-first wrapper. Request:
 
 ```json
 {
@@ -277,7 +292,7 @@ This hardening pass is successful when:
 
 - Credentials login is secure or removed from public navigation.
 - `/api/chat` is secure, validated, and working with provider configuration, or disabled intentionally.
-- The Pinecone client bug is fixed if chat remains.
+- Pinecone is not called from the active chat route until vector retrieval is implemented.
 - Malformed requests to public retained API routes return 400, not 500.
 - `npm audit` has no high-severity findings that can be resolved without a major migration.
 - Remaining major-upgrade advisories are documented as follow-up issues.
@@ -300,7 +315,7 @@ Deliverables:
 Deliverables:
 
 - Fix credentials request mismatch and plaintext comparison if credentials auth remains.
-- Fix Pinecone client scoping if chat remains.
+- Keep Pinecone disabled in the active route until vector retrieval is implemented.
 - Add Zod schemas to retained legacy routes.
 - Add basic rate limiting or feature guards for model-backed chat.
 
@@ -323,7 +338,7 @@ Deliverables:
 
 ## 13. Future Considerations
 
-- Replace legacy `/api/chat` with the evidence-first `/api/v1/search` and `/api/v1/answers` flow.
+- Connect `/api/chat` to the future vector retrieval path once pgvector or Pinecone-backed retrieval is ready.
 - Add persistent query logs with privacy review.
 - Add production rate limiting backed by Redis or Vercel KV.
 - Add Dependabot configuration.
@@ -335,7 +350,7 @@ Deliverables:
 | Risk | Impact | Mitigation |
 |------|--------|------------|
 | Legacy auth remains broken | Users cannot sign in and reviewers lose trust | Remove credentials auth or implement hashed-password verification |
-| Legacy chat silently returns weak answers | Demo contradicts evidence-first positioning | Fix Pinecone path or hide `/ai-bot` until replaced |
+| Chat silently returns weak answers | Demo contradicts evidence-first positioning | Keep chat on v2 retrieval, citations, and refusal behavior |
 | Dependency upgrades break app router behavior | PR regressions after audit fixes | Upgrade in small batches and run full validation after each |
 | Major `ai` SDK upgrade is too large for this pass | Security advisory remains open | Document explicit issue with migration plan and temporary exposure assessment |
 | Rate limiting is skipped | Public model endpoint can be abused | Add temporary guard or disable chat until rate limiting exists |

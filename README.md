@@ -17,6 +17,22 @@ The product goal is simple: a user should be able to ask a question, inspect ret
 - Local corpus with 15 public or official sources and 5 curated project notes
 - Deterministic local retrieval baseline for demo and testing
 
+## Supported Public Surface
+
+The v2 public demo is search-first only:
+
+- `/es`, `/qu`, `/ay`: evidence-first search experience
+- `/es/sources`: inspectable source browser
+- `/es/evals`: deterministic eval dashboard
+- `/es/ai-bot`: evidence-first chat wrapper over the same retrieval and citation flow
+
+Legacy account flows are paused:
+
+- `/api/chat` validates chat messages, retrieves from the v2 corpus, cites sources, and refuses weak evidence
+- `/sign-in` shows an auth-out-of-scope page
+
+When `MISTRAL_API_KEY` is configured, `/api/chat` can polish grounded answers. Without it, the local evidence-grounded answer is returned. Pinecone credentials are reserved for the later vector-search migration and are not required for the current deterministic MVP.
+
 ## Demo Evidence
 
 These committed demo images show the intended public review flow:
@@ -35,6 +51,14 @@ npm run dev
 ```
 
 Then open `http://localhost:3000/es`.
+
+Optional model/provider configuration:
+
+```bash
+copy .env.example .env.local
+```
+
+Add a rotated `MISTRAL_API_KEY` to let `/api/chat` polish grounded answers. `PINECONE_API_KEY` and `PINECONE_HOST` are reserved for the later vector-search migration.
 
 If another app is already using port 3000:
 
@@ -116,6 +140,8 @@ Returns the local deterministic eval run and metrics.
 - Local retrieval uses token overlap, not production vector search.
 - Quechua and Aymara behavior is experimental and source-bound.
 - Curated notes are methodology notes, not primary cultural sources.
+- Sign-in flows are paused for this MVP.
+- Chat uses the v2 retrieval baseline and must keep visible sources and refusal behavior.
 - The app does not claim community validation.
 - The app does not claim zero hallucinations.
 

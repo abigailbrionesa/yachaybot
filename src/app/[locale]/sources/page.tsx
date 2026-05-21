@@ -82,7 +82,7 @@ export default async function SourcesPage({ params, searchParams }: SourcesPageP
                     {document.topicTags.map((tag) => <Badge key={tag} variant="outline">{tag}</Badge>)}
                   </div>
                   <p className="text-muted-foreground">{document.rightsNote}</p>
-                  <a className="text-primary underline" href={document.sourceUrl} target="_blank">
+                  <a className="text-primary underline" href={document.sourceUrl} target="_blank" rel="noreferrer">
                     Open source
                   </a>
                   <div className="rounded-md border bg-muted/40 p-3">

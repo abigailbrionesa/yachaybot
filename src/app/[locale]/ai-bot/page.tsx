@@ -1,130 +1,167 @@
 "use client";
 
-import React from "react";
-import { useChat } from "@ai-sdk/react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
+import { FormEvent, useState } from "react";
+import { BookOpenCheck, Send } from "lucide-react";
 import { Navbar } from "@/components/global/navbar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import type { AnswerResult, SearchResult } from "@/lib/v2-types";
 
-function AIChat() {
-  const { messages, input, handleInputChange, handleSubmit, setInput, isLoading } = useChat({
-    api: '/api/chat'
-  });
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+  answer?: AnswerResult;
+  results?: SearchResult[];
+  modelUsed?: string;
+};
 
-  const premadeQuestions = [
-    "¿Cómo se transmite el uso de plantas medicinales en comunidades indígenas?",
-    "¿Qué rol tienen las ceremonias tradicionales en la identidad indígena?",
-    "¿Qué prácticas ancestrales acompañan el embarazo y parto en pueblos indígenas?",
-    "¿Cómo integrar saberes ancestrales en la educación formal rural?"
-  ];
+const examples = [
+  "Que recursos explican educacion intercultural bilingue?",
+  "Where can I find public information about indigenous languages and education?",
+  "Que fuente ayuda a revisar patrimonio cultural inmaterial?",
+];
+
+export default function AiBotPage() {
+  const [input, setInput] = useState(examples[0]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submitQuestion(question: string) {
+    const trimmed = question.trim();
+    if (!trimmed) return;
+
+    const nextMessages: ChatMessage[] = [...messages, { role: "user", content: trimmed }];
+    setMessages(nextMessages);
+    setInput("");
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: nextMessages.map((message) => ({ role: message.role, content: message.content })),
+        }),
+      });
+
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload?.error?.message ?? "Chat request failed");
+      }
+
+      setMessages((current) => [
+        ...current,
+        {
+          role: "assistant",
+          content: payload.answer.answer,
+          answer: payload.answer,
+          results: payload.results,
+          modelUsed: payload.modelUsed,
+        },
+      ]);
+    } catch (chatError) {
+      setError(chatError instanceof Error ? chatError.message : "Chat request failed");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    submitQuestion(input);
+  }
 
   return (
-    <> 
-    <Navbar/> 
-    <div className="min-h-svh flex flex-col items-center px-4 py-8">
-      <div className="text-center mb-6 mt-20">
-        <Image 
-          src="/images/logo/yachaybot_logo2.png" 
-          alt="Logo de YachayBot" 
-          width={100} 
-          height={100} 
-          className="mx-auto"
-        />
-        <h1 className="text-2xl font-bold mt-2">YACHAYBOT</h1>
-        <p className="text-muted-foreground">Saberes ancestrales en tu idioma</p>
-      </div>
+    <>
+      <Navbar />
+      <main className="container min-h-svh space-y-8 pt-28 pb-16">
+        <section className="max-w-3xl space-y-3">
+          <Badge variant="outline">Evidence-first chat</Badge>
+          <h1 className="text-4xl font-bold tracking-normal">Ask conversationally, verify with sources.</h1>
+          <p className="text-muted-foreground">
+            This chat uses the same v2 retrieval, citation, and refusal rules as search. Mistral may polish grounded answers when configured, but sources remain visible.
+          </p>
+        </section>
 
-      <div className="w-full max-w-md flex flex-col gap-6 flex-1">
-        <div className="grid grid-cols-2 gap-3">
-          {premadeQuestions.map((question, index) => (
-            <Button
-              key={index}
-              type="button"
-              variant="default"
-              className="h-auto py-2 px-3 text-xs text-left whitespace-normal break-words"
-              onClick={() => setInput(question)}
-              disabled={isLoading}
-            >
-              {question}
-            </Button>
-          ))}
-        </div>
-
-        <ScrollArea className="flex-1 h-[50vh] pr-2">
-          <div className="flex flex-col gap-4">
-            {messages.map((message) => (
-              <div 
-                key={message.id} 
-                className={`whitespace-pre-wrap p-3 rounded-lg text-sm ${
-                  message.role === "user" 
-                    ? "bg-foreground text-background ml-auto max-w-[80%]" 
-                    : "bg-foreground text-background mr-auto max-w-[80%]"
-                }`}
-              >
-                {message.role === "user" ? (
-                  <strong className="block font-medium mb-1">Tú:</strong>
-                ) : (
-                  <div className="flex items-center gap-2 mb-1">
-                    <Image
-                      src="/images/logo/yachaybot_logo2.png"
-                      alt="Logo YachayBot"
-                      width={40}
-                      height={40}
-                      className="rounded-sm"
-                    />
-                    <strong className="font-medium">YachayBot:</strong>
+        <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="space-y-4">
+            <Card>
+              <CardContent className="min-h-[360px] space-y-4 pt-6">
+                {messages.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">Start with a question. Answers stay inside retrieved evidence.</p>
+                ) : null}
+                {messages.map((message, index) => (
+                  <div key={`${message.role}-${index}`} className={message.role === "user" ? "ml-auto max-w-2xl rounded-md bg-primary p-3 text-sm text-primary-foreground" : "mr-auto max-w-3xl rounded-md border bg-card p-3 text-sm"}>
+                    <p className="mb-1 font-medium">{message.role === "user" ? "You" : "YachayBot"}</p>
+                    <p className="leading-6">{message.content}</p>
+                    {message.answer ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <Badge variant={message.answer.refused ? "destructive" : "secondary"}>{message.answer.evidenceStrength} evidence</Badge>
+                        <Badge variant="outline">{message.answer.language}</Badge>
+                        <Badge variant="outline">{message.modelUsed}</Badge>
+                      </div>
+                    ) : null}
                   </div>
-                )}
-                {message.content}
-              </div>
-            ))}
-            {isLoading && messages[messages.length - 1]?.role === "user" && (
-              <div className="p-3 rounded-lg bg-foreground text-background mr-auto max-w-[80%]">
-                <div className="flex items-center gap-2 mb-1">
-                  <Image
-                    src="/images/logo/yachaybot_logo2.png"
-                    alt="Logo YachayBot"
-                    width={40}
-                    height={40}
-                    className="rounded-sm"
-                  />
-                  <strong className="font-medium">YachayBot:</strong>
-                </div>
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" />
-                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  <div className="w-2 h-2 rounded-full bg-background animate-bounce" style={{ animationDelay: '0.4s' }} />
-                </div>
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+                ))}
+                {isLoading ? <p className="text-sm text-muted-foreground">Retrieving sources and drafting a grounded answer...</p> : null}
+                {error ? <p className="text-sm text-destructive">{error}</p> : null}
+              </CardContent>
+            </Card>
 
-        <form 
-          onSubmit={handleSubmit} 
-          className="w-full sticky bottom-0 bg-background border-t pt-4"
-          aria-label="Formulario de chat"
-        >
-          <div className="flex items-center gap-2">
-            <Input
-              value={input}
-              onChange={handleInputChange}
-              placeholder="Pregunta sobre saberes ancestrales..."
-              className="flex-1"
-              aria-label="Escribe tu pregunta"
-              disabled={isLoading}
-            />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Pensando...' : 'Enviar'}
-            </Button>
+            <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row">
+              <Input
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="Ask about EIB, public sources, heritage, language..."
+                className="h-12"
+                disabled={isLoading}
+              />
+              <Button type="submit" className="h-12" disabled={isLoading}>
+                <Send className="size-4" />
+                Send
+              </Button>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>
+
+          <aside className="space-y-4">
+            <div>
+              <h2 className="text-lg font-semibold">Try a question</h2>
+              <p className="text-sm text-muted-foreground">Examples use the indexed MVP corpus.</p>
+            </div>
+            <div className="space-y-2">
+              {examples.map((example) => (
+                <Button key={example} type="button" variant="outline" className="h-auto w-full justify-start whitespace-normal text-left" onClick={() => submitQuestion(example)} disabled={isLoading}>
+                  {example}
+                </Button>
+              ))}
+            </div>
+
+            {messages.toReversed().find((message) => message.results?.length)?.results?.map((result) => (
+              <Card key={result.chunkId}>
+                <CardHeader>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge>{result.score.toFixed(2)}</Badge>
+                    <Badge variant="outline">{result.language}</Badge>
+                  </div>
+                  <CardTitle className="leading-6">{result.title}</CardTitle>
+                  <CardDescription>{result.institution}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm">
+                  <p>{result.snippet}</p>
+                  <a className="inline-flex items-center gap-2 text-primary underline" href={result.sourceUrl} target="_blank" rel="noreferrer">
+                    <BookOpenCheck className="size-4" />
+                    Open source
+                  </a>
+                </CardContent>
+              </Card>
+            ))}
+          </aside>
+        </section>
+      </main>
     </>
   );
 }
-
-export default AIChat;

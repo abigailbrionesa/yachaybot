@@ -61,6 +61,7 @@ export const FooterSection = () => {
             &copy; 2024 YachayBot - {t("footerTitle")}
             <Link
               target="_blank"
+              rel="noreferrer"
               href="#"
               className="text-primary transition-all border-primary hover:border-b-2 ml-1"
             >
