@@ -1,69 +1,134 @@
 # YachayBot v2
 
-Evidence-first AI search for public Peruvian cultural and educational resources.
+> Evidence-first AI search for public Peruvian cultural and educational resources.
 
-YachayBot began as a chatbot project that placed third at the INFORTELGRAF Peru Hackathon 2025. This v2 rebuild turns the original idea into a more rigorous full-stack AI search prototype: users can search a curated corpus, inspect source cards, ask grounded questions, see citations, and get refusals when the indexed evidence is too weak.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Tests](https://img.shields.io/badge/tests-20%20passing-brightgreen)](#validation)
+[![AI](https://img.shields.io/badge/AI-source--grounded-purple)](#ai-and-retrieval-design)
+[![Status](https://img.shields.io/badge/status-MVP-orange)](#limitations)
 
-The project is designed to showcase practical software engineering and applied AI judgment: scoped product decisions, typed API contracts, source-grounded answer generation, evaluation metrics, browser-tested flows, and honest limitations.
+YachayBot began as a chatbot project that placed third at the INFORTELGRAF Peru Hackathon 2025. This v2 rebuild turns the original idea into a scoped full-stack AI search prototype: users search a curated corpus, inspect source cards, ask grounded questions, see citations, and get refusals when indexed evidence is too weak.
 
-## What You Can Try
+For a SWE and AI portfolio, the project is meant to show product judgment and engineering discipline: typed API contracts, source-grounded generation, citation validation, retrieval evaluation, browser-tested flows, and clear boundaries around what is demo-grade versus future work.
 
-The public MVP is localized and search-first:
+![YachayBot search-first homepage](public/demo/search-home.svg)
 
-- `/es`, `/qu`, `/ay`: search experience
-- `/es/sources`: source browser with filters
-- `/es/evals`: retrieval and refusal evaluation dashboard
-- `/es/ai-bot`: chat interface over the same retrieval and citation rules
+## Table Of Contents
 
-Legacy account flows are intentionally paused for this MVP:
+- [Highlights](#highlights)
+- [Try The MVP](#try-the-mvp)
+- [Architecture](#architecture)
+- [AI And Retrieval Design](#ai-and-retrieval-design)
+- [Corpus, Data, And Evaluation](#corpus-data-and-evaluation)
+- [Quick Start](#quick-start)
+- [API Overview](#api-overview)
+- [Project Structure](#project-structure)
+- [Validation](#validation)
+- [Limitations](#limitations)
+- [Roadmap](#roadmap)
 
-- `/sign-in`: explains that auth is out of scope
-- `/dashboard`: shows a paused educator-workspace state
-- `/api/auth/*`: returns `503 FEATURE_UNAVAILABLE`
+## Highlights
 
-## Why This Project Exists
+- Search-first Next.js interface for public Peruvian cultural and educational resources.
+- Evidence-grounded answer generation with citation markers and refusal behavior.
+- Optional Mistral polishing only after deterministic retrieval produces usable evidence.
+- Citation safety check that rejects model output if citation markers are missing or invented.
+- Local deterministic retrieval baseline with transparent scoring and reproducible tests.
+- Eval dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency.
+- Paused auth and educator workspace routes, avoiding half-working protected flows.
+- Playwright-smoked public flows for search, sources, chat, evals, paused dashboard, mobile navigation, and API contracts.
 
-The original hackathon concept explored how AI could widen access to Peruvian cultural and educational knowledge, aligned with SDGs 4, 9, and 10.
+## Try The MVP
 
-The v2 implementation narrows that mission into a safer and more inspectable product slice. It does not present itself as a cultural authority, a community-validated archive, or a production preservation system. Instead, it demonstrates how an AI education product can make evidence visible, preserve uncertainty, and avoid unsupported claims.
+The public demo surface is localized and search-first:
 
-## Key Features
+| Route | Purpose |
+| --- | --- |
+| `/es` | Spanish search experience |
+| `/qu` | Quechua-locale search shell with experimental/source-bound behavior |
+| `/ay` | Aymara-locale search shell with experimental/source-bound behavior |
+| `/es/sources` | Source browser with language, topic, and source-type filters |
+| `/es/evals` | Local retrieval/refusal evaluation dashboard |
+| `/es/ai-bot` | Chat UI over the same retrieval, citation, and refusal rules |
 
-- Search-first Next.js interface for public cultural and educational resources
-- Source cards with snippets, institution metadata, language, topic tags, rights notes, and URLs
-- Evidence-grounded answer generation with citation markers
-- Refusal behavior when retrieved evidence is weak
-- Optional Mistral answer polishing after deterministic retrieval succeeds
-- Citation validation that falls back to the local grounded answer if model output drops or invents markers
-- Local deterministic retrieval baseline using token-overlap scoring
-- Evaluation dashboard with top-3 hit rate, top-5 hit rate, refusal pass rate, and latency
-- API routes for documents, search, answers, eval runs, and chat
-- Paused auth/workspace states instead of half-working protected flows
-- Playwright-smoked demo flows for search, sources, chat, evals, paused dashboard, mobile navigation, and API contracts
+Legacy account routes are intentionally paused:
+
+| Route | Current behavior |
+| --- | --- |
+| `/sign-in` | Explains that auth is out of scope for this MVP |
+| `/dashboard` | Shows a paused educator-workspace state |
+| `/api/auth/*` | Returns `503 FEATURE_UNAVAILABLE` |
+
+## Architecture
+
+```mermaid
+flowchart LR
+  User["User question"] --> UI["Next.js localized UI"]
+  UI --> SearchAPI["/api/v1/search"]
+  UI --> ChatAPI["/api/chat"]
+  SearchAPI --> Corpus["Local v2 corpus"]
+  ChatAPI --> Corpus
+  Corpus --> Retrieval["Token-overlap retrieval"]
+  Retrieval --> Evidence["Evidence strength check"]
+  Evidence --> Refusal["Refusal for weak evidence"]
+  Evidence --> LocalAnswer["Cited local answer"]
+  LocalAnswer --> CitationCheck["Citation marker validation"]
+  CitationCheck --> UI
+  CitationCheck -. optional .-> Mistral["Mistral polishing"]
+  Mistral --> CitationCheck
+  Retrieval --> Evals["Local eval dashboard"]
+```
+
+Important implementation files:
+
+- `src/app/[locale]/page.tsx`: localized search-first homepage
+- `src/app/[locale]/sources/page.tsx`: source browser
+- `src/app/[locale]/evals/page.tsx`: eval dashboard
+- `src/app/[locale]/ai-bot/page.tsx`: chat UI
+- `src/app/api/v1/*`: v2 API routes
+- `src/app/api/chat/route.ts`: evidence-first chat endpoint
+- `src/lib/v2-data.ts`: local corpus, retrieval, answers, and evals
+- `src/lib/v2-schemas.ts`: Zod request validation schemas
+- `src/lib/v2-types.ts`: shared TypeScript contracts
+- `migrations/001_v2_core.sql`: target Postgres/pgvector schema draft
+- `docs/adr/*`: architecture decision records
 
 ## AI And Retrieval Design
 
-The current MVP uses a deterministic local corpus so reviewers can inspect the behavior without provider keys or hosted infrastructure.
+The current MVP uses deterministic local data so reviewers can inspect behavior without provider keys, hosted databases, or hidden model calls.
 
 1. A user submits a query from search or chat.
-2. The API validates the request with Zod.
+2. API routes validate input with Zod.
 3. `searchCorpus` ranks local chunks with token-overlap scoring.
 4. `buildAnswer` classifies evidence as strong, moderate, or weak.
 5. Weak evidence returns a refusal instead of a confident answer.
 6. Usable evidence returns a cited local answer.
 7. If `MISTRAL_API_KEY` is configured, Mistral may polish the answer.
-8. Model output is accepted only if it preserves known citation markers.
+8. Polished output is accepted only if it preserves known citation markers.
 
-This keeps the demo reproducible while leaving a clear migration path to embeddings, Postgres/pgvector, or Pinecone.
+### RAG / Model Card
 
-## Current Corpus And Evaluation
+| Area | Current implementation |
+| --- | --- |
+| Intended use | Discover and inspect public Peruvian cultural and educational resources |
+| Retrieval source | Local TypeScript corpus in `src/lib/v2-data.ts` |
+| Retrieval method | Deterministic token-overlap baseline |
+| Generation | Local template-based grounded answer; optional Mistral polishing |
+| Guardrails | Zod validation, evidence-strength refusal, citation marker validation, rate limiting |
+| Citations | Answers cite retrieved chunk markers such as `[1]` |
+| Unsupported requests | Refused when indexed evidence is weak or absent |
+| Current stage | MVP prototype, not production deployment |
+| Future path | Postgres/pgvector schema draft and optional Pinecone migration |
+
+## Corpus, Data, And Evaluation
 
 The MVP corpus contains:
 
 - 15 public or official source records
 - 5 curated methodology notes
 - 1 inspectable chunk per source record
-- source metadata for institution, language, region, topic tags, rights notes, and URL
+- metadata for institution, language, region, topic tags, rights notes, and source URL
 
 The local eval set contains 10 questions:
 
@@ -79,18 +144,76 @@ Current deterministic local eval metrics:
 | Top-5 hit rate | 1.00 |
 | Refusal pass rate | 1.00 |
 
-These metrics are useful for regression testing the MVP corpus. They are not a claim of production accuracy.
+These metrics are useful for regression testing the MVP corpus. They are not a production accuracy claim.
+
+## Screenshots
+
+| Search | Sources | Evals |
+| --- | --- | --- |
+| ![Search homepage](public/demo/search-home.svg) | ![Source cards](public/demo/source-cards.svg) | ![Eval dashboard](public/demo/eval-dashboard.svg) |
 
 ## Tech Stack
 
-- Frontend: Next.js, React, TypeScript, Tailwind CSS, next-intl
-- API: Next.js route handlers
-- Validation: Zod request schemas
-- Retrieval: local TypeScript corpus and deterministic token-overlap scoring
-- AI: optional Mistral polishing after retrieval and citation checks
-- Database path: documented Supabase Postgres and pgvector migration draft
-- Future vector path: optional Pinecone migration
-- Testing: TypeScript unit tests, Next.js build checks, Playwright smoke testing
+| Layer | Tools |
+| --- | --- |
+| Frontend | Next.js, React, TypeScript, Tailwind CSS, next-intl |
+| API | Next.js route handlers |
+| Validation | Zod |
+| Retrieval | Local TypeScript corpus, deterministic token-overlap scoring |
+| AI | Optional Mistral polishing after retrieval and citation checks |
+| Database path | Supabase Postgres and pgvector migration draft |
+| Future vector path | Optional Pinecone migration |
+| Testing | TypeScript unit tests, Next.js build checks, Playwright smoke testing |
+
+## Quick Start
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Generate the Prisma client:
+
+```bash
+npm run prisma-generate
+```
+
+Start the app:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000/es
+```
+
+If port 3000 is busy:
+
+```bash
+npm run dev -- -p 3001
+```
+
+## Configuration
+
+Create a local environment file:
+
+```bash
+copy .env.example .env.local
+```
+
+Optional variables:
+
+| Variable | Current role |
+| --- | --- |
+| `MISTRAL_API_KEY` | Enables optional answer polishing after source-grounded retrieval |
+| `PINECONE_API_KEY` | Reserved for future vector-search migration |
+| `PINECONE_HOST` | Reserved for future vector-search migration |
+
+The deterministic MVP works without Mistral or Pinecone credentials.
 
 ## API Overview
 
@@ -128,64 +251,24 @@ Returns the deterministic local eval run and metrics.
 
 Validates chat messages, retrieves from the v2 corpus, builds a cited answer or refusal, and optionally calls Mistral for grounded answer polishing.
 
-## Demo Evidence
-
-Committed demo assets show the intended review flow:
-
-- [Search-first homepage](public/demo/search-home.svg)
-- [Source cards and citations](public/demo/source-cards.svg)
-- [Sources filtering](public/demo/sources-filtering.svg)
-- [Eval dashboard](public/demo/eval-dashboard.svg)
-
-## Local Setup
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Generate Prisma client:
-
-```bash
-npm run prisma-generate
-```
-
-Start the app:
-
-```bash
-npm run dev
-```
-
-Open:
+## Project Structure
 
 ```text
-http://localhost:3000/es
+.
+├── src/
+│   ├── app/                 # Localized pages and API routes
+│   ├── components/          # UI components and v2 search experience
+│   ├── i18n/                # next-intl routing and request config
+│   └── lib/                 # v2 corpus, retrieval, schemas, tests, types
+├── docs/                    # Architecture, methodology, limitations, ADRs
+├── public/demo/             # Committed demo SVGs for review
+├── migrations/              # v2 Postgres/pgvector schema draft
+├── data/                    # Curated data notes and source metadata placeholder
+├── evals/                   # Evaluation notes
+├── api/                     # Future FastAPI service boundary notes
+├── web/                     # Frontend boundary notes
+└── prisma/                  # Existing Prisma setup kept for future workspace work
 ```
-
-If port 3000 is busy:
-
-```bash
-npm run dev -- -p 3001
-```
-
-## Environment Variables
-
-Create a local env file:
-
-```bash
-copy .env.example .env.local
-```
-
-Optional variables:
-
-| Variable | Current role |
-| --- | --- |
-| `MISTRAL_API_KEY` | Enables optional answer polishing after source-grounded retrieval |
-| `PINECONE_API_KEY` | Reserved for future vector-search migration |
-| `PINECONE_HOST` | Reserved for future vector-search migration |
-
-The current deterministic MVP does not require Mistral or Pinecone credentials.
 
 ## Validation
 
@@ -198,21 +281,19 @@ npm test
 npm run build
 ```
 
+Recent validation has covered:
+
+- 20 TypeScript tests
+- invalid API payloads
+- search and answer behavior
+- Mistral citation acceptance/rejection
+- paused auth routes
+- eval run API behavior
+- chat rate limiting
+- retrieval/refusal eval metrics
+- production Next.js build
+
 The historical slash-command validation contract also calls `bun run lint`, `bunx tsc --noEmit`, and `bun test`; those require Bun to be installed.
-
-## Architecture Map
-
-- `src/app/[locale]/page.tsx`: localized search-first homepage
-- `src/app/[locale]/sources/page.tsx`: source browser
-- `src/app/[locale]/evals/page.tsx`: eval dashboard
-- `src/app/[locale]/ai-bot/page.tsx`: chat UI
-- `src/app/api/v1/*`: v2 API routes
-- `src/app/api/chat/route.ts`: evidence-first chat endpoint
-- `src/lib/v2-data.ts`: local corpus, retrieval, answers, and evals
-- `src/lib/v2-schemas.ts`: request validation schemas
-- `src/lib/v2-types.ts`: shared TypeScript contracts
-- `migrations/001_v2_core.sql`: target Postgres/pgvector schema draft
-- `docs/adr/*`: architecture decision records
 
 ## Documentation
 
@@ -222,6 +303,10 @@ The historical slash-command validation contract also calls `bun run lint`, `bun
 - [Demo script](docs/demo-script.md)
 - [Portfolio summary](docs/portfolio-summary.md)
 - [PRD](.github/PRDs/PRD.md)
+- [ADR 0001: FastAPI boundary](docs/adr/0001-use-fastapi-for-ai-search-service.md)
+- [ADR 0002: Supabase Postgres and pgvector](docs/adr/0002-use-supabase-postgres-with-pgvector.md)
+- [ADR 0003: Search-first UI](docs/adr/0003-use-search-first-ui.md)
+- [ADR 0004: Source-grounded generation](docs/adr/0004-use-source-grounded-generation.md)
 
 ## What Changed From The Hackathon Demo
 
@@ -244,6 +329,16 @@ The first version described a broad multilingual chatbot, semantic search stack,
 - The project does not claim community validation.
 - The project does not claim zero hallucinations.
 - The project does not claim to preserve ancestral knowledge by itself.
+- No license file is currently included.
+
+## Roadmap
+
+- Move retrieval storage from the local corpus to Postgres/pgvector.
+- Add a real ingestion pipeline for source documents and chunking.
+- Add persistent eval artifacts and regression history.
+- Decide whether Pinecone is needed after pgvector baseline testing.
+- Reintroduce auth only when a protected educator workflow is implemented.
+- Expand multilingual behavior only with source coverage and evaluation.
 
 ## Repository Topics
 
