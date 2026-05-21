@@ -1,21 +1,32 @@
-![Screenshot](/public/yachaybot.png)
+# YachayBot v2
 
-> **v2 rebuild note:** YachayBot is being rebuilt as a source-grounded AI search system for public Peruvian cultural and educational resources. The v2 architecture separates the Next.js web app, FastAPI backend, source corpus, migrations, evals, and documentation. See [`docs/architecture.md`](docs/architecture.md) and the v2 skeleton directories: [`web/`](web/), [`api/`](api/), [`data/`](data/), [`evals/`](evals/), and [`migrations/`](migrations/).
+YachayBot v2 rebuilds a hackathon chatbot into an evidence-first AI search prototype for public Peruvian cultural and educational resources.
 
-## YachayBot v2 MVP
+The product goal is simple: a user should be able to ask a question, inspect retrieved source cards, read a source-grounded answer with citations, and understand when the system does not have enough evidence.
 
-The current branch includes a local, inspectable vertical slice for the v2 rebuild:
+## MVP Features
 
-- search-first homepage
-- source cards with metadata, snippets, rights notes, and URLs
+- Search-first homepage
+- Source cards with snippets, metadata, rights notes, and URLs
 - `/sources` browser with filters for language, topic, and source type
+- `/evals` dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency
 - `/api/v1/documents`
 - `/api/v1/search`
 - `/api/v1/answers`
 - `/api/v1/evals/runs`
-- `/evals` dashboard for top-3 hit rate, top-5 hit rate, refusal pass rate, and latency
+- Local corpus with 15 public or official sources and 5 curated project notes
+- Deterministic local retrieval baseline for demo and testing
 
-### Local Setup
+## Demo Evidence
+
+These committed demo images show the intended public review flow:
+
+- [Search-first homepage](public/demo/search-home.svg)
+- [Source cards and citations](public/demo/source-cards.svg)
+- [Sources filtering](public/demo/sources-filtering.svg)
+- [Eval dashboard](public/demo/eval-dashboard.svg)
+
+## Local Setup
 
 ```bash
 npm install
@@ -25,79 +36,89 @@ npm run dev
 
 Then open `http://localhost:3000/es`.
 
-### Validation
+If another app is already using port 3000:
+
+```bash
+npm run dev -- -p 3001
+```
+
+## Validation
 
 ```bash
 npm run lint
 npx tsc --noEmit
+npm test
 npm run build
 ```
 
-The slash-command validation contract also calls `bun run lint`, `bunx tsc --noEmit`, and `bun test`; those require Bun to be installed. This repo does not yet define an `npm test` script.
+The historical slash-command validation contract also calls `bun run lint`, `bunx tsc --noEmit`, and `bun test`; those require Bun to be installed.
 
-### API Overview
+## API Overview
 
-- `GET /api/v1/documents`: returns source records and inspectable chunks
-- `POST /api/v1/search`: accepts `{ "query": "..." }` and returns ranked chunks, latency, language, evidence strength, and a grounded answer preview
-- `POST /api/v1/answers`: accepts `{ "query": "..." }` and returns a source-grounded answer with citations or refusal
-- `GET /api/v1/evals/runs`: returns the local deterministic eval run
+### `GET /api/v1/documents`
 
-### Documentation
+Returns source records and inspectable chunks.
+
+### `POST /api/v1/search`
+
+Accepts:
+
+```json
+{
+  "query": "Que recursos explican educacion intercultural bilingue?",
+  "limit": 5
+}
+```
+
+Returns ranked chunks, source metadata, latency, language, evidence strength, and answer preview.
+
+### `POST /api/v1/answers`
+
+Accepts a query plus reviewed `chunkIds`:
+
+```json
+{
+  "query": "Que recursos explican educacion intercultural bilingue?",
+  "chunkIds": ["chunk-doc-minedu-eib-001"]
+}
+```
+
+Returns an answer generated from those reviewed chunks only, with citations or refusal.
+
+### `GET /api/v1/evals/runs`
+
+Returns the local deterministic eval run and metrics.
+
+## Architecture
+
+- `src/app/[locale]/page.tsx`: search-first homepage
+- `src/components/v2/search-experience.tsx`: API-backed search UI
+- `src/lib/v2-data.ts`: server-side local corpus, retrieval, answer, and eval helpers
+- `src/lib/v2-types.ts`: shared public TypeScript types
+- `src/lib/v2-schemas.ts`: request validation schemas
+- `src/app/api/v1/*`: API routes
+- `src/app/[locale]/sources/page.tsx`: source browser
+- `src/app/[locale]/evals/page.tsx`: eval dashboard
+- `migrations/001_v2_core.sql`: target Postgres/pgvector schema draft
+
+## Documentation
 
 - [Architecture](docs/architecture.md)
 - [Methodology](docs/methodology.md)
 - [Limitations](docs/limitations.md)
 - [Demo script](docs/demo-script.md)
 - [Portfolio summary](docs/portfolio-summary.md)
+- [PRD](.github/PRDs/PRD.md)
 
-<samp>
+## Limitations
 
-<h1>YachayBot - 3rd Place, INFORTELGRAF Perú Hackathon 2025</h1>
+- The current corpus is small and curated for demonstration.
+- Local retrieval uses token overlap, not production vector search.
+- Quechua and Aymara behavior is experimental and source-bound.
+- Curated notes are methodology notes, not primary cultural sources.
+- The app does not claim community validation.
+- The app does not claim zero hallucinations.
 
-<p>
-<strong>YachayBot</strong> is an <strong>AI chatbot</strong> dedicated to preserving and democratizing the ancestral knowledge of Peru's Indigenous peoples — a mission aligned with <strong>SDGs 4 (Quality Education), 9 (Innovation), and 10 (Reduced Inequalities)</strong>. 
-<br><br>
-Built and deployed as a full-stack web application with session-based authentication, it is being rebuilt to support source-grounded search and carefully scoped multilingual interaction.
-</p>
+## Origin
 
-* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ ＊ ¸* . ﹢ ˖ ✦ ¸ . ﹢ ° ¸. ° ˖ ･ ·̩ ｡ ☆ ﾟ 
-<h2>𝙵𝚎𝚊𝚝𝚞𝚛𝚎𝚜</h2>
-
-<ul>
-  <li>
-    <strong>Evidence-first educational search</strong><br>
-    YachayBot v2 is being rebuilt to help users explore public Peruvian cultural and educational resources with visible sources and limitations.
-  </li>
-  <li>
-    <strong>Inspectable retrieval pipeline</strong><br>
-    The v2 roadmap separates ingestion, chunking, embeddings, retrieval, source-grounded answers, citations, and evaluation metrics.
-  </li>
-  <li>
-    <strong>Full-stack rebuild</strong><br>
-    The existing Next.js demo is being extended with a FastAPI backend, documented data model, migrations, and evaluation workflow.
-  </li>
-</ul>
-
-<h2>𝙻𝚒𝚟𝚎 𝙳𝚎𝚖𝚘</h2>
-
-<p>
-🔗 <a href="https://github.com/abigailbrionesa/yachaybot" target="_blank">Explore on GitHub</a><br>
-</p>
-
-<h2>𝚃𝚎𝚌𝚑 𝚂𝚝𝚊𝚌𝚔</h2>
-
-<ul>
-  <li><strong>Frontend:</strong> Next.js (React + TypeScript), Tailwind CSS, Next-Intl (i18n)</li>
-  <li><strong>Backend:</strong> Supabase (PostgreSQL), Prisma ORM, NextAuth.js</li>
-  <li><strong>AI & NLP:</strong> Node.js, LangChain, Hugging Face gte-large, Pinecone Vector DB</li>
-</ul>
-
-<h2>𝙰𝚌𝚔𝚗𝚘𝚠𝚕𝚎𝚍𝚐𝚖𝚎𝚗𝚝𝚜</h2>
-
-<p>
-Deep thanks to <strong>Alberth Jesús Vigo Saldaña</strong> and <strong>Pierina Ramos</strong> for supporting innovation in Peruvian tech. 
-And to the experts who inspire this work — <em>Jeff Barr, Lesly Zerna, Melissa Amado, Narciso Lema, Lennin Cenas Vasquez, and Nicolas Molina Monroy</em> — thank you for openly sharing your wisdom.
-</p>
-
-</samp>
-
+YachayBot began as a hackathon project at INFORTELGRAF Peru 2025. This v2 rebuild keeps the educational motivation while narrowing public claims and making the system's evidence, architecture, and limitations inspectable.

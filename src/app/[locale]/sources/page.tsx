@@ -1,21 +1,32 @@
-"use client";
-
-import { useMemo, useState } from "react";
+import Link from "next/link";
 import { Navbar } from "@/components/global/navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { documents, getChunksForDocument, type LanguageCode, type SourceType } from "@/lib/v2-data";
+import { documents, getChunksForDocument } from "@/lib/v2-data";
+import type { LanguageCode, SourceType } from "@/lib/v2-types";
 
 const languages: Array<"all" | LanguageCode> = ["all", "es", "en", "qu", "ay"];
 const sourceTypes: Array<"all" | SourceType> = ["all", "official", "public", "curated"];
 
-export default function SourcesPage() {
-  const [language, setLanguage] = useState<"all" | LanguageCode>("all");
-  const [sourceType, setSourceType] = useState<"all" | SourceType>("all");
-  const [topic, setTopic] = useState("all");
+interface SourcesPageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+  searchParams: Promise<{
+    language?: string;
+    sourceType?: string;
+    topic?: string;
+  }>;
+}
 
-  const topics = useMemo(() => ["all", ...Array.from(new Set(documents.flatMap((document) => document.topicTags))).sort()], []);
+export default async function SourcesPage({ params, searchParams }: SourcesPageProps) {
+  const { locale } = await params;
+  const filters = await searchParams;
+  const language = toLanguage(filters.language);
+  const sourceType = toSourceType(filters.sourceType);
+  const topic = filters.topic ?? "all";
+  const topics = ["all", ...Array.from(new Set(documents.flatMap((document) => document.topicTags))).sort()];
   const filtered = documents.filter((document) => {
     return (language === "all" || document.language === language)
       && (sourceType === "all" || document.sourceType === sourceType)
@@ -36,18 +47,18 @@ export default function SourcesPage() {
 
         <section className="flex flex-wrap gap-3">
           {languages.map((item) => (
-            <Button key={item} type="button" size="sm" variant={language === item ? "default" : "outline"} onClick={() => setLanguage(item)}>
-              {item}
+            <Button key={item} asChild type="button" size="sm" variant={language === item ? "default" : "outline"}>
+              <Link href={sourceHref(locale, { language: item, sourceType, topic })}>{item}</Link>
             </Button>
           ))}
           {sourceTypes.map((item) => (
-            <Button key={item} type="button" size="sm" variant={sourceType === item ? "default" : "outline"} onClick={() => setSourceType(item)}>
-              {item}
+            <Button key={item} asChild type="button" size="sm" variant={sourceType === item ? "default" : "outline"}>
+              <Link href={sourceHref(locale, { language, sourceType: item, topic })}>{item}</Link>
             </Button>
           ))}
           {topics.map((item) => (
-            <Button key={item} type="button" size="sm" variant={topic === item ? "secondary" : "outline"} onClick={() => setTopic(item)}>
-              {item}
+            <Button key={item} asChild type="button" size="sm" variant={topic === item ? "secondary" : "outline"}>
+              <Link href={sourceHref(locale, { language, sourceType, topic: item })}>{item}</Link>
             </Button>
           ))}
         </section>
@@ -63,7 +74,7 @@ export default function SourcesPage() {
                     <Badge variant={document.sourceType === "curated" ? "secondary" : "outline"}>{document.sourceType}</Badge>
                   </div>
                   <CardTitle>{document.title}</CardTitle>
-                  <CardDescription>{document.institution} · {document.region}</CardDescription>
+                  <CardDescription>{document.institution} - {document.region}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm">
                   <p>{document.summary}</p>
@@ -71,7 +82,9 @@ export default function SourcesPage() {
                     {document.topicTags.map((tag) => <Badge key={tag} variant="outline">{tag}</Badge>)}
                   </div>
                   <p className="text-muted-foreground">{document.rightsNote}</p>
-                  <a className="text-primary underline" href={document.sourceUrl} target="_blank">Open source</a>
+                  <a className="text-primary underline" href={document.sourceUrl} target="_blank">
+                    Open source
+                  </a>
                   <div className="rounded-md border bg-muted/40 p-3">
                     <p className="mb-2 font-medium">Inspectable chunks</p>
                     {chunks.map((chunk) => (
@@ -88,4 +101,22 @@ export default function SourcesPage() {
       </main>
     </>
   );
+}
+
+function toLanguage(value: string | undefined): "all" | LanguageCode {
+  return languages.includes(value as "all" | LanguageCode) ? value as "all" | LanguageCode : "all";
+}
+
+function toSourceType(value: string | undefined): "all" | SourceType {
+  return sourceTypes.includes(value as "all" | SourceType) ? value as "all" | SourceType : "all";
+}
+
+function sourceHref(locale: string, filters: { language: string; sourceType: string; topic: string }) {
+  const params = new URLSearchParams();
+  if (filters.language !== "all") params.set("language", filters.language);
+  if (filters.sourceType !== "all") params.set("sourceType", filters.sourceType);
+  if (filters.topic !== "all") params.set("topic", filters.topic);
+  const query = params.toString();
+  const basePath = `/${locale}/sources`;
+  return query ? `${basePath}?${query}` : basePath;
 }

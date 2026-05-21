@@ -1,78 +1,4 @@
-export type LanguageCode = "es" | "en" | "qu" | "ay";
-export type SourceType = "official" | "public" | "curated";
-export type EvidenceStrength = "strong" | "moderate" | "weak";
-
-export interface V2Document {
-  id: string;
-  title: string;
-  sourceUrl: string;
-  sourceType: SourceType;
-  language: LanguageCode;
-  region: string;
-  institution: string;
-  topicTags: string[];
-  rightsNote: string;
-  summary: string;
-}
-
-export interface V2Chunk {
-  id: string;
-  documentId: string;
-  chunkIndex: number;
-  content: string;
-  topicTags: string[];
-  charCount: number;
-}
-
-export interface SearchResult {
-  chunkId: string;
-  documentId: string;
-  score: number;
-  snippet: string;
-  title: string;
-  language: LanguageCode;
-  topicTags: string[];
-  region: string;
-  institution: string;
-  sourceUrl: string;
-  sourceType: SourceType;
-  rightsNote: string;
-}
-
-export interface AnswerCitation {
-  marker: string;
-  chunkId: string;
-  documentId: string;
-  title: string;
-}
-
-export interface AnswerResult {
-  answer: string;
-  language: LanguageCode;
-  citations: AnswerCitation[];
-  evidenceStrength: EvidenceStrength;
-  refused: boolean;
-}
-
-export interface EvalQuestion {
-  id: string;
-  question: string;
-  language: LanguageCode;
-  expectedDocumentId?: string;
-  shouldRefuse: boolean;
-}
-
-export interface EvalResult {
-  questionId: string;
-  question: string;
-  language: LanguageCode;
-  expectedDocumentId?: string;
-  retrievedDocumentIds: string[];
-  top3Hit: boolean;
-  top5Hit: boolean;
-  refusalPassed: boolean;
-  latencyMs: number;
-}
+import type { AnswerResult, EvalQuestion, EvalResult, EvidenceStrength, LanguageCode, SearchResult, V2Chunk, V2Document } from "./v2-types";
 
 export const documents: V2Document[] = [
   {
@@ -357,6 +283,33 @@ export function getChunksForDocument(documentId: string) {
   return chunks.filter((chunk) => chunk.documentId === documentId);
 }
 
+export function getSearchResultsForChunkIds(chunkIds: string[]): SearchResult[] {
+  return chunkIds
+    .map((chunkId) => {
+      const chunk = chunks.find((item) => item.id === chunkId);
+      if (!chunk) return null;
+
+      const document = getDocumentById(chunk.documentId);
+      if (!document) return null;
+
+      return {
+        chunkId: chunk.id,
+        documentId: document.id,
+        score: 1,
+        snippet: chunk.content,
+        title: document.title,
+        language: document.language,
+        topicTags: document.topicTags,
+        region: document.region,
+        institution: document.institution,
+        sourceUrl: document.sourceUrl,
+        sourceType: document.sourceType,
+        rightsNote: document.rightsNote,
+      } satisfies SearchResult;
+    })
+    .filter((result): result is SearchResult => Boolean(result));
+}
+
 export function searchCorpus(query: string, limit = 5): { results: SearchResult[]; latencyMs: number; language: LanguageCode } {
   const startedAt = Date.now();
   const queryTokens = tokenize(query);
@@ -425,9 +378,11 @@ export function buildAnswer(query: string, results: SearchResult[]): AnswerResul
     title: result.title,
   }));
 
+  const extraSpanish = usable.slice(1).map((item, index) => `${item.title} ${citations[index + 1]?.marker}`).join(", ");
+  const extraEnglish = usable.slice(1).map((item, index) => `${item.title} ${citations[index + 1]?.marker}`).join(", ");
   const answer = language === "es"
-    ? `Segun las fuentes recuperadas, ${usable[0].snippet} ${citations[0].marker} Revise tambien ${usable.slice(1).map((item, index) => `${item.title} ${citations[index + 1]?.marker}`).join(", ")} para comparar contexto.`
-    : `Based on the retrieved sources, ${usable[0].snippet} ${citations[0].marker} Also review ${usable.slice(1).map((item, index) => `${item.title} ${citations[index + 1]?.marker}`).join(", ")} for context.`;
+    ? `Segun las fuentes recuperadas, ${usable[0].snippet} ${citations[0].marker}${extraSpanish ? ` Revise tambien ${extraSpanish} para comparar contexto.` : ""}`
+    : `Based on the retrieved sources, ${usable[0].snippet} ${citations[0].marker}${extraEnglish ? ` Also review ${extraEnglish} for context.` : ""}`;
 
   return { answer, language, citations, evidenceStrength, refused: false };
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Search, BarChart3, BookOpenCheck } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { buildAnswer, classifyEvidence, searchCorpus, type AnswerResult, type SearchResult } from "@/lib/v2-data";
+import type { SearchResponse, SearchResult } from "@/lib/v2-types";
 
 const examples = [
   "Que recursos explican educacion intercultural bilingue?",
@@ -18,10 +18,50 @@ const examples = [
 export function SearchExperience() {
   const [query, setQuery] = useState(examples[0]);
   const [submittedQuery, setSubmittedQuery] = useState(examples[0]);
+  const [search, setSearch] = useState<SearchResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const search = useMemo(() => searchCorpus(submittedQuery, 5), [submittedQuery]);
-  const answer: AnswerResult = useMemo(() => buildAnswer(submittedQuery, search.results), [submittedQuery, search.results]);
-  const evidenceStrength = classifyEvidence(search.results);
+  useEffect(() => {
+    let isActive = true;
+
+    async function runSearch() {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch("/api/v1/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: submittedQuery, limit: 5 }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Search request failed");
+        }
+
+        const payload = await response.json() as SearchResponse;
+        if (isActive) {
+          setSearch(payload);
+        }
+      } catch (searchError) {
+        if (isActive) {
+          setSearch(null);
+          setError(searchError instanceof Error ? searchError.message : "Search request failed");
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    runSearch();
+
+    return () => {
+      isActive = false;
+    };
+  }, [submittedQuery]);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,18 +111,27 @@ export function SearchExperience() {
             <CardHeader>
               <div className="flex flex-wrap items-center gap-2">
                 <CardTitle>Grounded answer</CardTitle>
-                <Badge variant={answer.refused ? "destructive" : "secondary"}>{answer.evidenceStrength} evidence</Badge>
-                <Badge variant="outline">{answer.language}</Badge>
+                {search ? (
+                  <>
+                    <Badge variant={search.answer.refused ? "destructive" : "secondary"}>{search.answer.evidenceStrength} evidence</Badge>
+                    <Badge variant="outline">{search.answer.language}</Badge>
+                  </>
+                ) : null}
               </div>
               <CardDescription>
-                Query latency: {search.latencyMs}ms. Retrieved chunks: {search.results.map((result) => result.chunkId).join(", ") || "none"}.
+                {isLoading ? "Searching indexed sources..." : search ? `Query latency: ${search.latencyMs}ms. Retrieved chunks: ${search.retrievedChunkIds.join(", ") || "none"}.` : "No search response yet."}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-base leading-7">{answer.answer}</p>
-              {answer.citations.length > 0 ? (
+              {error ? <p className="text-sm text-destructive">{error}</p> : null}
+              {isLoading ? <p className="text-sm text-muted-foreground">Loading source-grounded answer...</p> : null}
+              {!isLoading && !error && search?.results.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No source passed the local retrieval threshold.</p>
+              ) : null}
+              {search ? <p className="text-base leading-7">{search.answer.answer}</p> : null}
+              {search?.answer.citations.length ? (
                 <div className="flex flex-wrap gap-2">
-                  {answer.citations.map((citation) => (
+                  {search.answer.citations.map((citation) => (
                     <a key={citation.chunkId} href={`#${citation.chunkId}`}>
                       <Badge variant="outline">{citation.marker} {citation.title}</Badge>
                     </a>
@@ -102,20 +151,24 @@ export function SearchExperience() {
           </div>
         </div>
 
-        <SourceCards results={search.results} evidenceStrength={evidenceStrength} />
+        <SourceCards results={search?.results ?? []} evidenceStrength={search?.evidenceStrength ?? "pending"} isLoading={isLoading} />
       </div>
     </section>
   );
 }
 
-function SourceCards({ results, evidenceStrength }: { results: SearchResult[]; evidenceStrength: string }) {
+function SourceCards({ results, evidenceStrength, isLoading }: { results: SearchResult[]; evidenceStrength: string; isLoading: boolean }) {
   return (
     <aside className="space-y-4">
       <div>
         <h2 className="text-lg font-semibold">Retrieved source cards</h2>
         <p className="text-sm text-muted-foreground">Evidence strength: {evidenceStrength}</p>
       </div>
-      {results.length === 0 ? (
+      {isLoading ? (
+        <Card>
+          <CardContent className="pt-6 text-sm text-muted-foreground">Loading source cards...</CardContent>
+        </Card>
+      ) : results.length === 0 ? (
         <Card>
           <CardContent className="pt-6 text-sm text-muted-foreground">No source passed the local retrieval threshold.</CardContent>
         </Card>

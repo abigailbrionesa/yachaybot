@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 import { buildAnswer, classifyEvidence, searchCorpus } from "@/lib/v2-data";
+import { searchRequestSchema, validationError } from "@/lib/v2-schemas";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
-  const query = typeof body.query === "string" ? body.query : "";
-  const limit = typeof body.limit === "number" ? body.limit : 5;
+  const parsed = searchRequestSchema.safeParse(body);
 
-  if (!query.trim()) {
-    return NextResponse.json({ error: "Query is required" }, { status: 400 });
+  if (!parsed.success) {
+    return NextResponse.json(validationError("Search request is invalid", parsed.error.flatten()), { status: 400 });
   }
 
+  const { query, limit = 5 } = parsed.data;
   const search = searchCorpus(query, limit);
   const answer = buildAnswer(query, search.results);
 

@@ -7,3 +7,10 @@
 5. Navigate to `/sources` and filter by `official`, `curated`, and language.
 6. Navigate to `/evals` and explain top-3 hit rate, top-5 hit rate, refusal pass rate, average latency, and failed cases.
 7. Close with the architecture story: demo chatbot to evidence-first search with documents, chunks, retrieval, citations, and evals.
+
+## Demo Assets
+
+- `/public/demo/search-home.svg`
+- `/public/demo/source-cards.svg`
+- `/public/demo/sources-filtering.svg`
+- `/public/demo/eval-dashboard.svg`
