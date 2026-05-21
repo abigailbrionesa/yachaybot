@@ -2,9 +2,11 @@
 
 Evidence-first AI search for public Peruvian cultural and educational resources.
 
-YachayBot v2 rebuilds a hackathon chatbot into an inspectable RAG-style MVP. A user can ask a question, inspect retrieved source cards, read a grounded answer with citations, and see when the system does not have enough evidence.
+Third place, INFORTELGRAF Peru Hackathon 2025.
 
-The project favors visible sources, honest limitations, and reproducible evaluation over broad AI claims.
+YachayBot began as a hackathon chatbot exploring how AI could widen access to Peruvian cultural and educational knowledge, aligned with SDGs 4, 9, and 10. The v2 rebuild turns that idea into an inspectable RAG-style MVP: a user can ask a question, inspect retrieved source cards, read a grounded answer with citations, and see when the system does not have enough evidence.
+
+The project favors visible sources, honest limitations, and reproducible evaluation over broad AI claims. It is designed as a portfolio-quality demonstration of product judgment, retrieval design, multilingual UX boundaries, and full-stack implementation.
 
 ## MVP Features
 
@@ -20,6 +22,16 @@ The project favors visible sources, honest limitations, and reproducible evaluat
 - Local corpus with 15 public or official sources and 5 curated project notes
 - Deterministic local retrieval baseline for demo and testing
 - Playwright-smoked public flows for search, sources, chat, evals, paused dashboard, mobile nav, and API contracts
+
+## What Changed From The Hackathon Demo
+
+The original project description presented a broad multilingual chatbot, semantic search stack, and full authentication surface. The current v2 project is intentionally narrower and more defensible:
+
+- The public product is source-grounded search and evidence-first chat, not an unrestricted cultural authority.
+- Retrieval is a deterministic local baseline for inspection and tests; vector search with pgvector or Pinecone is future work.
+- Mistral can polish answers only after retrieval finds usable evidence and citation markers are preserved.
+- Quechua and Aymara are experimental and source-bound, not claimed as fully supported conversational languages.
+- Auth and educator workspace flows are paused until there is a protected workflow worth securing.
 
 ## Supported Public Surface
 
@@ -38,6 +50,15 @@ Legacy account flows are paused:
 - `/api/auth/*` returns `503 FEATURE_UNAVAILABLE`
 
 When `MISTRAL_API_KEY` is configured, `/api/chat` can polish grounded answers. Without it, the local evidence-grounded answer is returned. Pinecone credentials are reserved for the later vector-search migration and are not required for the current deterministic MVP.
+
+## Current Tech Stack
+
+- Frontend: Next.js, React, TypeScript, Tailwind CSS, next-intl
+- API: Next.js route handlers for the current MVP; FastAPI boundary documented for a future service split
+- Data and retrieval: local TypeScript corpus, Zod validation, deterministic token-overlap retrieval
+- AI: optional Mistral answer polishing after source-grounded retrieval
+- Evaluation: local retrieval/refusal evals plus Playwright smoke testing
+- Future infrastructure: Postgres/pgvector schema draft and optional Pinecone migration path
 
 ## Repository Tags
 
@@ -168,6 +189,8 @@ Returns the local deterministic eval run and metrics.
 - The app does not claim community validation.
 - The app does not claim zero hallucinations.
 
-## Origin
+## Origin And Acknowledgements
 
-YachayBot began as a hackathon project at INFORTELGRAF Peru 2025. This v2 rebuild keeps the educational motivation while narrowing public claims and making the system's evidence, architecture, and limitations inspectable.
+YachayBot began as a hackathon project at INFORTELGRAF Peru 2025, where it placed third. This v2 rebuild keeps the educational motivation while narrowing public claims and making the system's evidence, architecture, and limitations inspectable.
+
+Thank you to Alberth Jesus Vigo Saldana and Pierina Ramos for supporting innovation in Peruvian tech, and to Jeff Barr, Lesly Zerna, Melissa Amado, Narciso Lema, Lennin Cenas Vasquez, and Nicolas Molina Monroy for openly sharing knowledge that inspires this work.
