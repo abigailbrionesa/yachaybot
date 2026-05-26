@@ -11,6 +11,48 @@ YachayBot is a source-grounded AI search application for exploring public Peruvi
 Built with <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Zod</strong>, and optional <strong>Mistral</strong> answer polishing, the project demonstrates production-minded AI engineering through typed API contracts, deterministic retrieval, citation validation, reproducible tests, and transparent product scope.
 </p>
 
+## How to Review This Repo
+
+<p>
+Start with the reviewer system proof, then inspect the demo evidence, architecture, migration plan, methodology, limitations, eval fixtures, and API boundary docs.
+</p>
+
+<table>
+  <tr>
+    <th>Review need</th>
+    <th>Where to look</th>
+  </tr>
+  <tr>
+    <td>Fast technical path through the system</td>
+    <td><code>docs/system-proof.md</code></td>
+  </tr>
+  <tr>
+    <td>Demo routes, static artifacts, and smoke coverage</td>
+    <td><code>docs/demo-evidence.md</code> and <code>docs/demo-script.md</code></td>
+  </tr>
+  <tr>
+    <td>Architecture and service boundaries</td>
+    <td><code>docs/architecture.md</code> and <code>docs/backend-migration.md</code></td>
+  </tr>
+  <tr>
+    <td>Source-grounding and evaluation approach</td>
+    <td><code>docs/methodology.md</code>, <code>docs/limitations.md</code>, and <code>evals/README.md</code></td>
+  </tr>
+  <tr>
+    <td>FastAPI sidecar boundary</td>
+    <td><code>api/README.md</code></td>
+  </tr>
+</table>
+
+<p>
+Validation commands:
+</p>
+
+<pre><code>npm run evidence:demo
+npm run validate
+cd api
+C:\Users\abiga\AppData\Local\Programs\Python\Python313\python.exe -m pytest</code></pre>
+
 ## Topic Rationale
 
 <p>
@@ -343,6 +385,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
 npm run typecheck
 npm test
 npm run build
+npm run evidence:demo
 npm run validate</code></pre>
 
 <ul>
