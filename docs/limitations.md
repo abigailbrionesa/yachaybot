@@ -6,6 +6,8 @@ Current limitations:
 
 - The corpus is small and curated for demonstration.
 - Local retrieval uses token overlap, not production vector search.
+- Eval v2 is a local benchmark over curated questions; it is stronger than a smoke test but does not prove broad production retrieval quality.
+- Local latency metrics measure deterministic fixture execution, not hosted production latency.
 - Quechua and Aymara behavior is experimental and source-bound.
 - Curated notes are methodology notes, not primary cultural sources.
 - The app does not claim community validation.
@@ -23,6 +25,7 @@ Future work:
 - connect FastAPI to Supabase Postgres with pgvector
 - add real ingestion from public documents
 - add provider-backed embeddings
+- compare deterministic, vector, and hybrid retrieval against Eval v2 before changing default behavior
 - expand unit, Playwright, and accessibility coverage
 - add screenshots and GIFs from a deployed demo
 - connect chat to the future vector retrieval path once pgvector or Pinecone-backed retrieval is ready

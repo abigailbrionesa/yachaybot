@@ -7,7 +7,7 @@ This guide provides a short technical review path for the current YachayBot impl
 1. Start with `README.md` for the product surface, AI/RAG card, validation commands, and API overview.
 2. Review `docs/architecture.md` for the current system contract and service boundaries.
 3. Review `docs/backend-migration.md` for the staged migration from Next.js route handlers to FastAPI-owned retrieval and eval services.
-4. Review `docs/methodology.md` and `docs/limitations.md` for source-grounding rules, evaluation scope, and known boundaries.
+4. Review `docs/methodology.md`, `evals/README.md`, and `docs/limitations.md` for source-grounding rules, evaluation scope, metrics, and known boundaries.
 5. Review `docs/demo-script.md` and `docs/demo-evidence.md` for the public demo path and available proof artifacts.
 
 ## Current System Contract
@@ -24,7 +24,7 @@ The public application behavior remains in Next.js route handlers. FastAPI is pr
 | Source browser | Inspectable records with metadata and filters | `src/app/[locale]/sources/page.tsx`, `src/app/api/v1/documents/route.ts` |
 | Grounded answers | Retrieved chunks are converted into cited answer previews | `src/lib/v2-data.ts`, `src/app/api/v1/answers/route.ts` |
 | Chat | Evidence-first wrapper over the same retrieval and refusal rules | `src/app/[locale]/ai-bot/page.tsx`, `src/app/api/chat/route.ts` |
-| Evals | Local eval run for retrieval, refusal, citation, and latency checks | `src/app/[locale]/evals/page.tsx`, `src/app/api/v1/evals/runs/route.ts`, `data/evals.json` |
+| Evals | Local Eval v2 benchmark for retrieval, refusal, citation, and latency checks | `src/app/[locale]/evals/page.tsx`, `src/app/api/v1/evals/runs/route.ts`, `data/evals.json`, `evals/README.md` |
 | FastAPI search | Sidecar deterministic search parity over the shared corpus | `api/app/main.py`, `api/app/search.py` |
 | FastAPI evals | Sidecar eval-run parity over the shared eval set | `api/app/evals.py` |
 | Retrieval comparison | Experimental deterministic-versus-pgvector comparison endpoint | `api/app/retrieval_compare.py` |
@@ -55,6 +55,10 @@ The public application behavior remains in Next.js route handlers. FastAPI is pr
 
 ```powershell
 npm run validate
+```
+
+```powershell
+npm run eval:run
 ```
 
 ```powershell

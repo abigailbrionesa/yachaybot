@@ -33,15 +33,34 @@ Weak evidence triggers refusal behavior rather than a confident answer.
 
 ## Evaluation
 
-The deterministic eval run includes factual questions with expected source IDs, unsupported requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks. Metrics are:
+The deterministic eval run includes factual questions with expected source IDs, acceptable source sets, paraphrases, typo/noisy queries, mixed-language prompts, source-confusion cases, hard negatives, unsupported requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks.
 
+Eval layers:
+
+- Regression evals protect the current deterministic MVP behavior.
+- Retrieval-quality benchmark evals make harder retrieval, refusal, citation, and latency behavior inspectable.
+- Future retriever comparison evals should reuse the benchmark to compare deterministic, vector, and hybrid retrieval.
+
+Metrics are:
+
+- top-1 hit rate
 - top-3 hit rate
 - top-5 hit rate
+- mean reciprocal rank
+- precision@3
+- recall@5
 - refusal pass rate
+- refusal false positive rate
+- refusal false negative rate
 - citation pass rate
+- citation coverage
 - average latency
+- latency p50
+- latency p95
 
 These metrics verify the local corpus, deterministic retrieval baseline, refusal behavior, and citation behavior. They do not claim broad production accuracy, cultural authority, or community validation.
+
+Generate a local artifact with `npm run eval:run`. Generated JSON artifacts are written to `evals/runs/` and ignored by git unless intentionally promoted as documentation evidence.
 
 ## Browser QA
 
