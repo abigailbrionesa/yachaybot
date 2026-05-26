@@ -4,6 +4,12 @@
 
 Add a reviewer-facing proof layer that makes YachayBot's current system behavior easy to inspect. The work should connect the README, architecture docs, demo evidence, validation commands, and API boundaries into a short review path for technical readers.
 
+## Audit Basis
+
+This PRD is based on a repository audit of the current Next.js public routes, shared retrieval and evaluation logic, FastAPI sidecar endpoints, data fixtures, validation scripts, architecture documentation, methodology documentation, limitation documentation, migration schema, and demo assets.
+
+The audit confirms that the repository contains stronger implementation evidence than the current review navigation exposes. The product surface, service boundary, fallback behavior, experimental retrieval path, and validation commands should be connected through a concise review layer.
+
 ## Problem
 
 YachayBot now includes deterministic retrieval, source-grounded answers, evals, FastAPI parity endpoints, fallback behavior, and an experimental pgvector comparison path. The implementation is stronger than the current review path. A technical reviewer can inspect the pieces, but the repository does not yet provide a concise, ordered way to verify the system.
@@ -49,6 +55,12 @@ YachayBot now includes deterministic retrieval, source-grounded answers, evals, 
 - Add a "How to Review This Repo" section near the top of the README.
 - Link to the system proof, demo evidence, architecture, backend migration, methodology, limitations, evals, and API docs.
 - Include exact validation commands for both Next.js and FastAPI paths.
+
+## Issue Breakdown
+
+- Issue 45: add the reviewer-facing system proof guide.
+- Issue 46: add the demo evidence manifest and verification script.
+- Issue 47: add the README review path and validation index.
 
 ## Acceptance Criteria
 
