@@ -18,7 +18,7 @@ I built YachayBot around one principle: AI education tools are only useful when 
 </p>
 
 <p>
-For a SWE + AI portfolio, YachayBot showcases end-to-end engineering judgment: product scope, retrieval design, API validation, model-output constraints, evaluation metrics, browser-tested flows, and user-facing polish.
+YachayBot showcases end-to-end product and engineering scope: retrieval design, API validation, model-output constraints, evaluation metrics, browser-tested flows, and user-facing polish.
 </p>
 
 ## 𝙷𝚒𝚐𝚑𝚕𝚒𝚐𝚑𝚝𝚜
@@ -280,6 +280,15 @@ If port 3000 is busy:
 The deterministic search and evaluation flows work without Mistral or Pinecone credentials.
 </p>
 
+## Reproducible Runtime
+
+<pre><code>docker build -t yachaybot .
+docker run --rm -p 3000:3000 yachaybot</code></pre>
+
+<p>
+The Docker runtime serves the deterministic MVP without optional provider credentials. Mistral, Pinecone, and hosted database variables are reserved for optional or future paths.
+</p>
+
 ## 𝙰𝙿𝙸 𝙾𝚟𝚎𝚛𝚟𝚒𝚎𝚠
 
 <ul>
@@ -312,12 +321,13 @@ The deterministic search and evaluation flows work without Mistral or Pinecone c
 ## 𝚅𝚊𝚕𝚒𝚍𝚊𝚝𝚒𝚘𝚗
 
 <pre><code>npm run lint
-npx tsc --noEmit
+npm run typecheck
 npm test
-npm run build</code></pre>
+npm run build
+npm run validate</code></pre>
 
 <ul>
-  <li>20 TypeScript tests</li>
+  <li>TypeScript route and data tests</li>
   <li>Invalid API payload tests</li>
   <li>Search and answer behavior tests</li>
   <li>Mistral citation acceptance and rejection tests</li>
@@ -325,16 +335,25 @@ npm run build</code></pre>
   <li>Eval run API tests</li>
   <li>Chat rate-limiting tests</li>
   <li>Production Next.js build</li>
+  <li>GitHub Actions CI on pull requests and pushes to <code>main</code></li>
 </ul>
+
+<p>
+To smoke-test public demo routes against a running app:
+</p>
+
+<pre><code>npm run build
+npm run start
+npm run smoke:public</code></pre>
+
+<p>
+Set <code>SMOKE_BASE_URL</code> to test a non-default host.
+</p>
 
 ## 𝚁𝚎𝚌𝚘𝚐𝚗𝚒𝚝𝚒𝚘𝚗
 
 <p>
 YachayBot placed third at <strong>INFORTELGRAF Peru Hackathon 2025</strong>. The project is aligned with educational access, responsible AI, and public-interest technology.
-</p>
-
-<p>
-Built by <strong>Abigail Briones</strong> as a SWE + AI portfolio project focused on source-grounded AI systems, multilingual product boundaries, and culturally mindful educational tooling.
 </p>
 
 </samp>

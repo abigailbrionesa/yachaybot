@@ -37,8 +37,20 @@ test("buildAnswer cites reviewed chunks", () => {
 test("runEval calculates retrieval and refusal metrics", () => {
   const run = runEval();
 
-  assert.equal(run.results.length, 10);
+  assert.ok(run.results.length >= 15);
   assert.ok(run.metrics.top5HitRate >= 0);
   assert.ok(run.metrics.refusalPassRate >= 0);
+  assert.ok(run.metrics.citationPassRate >= 0);
   assert.ok(Number.isFinite(run.metrics.averageLatencyMs));
+});
+
+test("runEval includes harder unsupported and multilingual boundary cases", () => {
+  const run = runEval();
+  const categories = new Set(run.results.map((result) => result.category));
+
+  assert.ok(categories.has("unsupported"));
+  assert.ok(categories.has("ambiguous"));
+  assert.ok(categories.has("multilingual-boundary"));
+  assert.ok(categories.has("off-topic"));
+  assert.ok(run.results.some((result) => result.citationMarkers.length > 0));
 });

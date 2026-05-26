@@ -11,6 +11,7 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first, sou
 - Legacy sign-in, credentials login, and catch-all auth routes are paused for the v2 MVP.
 - Dashboard routes show a paused educator-workspace message instead of depending on live session state.
 - Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
+- The FastAPI directory is a service-boundary scaffold. Current runnable search, chat, and eval behavior remains in Next.js API routes.
 
 ## Target State
 
@@ -22,6 +23,8 @@ The v2 system separates product surfaces from AI/search behavior:
 - `migrations/` owns v2 database migrations for Postgres and pgvector.
 - `evals/` owns evaluation question sets and run artifacts.
 - `docs/` owns architecture, methodology, limitations, and ADRs.
+
+See `docs/backend-migration.md` for the staged migration plan from the current deterministic MVP to a service-backed retrieval and eval architecture.
 
 ## Request Flow
 

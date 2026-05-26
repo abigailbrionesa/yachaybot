@@ -18,9 +18,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
     "prisma-generate": "prisma generate",
-    "test": "tsx --test src/**/*.test.ts"
+    "test": "tsx --test src/**/*.test.ts",
+    "smoke:public": "node scripts/smoke-public.mjs",
+    "validate": "npm run prisma-generate && npm run lint && npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

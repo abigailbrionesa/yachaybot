@@ -33,13 +33,18 @@ Weak evidence triggers refusal behavior rather than a confident answer.
 
 ## Evaluation
 
-The first eval run includes factual questions with expected source IDs and refusal questions. Metrics are:
+The deterministic eval run includes factual questions with expected source IDs, unsupported requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks. Metrics are:
 
 - top-3 hit rate
 - top-5 hit rate
 - refusal pass rate
+- citation pass rate
 - average latency
+
+These metrics verify the local corpus, deterministic retrieval baseline, refusal behavior, and citation behavior. They do not claim broad production accuracy, cultural authority, or community validation.
 
 ## Browser QA
 
 The current MVP has been smoke-tested with Playwright against the local Next.js app. The smoke path covers search, sources, chat, evals, the paused dashboard, auth/eval API contracts, and mobile navigation. This is not a full accessibility audit, but it does verify the main public demo flows in a real browser.
+
+The repository also includes `npm run smoke:public` for lightweight checks against a running app. Set `SMOKE_BASE_URL` to target a non-default host.

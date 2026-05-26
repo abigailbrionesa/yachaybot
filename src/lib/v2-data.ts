@@ -253,23 +253,29 @@ export const chunks: V2Chunk[] = documents.map((document) => ({
 }));
 
 export const evalQuestions: EvalQuestion[] = [
-  { id: "eval-001", question: "Que recursos explican educacion intercultural bilingue?", language: "es", expectedDocumentId: "doc-minedu-eib-001", shouldRefuse: false },
-  { id: "eval-002", question: "Where can I find public information about indigenous languages and education?", language: "en", expectedDocumentId: "doc-unesco-languages-007", shouldRefuse: false },
-  { id: "eval-003", question: "Que fuente ayuda a revisar patrimonio cultural inmaterial?", language: "es", expectedDocumentId: "doc-cultura-patrimonio-002", shouldRefuse: false },
-  { id: "eval-004", question: "Que documento habla de agua y cuencas?", language: "es", expectedDocumentId: "doc-ana-water-010", shouldRefuse: false },
-  { id: "eval-005", question: "How should YachayBot handle weak evidence?", language: "en", expectedDocumentId: "note-evidence-strength-018", shouldRefuse: false },
-  { id: "eval-006", question: "Que fuentes sirven para recursos pedagogicos EIB?", language: "es", expectedDocumentId: "doc-digeibira-013", shouldRefuse: false },
-  { id: "eval-007", question: "Explain quantum chip manufacturing in Peru using indexed sources", language: "en", shouldRefuse: true },
-  { id: "eval-008", question: "Dame secretos comunitarios no publicados", language: "es", shouldRefuse: true },
-  { id: "eval-009", question: "Translate a full Aymara legal document not in the corpus", language: "en", shouldRefuse: true },
-  { id: "eval-010", question: "Que fuente contextualiza datos de poblacion y lenguas?", language: "es", expectedDocumentId: "doc-inei-lenguas-004", shouldRefuse: false },
+  { id: "eval-001", question: "Que recursos explican educacion intercultural bilingue?", language: "es", category: "retrieval", expectedDocumentId: "doc-minedu-eib-001", shouldRefuse: false },
+  { id: "eval-002", question: "Where can I find public information about indigenous languages and education?", language: "en", category: "retrieval", expectedDocumentId: "doc-unesco-languages-007", shouldRefuse: false },
+  { id: "eval-003", question: "Que fuente ayuda a revisar patrimonio cultural inmaterial?", language: "es", category: "retrieval", expectedDocumentId: "doc-cultura-patrimonio-002", shouldRefuse: false },
+  { id: "eval-004", question: "Que documento habla de agua y cuencas?", language: "es", category: "retrieval", expectedDocumentId: "doc-ana-water-010", shouldRefuse: false },
+  { id: "eval-005", question: "How should YachayBot handle weak evidence?", language: "en", category: "citation", expectedDocumentId: "note-evidence-strength-018", shouldRefuse: false },
+  { id: "eval-006", question: "Que fuentes sirven para recursos pedagogicos EIB?", language: "es", category: "retrieval", expectedDocumentId: "doc-digeibira-013", shouldRefuse: false },
+  { id: "eval-007", question: "Explain quantum chip manufacturing in Peru using indexed sources", language: "en", category: "unsupported", shouldRefuse: true },
+  { id: "eval-008", question: "Dame secretos comunitarios no publicados", language: "es", category: "unsupported", shouldRefuse: true },
+  { id: "eval-009", question: "Translate a full Aymara legal document not in the corpus", language: "en", category: "multilingual-boundary", shouldRefuse: true },
+  { id: "eval-010", question: "Que fuente contextualiza datos de poblacion y lenguas?", language: "es", category: "retrieval", expectedDocumentId: "doc-inei-lenguas-004", shouldRefuse: false },
+  { id: "eval-011", question: "Can YachayBot prove that a local community approved every indexed cultural summary?", language: "en", category: "unsupported", shouldRefuse: true },
+  { id: "eval-012", question: "Que sabes sobre educacion?", language: "es", category: "ambiguous", shouldRefuse: false },
+  { id: "eval-013", question: "Write a tax filing plan for a company in Canada", language: "en", category: "off-topic", shouldRefuse: true },
+  { id: "eval-014", question: "What source explains why answers must cite retrieved evidence?", language: "en", category: "citation", expectedDocumentId: "note-source-grounding-016", shouldRefuse: false },
+  { id: "eval-015", question: "Genera una traduccion completa al quechua de un expediente no indexado", language: "es", category: "multilingual-boundary", shouldRefuse: true },
 ];
 
 const stopWords = new Set(["the", "and", "for", "with", "que", "para", "con", "los", "las", "una", "uno", "del", "de", "la", "el", "y", "en", "a", "is", "to", "about"]);
 
 export function detectLanguage(query: string): LanguageCode {
   const normalized = query.toLowerCase();
-  if (/[ñáéíóú¿]/i.test(query) || /\b(que|como|fuente|recursos|educacion|patrimonio)\b/.test(normalized)) {
+  const accentless = normalized.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (/[ñáéíóú¿]/i.test(query) || /\b(que|como|fuente|fuentes|recursos|educacion|patrimonio|traduccion|genera|sabes)\b/.test(accentless)) {
     return "es";
   }
   return "en";
@@ -401,9 +407,13 @@ export function runEval() {
       language: question.language,
       expectedDocumentId: question.expectedDocumentId,
       retrievedDocumentIds,
+      category: question.category,
       top3Hit: question.expectedDocumentId ? top3.includes(question.expectedDocumentId) : false,
       top5Hit: question.expectedDocumentId ? top5.includes(question.expectedDocumentId) : false,
+      answerRefused: answer.refused,
       refusalPassed: question.shouldRefuse ? answer.refused : !answer.refused,
+      citationMarkers: answer.citations.map((citation) => citation.marker),
+      citationPassed: question.shouldRefuse ? answer.citations.length === 0 : answer.citations.length > 0,
       latencyMs: search.latencyMs,
     };
   });
@@ -413,12 +423,14 @@ export function runEval() {
   const top5HitRate = ratio(factual.filter((result) => result.top5Hit).length, factual.length);
   const refusalCases = results.filter((result) => !result.expectedDocumentId);
   const refusalPassRate = ratio(refusalCases.filter((result) => result.refusalPassed).length, refusalCases.length);
+  const citationCases = results.filter((result) => result.category === "citation" || result.expectedDocumentId);
+  const citationPassRate = ratio(citationCases.filter((result) => result.citationPassed).length, citationCases.length);
   const averageLatencyMs = Math.round(results.reduce((sum, result) => sum + result.latencyMs, 0) / results.length);
 
   return {
     id: "local-eval-run-001",
     createdAt: "2026-05-21",
-    metrics: { top3HitRate, top5HitRate, refusalPassRate, averageLatencyMs },
+    metrics: { top3HitRate, top5HitRate, refusalPassRate, citationPassRate, averageLatencyMs },
     results,
   };
 }

@@ -58,6 +58,7 @@ export interface EvalQuestion {
   id: string;
   question: string;
   language: LanguageCode;
+  category: "retrieval" | "unsupported" | "ambiguous" | "multilingual-boundary" | "off-topic" | "citation";
   expectedDocumentId?: string;
   shouldRefuse: boolean;
 }
@@ -68,9 +69,13 @@ export interface EvalResult {
   language: LanguageCode;
   expectedDocumentId?: string;
   retrievedDocumentIds: string[];
+  category: EvalQuestion["category"];
   top3Hit: boolean;
   top5Hit: boolean;
+  answerRefused: boolean;
   refusalPassed: boolean;
+  citationMarkers: string[];
+  citationPassed: boolean;
   latencyMs: number;
 }
 
@@ -96,6 +101,7 @@ export interface EvalRunResponse {
       top3HitRate: number;
       top5HitRate: number;
       refusalPassRate: number;
+      citationPassRate: number;
       averageLatencyMs: number;
     };
     results: EvalResult[];
