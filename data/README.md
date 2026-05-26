@@ -2,6 +2,8 @@
 
 This directory owns source metadata and corpus files for the v2 rebuild.
 
+`corpus.json` is the shared deterministic corpus used by the Next.js MVP helpers and the FastAPI sidecar search endpoint. Keeping this data outside either runtime makes the later ingestion and pgvector migration easier to verify.
+
 Source records should include:
 
 - title

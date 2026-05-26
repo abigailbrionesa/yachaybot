@@ -11,15 +11,15 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first, sou
 - Legacy sign-in, credentials login, and catch-all auth routes are paused for the v2 MVP.
 - Dashboard routes show a paused educator-workspace message instead of depending on live session state.
 - Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
-- The FastAPI directory is a service-boundary scaffold. Current runnable search, chat, and eval behavior remains in Next.js API routes.
+- FastAPI exposes a sidecar `/v1/search` endpoint with deterministic search and answer parity over the shared corpus. Current public search, chat, and eval behavior remains in Next.js API routes.
 
 ## Target State
 
 The v2 system separates product surfaces from AI/search behavior:
 
 - `web/` documents the Next.js frontend boundary.
-- `api/` owns the FastAPI service for ingestion, retrieval, answer generation, and evals.
-- `data/` owns source metadata and corpus fixtures.
+- `api/` owns the FastAPI service boundary. It currently proves deterministic search parity and will later own ingestion, retrieval, answer generation, and evals.
+- `data/` owns shared source metadata and corpus fixtures.
 - `migrations/` owns v2 database migrations for Postgres and pgvector.
 - `evals/` owns evaluation question sets and run artifacts.
 - `docs/` owns architecture, methodology, limitations, and ADRs.
@@ -30,7 +30,7 @@ See `docs/backend-migration.md` for the staged migration plan from the current d
 
 1. A user submits a question from the search-first web UI.
 2. The web app calls the Next.js v2 API route or the evidence-first chat wrapper.
-3. The current MVP retrieves ranked chunks from the deterministic local corpus.
+3. The current public MVP retrieves ranked chunks from the deterministic shared corpus.
 4. The API returns source cards with snippets and metadata.
 5. If requested, the API generates a grounded answer using retrieved chunks only.
 6. The UI displays the answer, citations, source cards, and evidence strength.
@@ -38,6 +38,7 @@ See `docs/backend-migration.md` for the staged migration plan from the current d
 ## Public Contract
 
 - Search, sources, evals, and chat are supported MVP flows.
+- FastAPI `/v1/search` is a sidecar parity endpoint and is not yet wired into the public UI.
 - Auth and protected educator workspace flows are explicitly paused.
 - Unknown eval run IDs return `404`; the local deterministic run is `local-eval-run-001`.
 - `/api/chat` may use Mistral only after local retrieval and deterministic grounding have produced usable evidence.

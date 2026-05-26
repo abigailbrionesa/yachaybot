@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+.pytest_cache
 
 # next.js
 /.next/
@@ -41,3 +42,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+__pycache__/
+*.egg-info/

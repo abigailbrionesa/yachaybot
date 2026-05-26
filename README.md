@@ -112,7 +112,7 @@ Next.js localized UI
 /api/v1/search              /api/chat
      |                          |
      v                          v
-Inspectable local corpus -> Deterministic retrieval
+Shared corpus JSON -> Deterministic retrieval
                                 |
                                 v
                          Evidence strength check
@@ -157,7 +157,7 @@ Important implementation files:
   </tr>
   <tr>
     <td>Retrieval source</td>
-    <td>Local TypeScript corpus in <code>src/lib/v2-data.ts</code></td>
+    <td>Shared JSON corpus in <code>data/corpus.json</code></td>
   </tr>
   <tr>
     <td>Retrieval method</td>
@@ -235,7 +235,7 @@ These metrics verify the local corpus, deterministic retrieval baseline, refusal
   <li><strong>Frontend:</strong> Next.js, React, TypeScript, Tailwind CSS, next-intl</li>
   <li><strong>API:</strong> Next.js route handlers</li>
   <li><strong>Validation:</strong> Zod request schemas</li>
-  <li><strong>Retrieval:</strong> Local TypeScript corpus with deterministic token-overlap scoring</li>
+  <li><strong>Retrieval:</strong> Shared JSON corpus with deterministic token-overlap scoring</li>
   <li><strong>AI:</strong> Optional Mistral polishing after retrieval and citation checks</li>
   <li><strong>Data Design:</strong> Supabase Postgres and pgvector migration schema</li>
   <li><strong>Testing:</strong> TypeScript unit tests, Next.js build checks, browser smoke testing</li>
@@ -301,6 +301,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
   <li><code>POST /api/v1/answers</code>: generates an answer from reviewed chunks only, or refuses weak evidence.</li>
   <li><code>GET /api/v1/evals/runs</code>: returns the deterministic eval run and metrics.</li>
   <li><code>POST /api/chat</code>: validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral.</li>
+  <li><code>POST /v1/search</code> in the FastAPI sidecar: returns deterministic search and answer-preview parity over the shared corpus.</li>
 </ul>
 
 ## Project Structure
@@ -315,9 +316,9 @@ The Docker runtime serves the deterministic MVP without optional provider creden
 |-- docs/                    # Architecture, methodology, limitations, ADRs
 |-- public/demo/             # Demo SVGs for review
 |-- migrations/              # Postgres/pgvector schema
-|-- data/                    # Curated data notes and source metadata placeholder
+|-- data/                    # Shared corpus, curated data notes, and source metadata
 |-- evals/                   # Evaluation notes
-|-- api/                     # FastAPI service boundary notes
+|-- api/                     # FastAPI service boundary and sidecar search parity
 |-- web/                     # Frontend boundary notes
 `-- prisma/                  # Prisma setup retained for data/client generation
 </pre>

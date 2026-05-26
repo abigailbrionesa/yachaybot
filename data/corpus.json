@@ -1,0 +1,324 @@
+{
+  "documents": [
+    {
+      "id": "doc-minedu-eib-001",
+      "title": "Educacion intercultural bilingue en Peru",
+      "sourceUrl": "https://www.gob.pe/minedu",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Ministerio de Educacion del Peru",
+      "topicTags": [
+        "educacion",
+        "eib",
+        "lenguas"
+      ],
+      "rightsNote": "Fuente publica oficial; revisar terminos del portal original.",
+      "summary": "Marco publico para educacion intercultural bilingue y atencion a diversidad linguistica."
+    },
+    {
+      "id": "doc-cultura-patrimonio-002",
+      "title": "Patrimonio cultural inmaterial del Peru",
+      "sourceUrl": "https://www.gob.pe/cultura",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Ministerio de Cultura del Peru",
+      "topicTags": [
+        "patrimonio",
+        "cultura",
+        "memoria"
+      ],
+      "rightsNote": "Fuente publica oficial; citar el portal institucional.",
+      "summary": "Informacion publica sobre patrimonio cultural y criterios de proteccion."
+    },
+    {
+      "id": "doc-bnp-biblioteca-003",
+      "title": "Biblioteca Nacional del Peru - colecciones digitales",
+      "sourceUrl": "https://www.bnp.gob.pe",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Biblioteca Nacional del Peru",
+      "topicTags": [
+        "biblioteca",
+        "historia",
+        "fuentes"
+      ],
+      "rightsNote": "Catalogo publico; derechos dependen de cada obra.",
+      "summary": "Punto de partida para buscar documentos historicos y educativos digitalizados."
+    },
+    {
+      "id": "doc-inei-lenguas-004",
+      "title": "Datos publicos sobre poblacion y lenguas",
+      "sourceUrl": "https://www.inei.gob.pe",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Instituto Nacional de Estadistica e Informatica",
+      "topicTags": [
+        "estadistica",
+        "lenguas",
+        "poblacion"
+      ],
+      "rightsNote": "Fuente estadistica publica; citar publicacion original.",
+      "summary": "Datos para contextualizar diversidad linguistica y poblacion."
+    },
+    {
+      "id": "doc-sernanp-areas-005",
+      "title": "Areas naturales protegidas y educacion ambiental",
+      "sourceUrl": "https://www.gob.pe/sernanp",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "SERNANP",
+      "topicTags": [
+        "ambiente",
+        "territorio",
+        "educacion"
+      ],
+      "rightsNote": "Fuente publica oficial; citar portal institucional.",
+      "summary": "Material publico sobre areas protegidas y educacion ambiental."
+    },
+    {
+      "id": "doc-minam-clima-006",
+      "title": "Educacion climatica y recursos ambientales",
+      "sourceUrl": "https://www.gob.pe/minam",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Ministerio del Ambiente",
+      "topicTags": [
+        "ambiente",
+        "clima",
+        "educacion"
+      ],
+      "rightsNote": "Fuente publica oficial; citar portal institucional.",
+      "summary": "Recursos para aprendizaje ambiental y cambio climatico."
+    },
+    {
+      "id": "doc-unesco-languages-007",
+      "title": "Indigenous languages and education",
+      "sourceUrl": "https://www.unesco.org",
+      "sourceType": "public",
+      "language": "en",
+      "region": "Global",
+      "institution": "UNESCO",
+      "topicTags": [
+        "languages",
+        "education",
+        "culture"
+      ],
+      "rightsNote": "Public institutional source; cite UNESCO page.",
+      "summary": "International context for language preservation and education."
+    },
+    {
+      "id": "doc-unicef-education-008",
+      "title": "Inclusive education resources",
+      "sourceUrl": "https://www.unicef.org/peru",
+      "sourceType": "public",
+      "language": "en",
+      "region": "Peru",
+      "institution": "UNICEF",
+      "topicTags": [
+        "education",
+        "inclusion",
+        "children"
+      ],
+      "rightsNote": "Public institutional source; cite original resource.",
+      "summary": "Public resources about inclusive learning and educational access."
+    },
+    {
+      "id": "doc-midis-social-009",
+      "title": "Programas sociales y acceso a servicios",
+      "sourceUrl": "https://www.gob.pe/midis",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "MIDIS",
+      "topicTags": [
+        "servicios",
+        "inclusion",
+        "territorio"
+      ],
+      "rightsNote": "Fuente publica oficial; citar portal institucional.",
+      "summary": "Informacion para entender servicios publicos y acceso territorial."
+    },
+    {
+      "id": "doc-ana-water-010",
+      "title": "Cultura del agua y gestion de recursos hidricos",
+      "sourceUrl": "https://www.gob.pe/ana",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "Autoridad Nacional del Agua",
+      "topicTags": [
+        "agua",
+        "ambiente",
+        "territorio"
+      ],
+      "rightsNote": "Fuente publica oficial; citar portal institucional.",
+      "summary": "Recursos sobre agua, cuencas y gestion hidrica."
+    },
+    {
+      "id": "doc-concytec-research-011",
+      "title": "Investigacion, ciencia y tecnologia en Peru",
+      "sourceUrl": "https://www.gob.pe/concytec",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "CONCYTEC",
+      "topicTags": [
+        "investigacion",
+        "ciencia",
+        "educacion"
+      ],
+      "rightsNote": "Fuente publica oficial; revisar terminos del portal.",
+      "summary": "Contexto para ciencia abierta e investigacion educativa."
+    },
+    {
+      "id": "doc-qhapaq-nan-012",
+      "title": "Qhapaq Nan y patrimonio andino",
+      "sourceUrl": "https://qhapaqnan.cultura.pe",
+      "sourceType": "public",
+      "language": "es",
+      "region": "Andes",
+      "institution": "Proyecto Qhapaq Nan",
+      "topicTags": [
+        "patrimonio",
+        "andes",
+        "territorio"
+      ],
+      "rightsNote": "Fuente publica; citar sitio del proyecto.",
+      "summary": "Material publico sobre red vial andina y patrimonio."
+    },
+    {
+      "id": "doc-digeibira-013",
+      "title": "Recursos pedagogicos EIB",
+      "sourceUrl": "https://www.gob.pe/minedu",
+      "sourceType": "official",
+      "language": "es",
+      "region": "Peru",
+      "institution": "DIGEIBIRA",
+      "topicTags": [
+        "eib",
+        "docentes",
+        "recursos"
+      ],
+      "rightsNote": "Fuente publica oficial; citar el material original.",
+      "summary": "Recursos para docentes y aprendizaje intercultural bilingue."
+    },
+    {
+      "id": "doc-archive-education-014",
+      "title": "Open educational archives for Peru research",
+      "sourceUrl": "https://archive.org",
+      "sourceType": "public",
+      "language": "en",
+      "region": "Peru",
+      "institution": "Internet Archive",
+      "topicTags": [
+        "archives",
+        "education",
+        "research"
+      ],
+      "rightsNote": "Public catalog; rights vary by item.",
+      "summary": "Open catalog useful for finding historical educational materials."
+    },
+    {
+      "id": "doc-wikimedia-commons-015",
+      "title": "Public media for Peruvian cultural topics",
+      "sourceUrl": "https://commons.wikimedia.org",
+      "sourceType": "public",
+      "language": "en",
+      "region": "Peru",
+      "institution": "Wikimedia Commons",
+      "topicTags": [
+        "media",
+        "culture",
+        "images"
+      ],
+      "rightsNote": "Open media repository; verify license on each file.",
+      "summary": "Media references for cultural and educational context."
+    },
+    {
+      "id": "note-source-grounding-016",
+      "title": "Curated note: source-grounded answers",
+      "sourceUrl": "data/curated/source-grounding.md",
+      "sourceType": "curated",
+      "language": "en",
+      "region": "Project",
+      "institution": "YachayBot maintainers",
+      "topicTags": [
+        "methodology",
+        "rag",
+        "citations"
+      ],
+      "rightsNote": "Curated project note, not a primary source.",
+      "summary": "Defines how answers should stay inside retrieved evidence."
+    },
+    {
+      "id": "note-language-boundaries-017",
+      "title": "Curated note: multilingual boundaries",
+      "sourceUrl": "data/curated/language-boundaries.md",
+      "sourceType": "curated",
+      "language": "en",
+      "region": "Project",
+      "institution": "YachayBot maintainers",
+      "topicTags": [
+        "languages",
+        "limitations",
+        "safety"
+      ],
+      "rightsNote": "Curated project note, not a primary source.",
+      "summary": "Labels Quechua and Aymara support as experimental and source-bound."
+    },
+    {
+      "id": "note-evidence-strength-018",
+      "title": "Curated note: evidence strength rule",
+      "sourceUrl": "data/curated/evidence-strength.md",
+      "sourceType": "curated",
+      "language": "en",
+      "region": "Project",
+      "institution": "YachayBot maintainers",
+      "topicTags": [
+        "evaluation",
+        "evidence",
+        "retrieval"
+      ],
+      "rightsNote": "Curated project note, not a primary source.",
+      "summary": "Defines a simple strong, moderate, weak evidence scale."
+    },
+    {
+      "id": "note-corpus-selection-019",
+      "title": "Curated note: corpus selection",
+      "sourceUrl": "data/curated/corpus-selection.md",
+      "sourceType": "curated",
+      "language": "en",
+      "region": "Project",
+      "institution": "YachayBot maintainers",
+      "topicTags": [
+        "corpus",
+        "methodology",
+        "rights"
+      ],
+      "rightsNote": "Curated project note, not a primary source.",
+      "summary": "Explains why MVP sources prefer public and official materials."
+    },
+    {
+      "id": "note-eval-method-020",
+      "title": "Curated note: retrieval eval method",
+      "sourceUrl": "data/curated/eval-method.md",
+      "sourceType": "curated",
+      "language": "en",
+      "region": "Project",
+      "institution": "YachayBot maintainers",
+      "topicTags": [
+        "evals",
+        "metrics",
+        "quality"
+      ],
+      "rightsNote": "Curated project note, not a primary source.",
+      "summary": "Defines top-k hit rate, refusal pass rate, and latency checks."
+    }
+  ]
+}

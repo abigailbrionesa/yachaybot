@@ -2,12 +2,12 @@
 
 This directory marks the intended FastAPI service boundary for the v2 rebuild.
 
-The current MVP keeps runnable API behavior inside Next.js route handlers under `src/app/api`. FastAPI remains scaffolding for the later ingestion, retrieval, and eval service split.
+The current public MVP keeps runnable API behavior inside Next.js route handlers under `src/app/api`. FastAPI now provides a sidecar deterministic search parity endpoint for proving the service boundary before the later ingestion, retrieval, and eval service split.
 
 Current implemented behavior:
 
-- Next.js route handlers serve search, answers, documents, chat, and evals.
-- FastAPI exposes only the service scaffold and health endpoint.
+- Next.js route handlers serve public search, answers, documents, chat, and evals.
+- FastAPI exposes the service scaffold, health endpoint, and deterministic `/v1/search` parity endpoint over the shared corpus.
 
 Future behavior is tracked in `docs/backend-migration.md`.
 
