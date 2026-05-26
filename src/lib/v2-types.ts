@@ -81,10 +81,15 @@ export interface EvalResult {
   question: string;
   language: LanguageCode;
   expectedDocumentId?: string;
+  acceptableDocumentIds: string[];
   retrievedDocumentIds: string[];
   category: EvalQuestion["category"];
+  top1Hit: boolean;
   top3Hit: boolean;
   top5Hit: boolean;
+  reciprocalRank: number;
+  precisionAt3: number;
+  recallAt5: number;
   answerRefused: boolean;
   refusalPassed: boolean;
   citationMarkers: string[];
@@ -111,11 +116,20 @@ export interface EvalRunResponse {
     id: string;
     createdAt: string;
     metrics: {
+      top1HitRate: number;
       top3HitRate: number;
       top5HitRate: number;
+      meanReciprocalRank: number;
+      precisionAt3: number;
+      recallAt5: number;
       refusalPassRate: number;
+      refusalFalsePositiveRate: number;
+      refusalFalseNegativeRate: number;
       citationPassRate: number;
+      citationCoverage: number;
       averageLatencyMs: number;
+      p50LatencyMs: number;
+      p95LatencyMs: number;
     };
     results: EvalResult[];
   }>;

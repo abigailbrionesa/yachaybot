@@ -143,18 +143,28 @@ export function runEval() {
     const search = searchCorpus(question.question, 5);
     const retrievedDocumentIds = search.results.map((result) => result.documentId);
     const answer = buildAnswer(question.question, search.results);
+    const acceptableDocumentIds = getAcceptableDocumentIds(question);
+    const top1 = retrievedDocumentIds.slice(0, 1);
     const top3 = retrievedDocumentIds.slice(0, 3);
     const top5 = retrievedDocumentIds.slice(0, 5);
+    const reciprocalRank = getReciprocalRank(retrievedDocumentIds, acceptableDocumentIds);
+    const retrievedTop3Matches = top3.filter((documentId) => acceptableDocumentIds.includes(documentId)).length;
+    const retrievedTop5Matches = top5.filter((documentId) => acceptableDocumentIds.includes(documentId)).length;
 
     return {
       questionId: question.id,
       question: question.question,
       language: question.language,
       expectedDocumentId: question.expectedDocumentId,
+      acceptableDocumentIds,
       retrievedDocumentIds,
       category: question.category,
-      top3Hit: question.expectedDocumentId ? top3.includes(question.expectedDocumentId) : false,
-      top5Hit: question.expectedDocumentId ? top5.includes(question.expectedDocumentId) : false,
+      top1Hit: acceptableDocumentIds.length > 0 ? top1.some((documentId) => acceptableDocumentIds.includes(documentId)) : false,
+      top3Hit: acceptableDocumentIds.length > 0 ? top3.some((documentId) => acceptableDocumentIds.includes(documentId)) : false,
+      top5Hit: acceptableDocumentIds.length > 0 ? top5.some((documentId) => acceptableDocumentIds.includes(documentId)) : false,
+      reciprocalRank,
+      precisionAt3: ratio(retrievedTop3Matches, Math.max(top3.length, 1)),
+      recallAt5: ratio(retrievedTop5Matches, acceptableDocumentIds.length),
       answerRefused: answer.refused,
       refusalPassed: question.shouldRefuse ? answer.refused : !answer.refused,
       citationMarkers: answer.citations.map((citation) => citation.marker),
@@ -163,19 +173,42 @@ export function runEval() {
     };
   });
 
-  const factual = results.filter((result) => result.expectedDocumentId);
+  const factual = results.filter((result) => result.acceptableDocumentIds.length > 0);
+  const shouldAnswerCases = evalQuestions.filter((question) => !question.shouldRefuse);
+  const shouldRefuseCases = evalQuestions.filter((question) => question.shouldRefuse);
   const top3HitRate = ratio(factual.filter((result) => result.top3Hit).length, factual.length);
   const top5HitRate = ratio(factual.filter((result) => result.top5Hit).length, factual.length);
-  const refusalCases = results.filter((result) => !result.expectedDocumentId);
-  const refusalPassRate = ratio(refusalCases.filter((result) => result.refusalPassed).length, refusalCases.length);
-  const citationCases = results.filter((result) => result.category === "citation" || result.expectedDocumentId);
+  const citationCases = results.filter((result) => !evalQuestions.find((question) => question.id === result.questionId)?.shouldRefuse);
+  const latencies = results.map((result) => result.latencyMs);
+
   const citationPassRate = ratio(citationCases.filter((result) => result.citationPassed).length, citationCases.length);
   const averageLatencyMs = Math.round(results.reduce((sum, result) => sum + result.latencyMs, 0) / results.length);
 
   return {
     id: "local-eval-run-001",
     createdAt: "2026-05-21",
-    metrics: { top3HitRate, top5HitRate, refusalPassRate, citationPassRate, averageLatencyMs },
+    metrics: {
+      top1HitRate: ratio(factual.filter((result) => result.top1Hit).length, factual.length),
+      top3HitRate,
+      top5HitRate,
+      meanReciprocalRank: ratio(factual.reduce((sum, result) => sum + result.reciprocalRank, 0), factual.length),
+      precisionAt3: ratio(factual.reduce((sum, result) => sum + result.precisionAt3, 0), factual.length),
+      recallAt5: ratio(factual.reduce((sum, result) => sum + result.recallAt5, 0), factual.length),
+      refusalPassRate: ratio(results.filter((result) => result.refusalPassed).length, results.length),
+      refusalFalsePositiveRate: ratio(
+        results.filter((result) => shouldAnswerCases.some((question) => question.id === result.questionId) && result.answerRefused).length,
+        shouldAnswerCases.length,
+      ),
+      refusalFalseNegativeRate: ratio(
+        results.filter((result) => shouldRefuseCases.some((question) => question.id === result.questionId) && !result.answerRefused).length,
+        shouldRefuseCases.length,
+      ),
+      citationPassRate,
+      citationCoverage: ratio(citationCases.filter((result) => result.citationMarkers.length > 0).length, citationCases.length),
+      averageLatencyMs,
+      p50LatencyMs: percentile(latencies, 50),
+      p95LatencyMs: percentile(latencies, 95),
+    },
     results,
   };
 }
@@ -192,4 +225,20 @@ function tokenize(value: string) {
 
 function ratio(count: number, total: number) {
   return total === 0 ? 0 : Number((count / total).toFixed(2));
+}
+
+function getAcceptableDocumentIds(question: EvalQuestion) {
+  return question.acceptableDocumentIds ?? (question.expectedDocumentId ? [question.expectedDocumentId] : []);
+}
+
+function getReciprocalRank(retrievedDocumentIds: string[], acceptableDocumentIds: string[]) {
+  const index = retrievedDocumentIds.findIndex((documentId) => acceptableDocumentIds.includes(documentId));
+  return index === -1 ? 0 : Number((1 / (index + 1)).toFixed(3));
+}
+
+function percentile(values: number[], percentileValue: number) {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const index = Math.ceil((percentileValue / 100) * sorted.length) - 1;
+  return sorted[Math.max(0, Math.min(index, sorted.length - 1))];
 }
