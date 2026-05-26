@@ -58,9 +58,22 @@ export interface EvalQuestion {
   id: string;
   question: string;
   language: LanguageCode;
-  category: "retrieval" | "unsupported" | "ambiguous" | "multilingual-boundary" | "off-topic" | "citation";
+  category:
+    | "retrieval"
+    | "paraphrase"
+    | "typo-noisy"
+    | "mixed-language"
+    | "source-confusion"
+    | "hard-negative"
+    | "unsupported"
+    | "ambiguous"
+    | "multilingual-boundary"
+    | "off-topic"
+    | "citation";
   expectedDocumentId?: string;
+  acceptableDocumentIds?: string[];
   shouldRefuse: boolean;
+  rationale?: string;
 }
 
 export interface EvalResult {

@@ -8,7 +8,19 @@ from pydantic import BaseModel
 
 from .search import SearchRequest, search
 
-EvalCategory = Literal["retrieval", "unsupported", "ambiguous", "multilingual-boundary", "off-topic", "citation"]
+EvalCategory = Literal[
+    "retrieval",
+    "paraphrase",
+    "typo-noisy",
+    "mixed-language",
+    "source-confusion",
+    "hard-negative",
+    "unsupported",
+    "ambiguous",
+    "multilingual-boundary",
+    "off-topic",
+    "citation",
+]
 LanguageCode = Literal["es", "en", "qu", "ay"]
 
 
@@ -18,7 +30,9 @@ class EvalQuestion(BaseModel):
     language: LanguageCode
     category: EvalCategory
     expectedDocumentId: str | None = None
+    acceptableDocumentIds: list[str] | None = None
     shouldRefuse: bool
+    rationale: str | None = None
 
 
 class EvalResult(BaseModel):

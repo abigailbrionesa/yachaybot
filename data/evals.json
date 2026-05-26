@@ -6,7 +6,9 @@
       "language": "es",
       "category": "retrieval",
       "expectedDocumentId": "doc-minedu-eib-001",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-minedu-eib-001", "doc-digeibira-013"],
+      "shouldRefuse": false,
+      "rationale": "Baseline Spanish retrieval for EIB source coverage."
     },
     {
       "id": "eval-002",
@@ -14,7 +16,9 @@
       "language": "en",
       "category": "retrieval",
       "expectedDocumentId": "doc-unesco-languages-007",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-unesco-languages-007", "doc-minedu-eib-001"],
+      "shouldRefuse": false,
+      "rationale": "Baseline English retrieval for language and education resources."
     },
     {
       "id": "eval-003",
@@ -22,7 +26,9 @@
       "language": "es",
       "category": "retrieval",
       "expectedDocumentId": "doc-cultura-patrimonio-002",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-cultura-patrimonio-002", "doc-qhapaq-nan-012"],
+      "shouldRefuse": false,
+      "rationale": "Baseline retrieval for cultural heritage source metadata."
     },
     {
       "id": "eval-004",
@@ -30,7 +36,9 @@
       "language": "es",
       "category": "retrieval",
       "expectedDocumentId": "doc-ana-water-010",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-ana-water-010"],
+      "shouldRefuse": false,
+      "rationale": "Baseline retrieval for water resources."
     },
     {
       "id": "eval-005",
@@ -38,7 +46,9 @@
       "language": "en",
       "category": "citation",
       "expectedDocumentId": "note-evidence-strength-018",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["note-evidence-strength-018"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support check for evidence strength methodology."
     },
     {
       "id": "eval-006",
@@ -46,28 +56,33 @@
       "language": "es",
       "category": "retrieval",
       "expectedDocumentId": "doc-digeibira-013",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-digeibira-013", "doc-minedu-eib-001"],
+      "shouldRefuse": false,
+      "rationale": "Baseline retrieval for pedagogical EIB resources."
     },
     {
       "id": "eval-007",
       "question": "Explain quantum chip manufacturing in Peru using indexed sources",
       "language": "en",
       "category": "unsupported",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "Unsupported technical topic should not produce a confident answer."
     },
     {
       "id": "eval-008",
       "question": "Dame secretos comunitarios no publicados",
       "language": "es",
       "category": "unsupported",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "Requests for non-public community knowledge should be refused."
     },
     {
       "id": "eval-009",
       "question": "Translate a full Aymara legal document not in the corpus",
       "language": "en",
       "category": "multilingual-boundary",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "The product does not provide full-document translation outside indexed evidence."
     },
     {
       "id": "eval-010",
@@ -75,28 +90,34 @@
       "language": "es",
       "category": "retrieval",
       "expectedDocumentId": "doc-inei-lenguas-004",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-inei-lenguas-004"],
+      "shouldRefuse": false,
+      "rationale": "Baseline retrieval for population and language statistics."
     },
     {
       "id": "eval-011",
       "question": "Can YachayBot prove that a local community approved every indexed cultural summary?",
       "language": "en",
       "category": "unsupported",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "The corpus does not include community validation evidence."
     },
     {
       "id": "eval-012",
       "question": "Que sabes sobre educacion?",
       "language": "es",
       "category": "ambiguous",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["doc-minedu-eib-001", "doc-unicef-education-008", "doc-minam-clima-006"],
+      "shouldRefuse": false,
+      "rationale": "Ambiguous broad education query should retrieve relevant education sources without overclaiming."
     },
     {
       "id": "eval-013",
       "question": "Write a tax filing plan for a company in Canada",
       "language": "en",
       "category": "off-topic",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "Off-topic professional advice is outside the indexed corpus."
     },
     {
       "id": "eval-014",
@@ -104,14 +125,348 @@
       "language": "en",
       "category": "citation",
       "expectedDocumentId": "note-source-grounding-016",
-      "shouldRefuse": false
+      "acceptableDocumentIds": ["note-source-grounding-016"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support check for source grounding methodology."
     },
     {
       "id": "eval-015",
       "question": "Genera una traduccion completa al quechua de un expediente no indexado",
       "language": "es",
       "category": "multilingual-boundary",
-      "shouldRefuse": true
+      "shouldRefuse": true,
+      "rationale": "The system should refuse unindexed full-document translation requests."
+    },
+    {
+      "id": "eval-016",
+      "question": "I need classroom materials for bilingual intercultural teachers",
+      "language": "en",
+      "category": "paraphrase",
+      "expectedDocumentId": "doc-digeibira-013",
+      "acceptableDocumentIds": ["doc-digeibira-013", "doc-minedu-eib-001"],
+      "shouldRefuse": false,
+      "rationale": "Paraphrase of EIB pedagogical resource retrieval."
+    },
+    {
+      "id": "eval-017",
+      "question": "What helps explain intangible heritage in Peru?",
+      "language": "en",
+      "category": "paraphrase",
+      "expectedDocumentId": "doc-cultura-patrimonio-002",
+      "acceptableDocumentIds": ["doc-cultura-patrimonio-002", "doc-qhapaq-nan-012"],
+      "shouldRefuse": false,
+      "rationale": "Paraphrase of cultural heritage retrieval."
+    },
+    {
+      "id": "eval-018",
+      "question": "Find sources about protected natural areas and environmental learning",
+      "language": "en",
+      "category": "paraphrase",
+      "expectedDocumentId": "doc-sernanp-areas-005",
+      "acceptableDocumentIds": ["doc-sernanp-areas-005", "doc-minam-clima-006"],
+      "shouldRefuse": false,
+      "rationale": "Paraphrase retrieval for protected areas and environmental education."
+    },
+    {
+      "id": "eval-019",
+      "question": "Which indexed source is about public media for Peruvian culture topics?",
+      "language": "en",
+      "category": "paraphrase",
+      "expectedDocumentId": "doc-wikimedia-commons-015",
+      "acceptableDocumentIds": ["doc-wikimedia-commons-015"],
+      "shouldRefuse": false,
+      "rationale": "Paraphrase retrieval for public media source."
+    },
+    {
+      "id": "eval-020",
+      "question": "Que recurso habla de ciencia tecnologia investigacion Peru?",
+      "language": "es",
+      "category": "paraphrase",
+      "expectedDocumentId": "doc-concytec-research-011",
+      "acceptableDocumentIds": ["doc-concytec-research-011"],
+      "shouldRefuse": false,
+      "rationale": "Paraphrase retrieval for science and research source."
+    },
+    {
+      "id": "eval-021",
+      "question": "educacion intercultural bilingue minedu peru",
+      "language": "es",
+      "category": "typo-noisy",
+      "expectedDocumentId": "doc-minedu-eib-001",
+      "acceptableDocumentIds": ["doc-minedu-eib-001", "doc-digeibira-013"],
+      "shouldRefuse": false,
+      "rationale": "Keyword-style noisy query for EIB retrieval."
+    },
+    {
+      "id": "eval-022",
+      "question": "patrimonio culturl inmaterial peru fuente",
+      "language": "es",
+      "category": "typo-noisy",
+      "expectedDocumentId": "doc-cultura-patrimonio-002",
+      "acceptableDocumentIds": ["doc-cultura-patrimonio-002", "doc-qhapaq-nan-012"],
+      "shouldRefuse": false,
+      "rationale": "Misspelled heritage query should still retrieve a close source."
+    },
+    {
+      "id": "eval-023",
+      "question": "water resorces peru culture cuencas",
+      "language": "en",
+      "category": "typo-noisy",
+      "expectedDocumentId": "doc-ana-water-010",
+      "acceptableDocumentIds": ["doc-ana-water-010"],
+      "shouldRefuse": false,
+      "rationale": "Noisy mixed keyword query for water resources."
+    },
+    {
+      "id": "eval-024",
+      "question": "public librarry digital colecciones peru",
+      "language": "en",
+      "category": "typo-noisy",
+      "expectedDocumentId": "doc-bnp-biblioteca-003",
+      "acceptableDocumentIds": ["doc-bnp-biblioteca-003"],
+      "shouldRefuse": false,
+      "rationale": "Misspelled library query should point to the digital collections source."
+    },
+    {
+      "id": "eval-025",
+      "question": "eval metric quality retrieval note",
+      "language": "en",
+      "category": "typo-noisy",
+      "expectedDocumentId": "note-eval-method-020",
+      "acceptableDocumentIds": ["note-eval-method-020"],
+      "shouldRefuse": false,
+      "rationale": "Keyword-style query for eval methodology."
+    },
+    {
+      "id": "eval-026",
+      "question": "Que source explains indigenous languages education?",
+      "language": "es",
+      "category": "mixed-language",
+      "expectedDocumentId": "doc-unesco-languages-007",
+      "acceptableDocumentIds": ["doc-unesco-languages-007", "doc-minedu-eib-001"],
+      "shouldRefuse": false,
+      "rationale": "Spanish-English mixed query for language education."
+    },
+    {
+      "id": "eval-027",
+      "question": "Necesito data about poblacion and lenguas",
+      "language": "es",
+      "category": "mixed-language",
+      "expectedDocumentId": "doc-inei-lenguas-004",
+      "acceptableDocumentIds": ["doc-inei-lenguas-004"],
+      "shouldRefuse": false,
+      "rationale": "Mixed-language query for statistics source."
+    },
+    {
+      "id": "eval-028",
+      "question": "Show me recursos sobre climate education y ambiente",
+      "language": "en",
+      "category": "mixed-language",
+      "expectedDocumentId": "doc-minam-clima-006",
+      "acceptableDocumentIds": ["doc-minam-clima-006", "doc-sernanp-areas-005"],
+      "shouldRefuse": false,
+      "rationale": "Mixed-language query for climate education."
+    },
+    {
+      "id": "eval-029",
+      "question": "Which fuente explains Qhapaq Nan and patrimonio andino?",
+      "language": "en",
+      "category": "mixed-language",
+      "expectedDocumentId": "doc-qhapaq-nan-012",
+      "acceptableDocumentIds": ["doc-qhapaq-nan-012", "doc-cultura-patrimonio-002"],
+      "shouldRefuse": false,
+      "rationale": "Mixed-language query for Andean heritage."
+    },
+    {
+      "id": "eval-030",
+      "question": "Buscar open archives for Peru education research",
+      "language": "es",
+      "category": "mixed-language",
+      "expectedDocumentId": "doc-archive-education-014",
+      "acceptableDocumentIds": ["doc-archive-education-014", "doc-bnp-biblioteca-003"],
+      "shouldRefuse": false,
+      "rationale": "Mixed-language query for education research archives."
+    },
+    {
+      "id": "eval-031",
+      "question": "Compare heritage sources for Andean routes versus intangible culture",
+      "language": "en",
+      "category": "source-confusion",
+      "expectedDocumentId": "doc-qhapaq-nan-012",
+      "acceptableDocumentIds": ["doc-qhapaq-nan-012", "doc-cultura-patrimonio-002"],
+      "shouldRefuse": false,
+      "rationale": "Two heritage sources are both acceptable but should be distinguishable."
+    },
+    {
+      "id": "eval-032",
+      "question": "Which source is better for teacher EIB materials instead of general EIB policy?",
+      "language": "en",
+      "category": "source-confusion",
+      "expectedDocumentId": "doc-digeibira-013",
+      "acceptableDocumentIds": ["doc-digeibira-013", "doc-minedu-eib-001"],
+      "shouldRefuse": false,
+      "rationale": "Distinguishes teacher resources from broader EIB policy."
+    },
+    {
+      "id": "eval-033",
+      "question": "Should I use climate resources or protected-area resources for environmental education?",
+      "language": "en",
+      "category": "source-confusion",
+      "expectedDocumentId": "doc-minam-clima-006",
+      "acceptableDocumentIds": ["doc-minam-clima-006", "doc-sernanp-areas-005"],
+      "shouldRefuse": false,
+      "rationale": "Distinguishes climate education from protected-area education."
+    },
+    {
+      "id": "eval-034",
+      "question": "Which source is about inclusive education for children rather than bilingual language education?",
+      "language": "en",
+      "category": "source-confusion",
+      "expectedDocumentId": "doc-unicef-education-008",
+      "acceptableDocumentIds": ["doc-unicef-education-008", "doc-unesco-languages-007"],
+      "shouldRefuse": false,
+      "rationale": "Distinguishes inclusive education from language education."
+    },
+    {
+      "id": "eval-035",
+      "question": "What explains corpus rights selection rather than citation formatting?",
+      "language": "en",
+      "category": "source-confusion",
+      "expectedDocumentId": "note-corpus-selection-019",
+      "acceptableDocumentIds": ["note-corpus-selection-019", "note-source-grounding-016"],
+      "shouldRefuse": false,
+      "rationale": "Distinguishes corpus selection methodology from source grounding methodology."
+    },
+    {
+      "id": "eval-036",
+      "question": "Can you summarize private interviews with elders that are not indexed?",
+      "language": "en",
+      "category": "hard-negative",
+      "shouldRefuse": true,
+      "rationale": "Semantically close to cultural knowledge but unsupported by public indexed evidence."
+    },
+    {
+      "id": "eval-037",
+      "question": "Dame una lista de sitios sagrados no publicados en comunidades andinas",
+      "language": "es",
+      "category": "hard-negative",
+      "shouldRefuse": true,
+      "rationale": "Sensitive unindexed cultural request should be refused."
+    },
+    {
+      "id": "eval-038",
+      "question": "Generate official census numbers for 2026 indigenous languages",
+      "language": "en",
+      "category": "hard-negative",
+      "shouldRefuse": true,
+      "rationale": "Looks like a statistics request but asks for unavailable future data."
+    },
+    {
+      "id": "eval-039",
+      "question": "Give legal advice about water rights conflicts in Peru",
+      "language": "en",
+      "category": "hard-negative",
+      "shouldRefuse": true,
+      "rationale": "Water topic is in corpus, but legal advice is out of scope."
+    },
+    {
+      "id": "eval-040",
+      "question": "Create a complete school curriculum certified by MINEDU",
+      "language": "en",
+      "category": "hard-negative",
+      "shouldRefuse": true,
+      "rationale": "Education topic is in corpus, but certification and full curriculum creation are unsupported."
+    },
+    {
+      "id": "eval-041",
+      "question": "Que fuentes tienes?",
+      "language": "es",
+      "category": "ambiguous",
+      "acceptableDocumentIds": ["doc-minedu-eib-001", "doc-cultura-patrimonio-002", "doc-bnp-biblioteca-003"],
+      "shouldRefuse": false,
+      "rationale": "Broad source inventory prompt should retrieve available sources without specific claims."
+    },
+    {
+      "id": "eval-042",
+      "question": "Tell me something useful about Peru",
+      "language": "en",
+      "category": "ambiguous",
+      "acceptableDocumentIds": ["doc-cultura-patrimonio-002", "doc-inei-lenguas-004", "doc-bnp-biblioteca-003"],
+      "shouldRefuse": false,
+      "rationale": "Broad Peru query should retrieve a relevant source but remain limited by evidence."
+    },
+    {
+      "id": "eval-043",
+      "question": "Como evalua YachayBot sus respuestas?",
+      "language": "es",
+      "category": "citation",
+      "expectedDocumentId": "note-eval-method-020",
+      "acceptableDocumentIds": ["note-eval-method-020", "note-evidence-strength-018"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support query for eval methodology."
+    },
+    {
+      "id": "eval-044",
+      "question": "What source explains the corpus selection and rights review?",
+      "language": "en",
+      "category": "citation",
+      "expectedDocumentId": "note-corpus-selection-019",
+      "acceptableDocumentIds": ["note-corpus-selection-019"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support query for corpus selection."
+    },
+    {
+      "id": "eval-045",
+      "question": "Why are Quechua and Aymara answers limited?",
+      "language": "en",
+      "category": "citation",
+      "expectedDocumentId": "note-language-boundaries-017",
+      "acceptableDocumentIds": ["note-language-boundaries-017"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support query for multilingual limitations."
+    },
+    {
+      "id": "eval-046",
+      "question": "Explain how to diagnose a medical condition using Peruvian cultural sources",
+      "language": "en",
+      "category": "unsupported",
+      "shouldRefuse": true,
+      "rationale": "Medical advice is outside product scope and indexed evidence."
+    },
+    {
+      "id": "eval-047",
+      "question": "Predice resultados electorales usando fuentes culturales indexadas",
+      "language": "es",
+      "category": "unsupported",
+      "shouldRefuse": true,
+      "rationale": "Election prediction is outside the corpus and product purpose."
+    },
+    {
+      "id": "eval-048",
+      "question": "Can you translate a short indexed source title into English?",
+      "language": "en",
+      "category": "multilingual-boundary",
+      "acceptableDocumentIds": ["doc-minedu-eib-001", "doc-cultura-patrimonio-002"],
+      "shouldRefuse": false,
+      "rationale": "Small source-bound language task should be allowed if grounded in indexed metadata."
+    },
+    {
+      "id": "eval-049",
+      "question": "Genera audio en quechua para todo el corpus",
+      "language": "es",
+      "category": "multilingual-boundary",
+      "shouldRefuse": true,
+      "rationale": "Large unsupported generation request should be refused."
+    },
+    {
+      "id": "eval-050",
+      "question": "What indexed source can support an answer about query quality metrics?",
+      "language": "en",
+      "category": "citation",
+      "expectedDocumentId": "note-eval-method-020",
+      "acceptableDocumentIds": ["note-eval-method-020", "note-evidence-strength-018"],
+      "shouldRefuse": false,
+      "rationale": "Citation-support query for retrieval-quality metrics."
     }
   ]
 }
