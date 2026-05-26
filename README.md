@@ -21,7 +21,7 @@ I built YachayBot around one principle: AI education tools are only useful when 
 YachayBot showcases end-to-end product and engineering scope: retrieval design, API validation, model-output constraints, evaluation metrics, browser-tested flows, and user-facing polish.
 </p>
 
-## 𝙷𝚒𝚐𝚑𝚕𝚒𝚐𝚑𝚝𝚜
+## Highlights
 
 <ul>
   <li>
@@ -46,7 +46,7 @@ YachayBot showcases end-to-end product and engineering scope: retrieval design, 
   </li>
 </ul>
 
-## 𝙿𝚛𝚘𝚍𝚞𝚌𝚝 𝚂𝚞𝚛𝚏𝚊𝚌𝚎
+## Product Surface
 
 <table>
   <tr>
@@ -83,7 +83,7 @@ YachayBot showcases end-to-end product and engineering scope: retrieval design, 
 Account and educator workspace routes are intentionally scoped out of the public build. <code>/sign-in</code> and <code>/dashboard</code> show scope pages, while <code>/api/auth/*</code> returns <code>503 FEATURE_UNAVAILABLE</code>. This keeps the project focused on the AI search system instead of presenting unfinished authentication as a feature.
 </p>
 
-## 𝙰𝙸 𝚂𝚢𝚜𝚝𝚎𝚖 𝙳𝚎𝚜𝚒𝚐𝚗
+## AI System Design
 
 <p>
 YachayBot is designed around a simple rule: the answer is not useful unless the evidence is visible.
@@ -100,7 +100,7 @@ YachayBot is designed around a simple rule: the answer is not useful unless the 
   <li>Polished output is accepted only if it preserves known citation markers.</li>
 </ol>
 
-## 𝙰𝚛𝚌𝚑𝚒𝚝𝚎𝚌𝚝𝚞𝚛𝚎
+## Architecture
 
 <pre>
 User question
@@ -144,7 +144,7 @@ Important implementation files:
   <li><code>migrations/001_v2_core.sql</code>: Postgres/pgvector schema design</li>
 </ul>
 
-## 𝙰𝙸 / 𝚁𝙰𝙶 𝙲𝚊𝚛𝚍
+## AI / RAG Card
 
 <table>
   <tr>
@@ -189,7 +189,7 @@ Important implementation files:
   </tr>
 </table>
 
-## 𝙲𝚘𝚛𝚙𝚞𝚜 𝚊𝚗𝚍 𝙴𝚟𝚊𝚕𝚞𝚊𝚝𝚒𝚘𝚗
+## Corpus and Evaluation
 
 <ul>
   <li><strong>15</strong> public or official source records</li>
@@ -199,7 +199,7 @@ Important implementation files:
 </ul>
 
 <p>
-The evaluation set contains 10 questions: factual retrieval checks with expected source IDs, refusal checks for unsupported or unsafe requests, and metrics for retrieval quality and response behavior.
+The evaluation set contains 15 questions: factual retrieval checks with expected source IDs, refusal checks for unsupported or unsafe requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks.
 </p>
 
 <table>
@@ -219,13 +219,17 @@ The evaluation set contains 10 questions: factual retrieval checks with expected
     <td>Refusal pass rate</td>
     <td>1.00</td>
   </tr>
+  <tr>
+    <td>Citation pass rate</td>
+    <td>Tracked in the local eval dashboard</td>
+  </tr>
 </table>
 
 <p>
-These metrics verify the project corpus and refusal rules. They are not presented as broad production accuracy claims.
+These metrics verify the local corpus, deterministic retrieval baseline, refusal behavior, citation behavior, and latency. They are not presented as broad production accuracy claims.
 </p>
 
-## 𝚃𝚎𝚌𝚑 𝚂𝚝𝚊𝚌𝚔
+## Tech Stack
 
 <ul>
   <li><strong>Frontend:</strong> Next.js, React, TypeScript, Tailwind CSS, next-intl</li>
@@ -237,7 +241,7 @@ These metrics verify the project corpus and refusal rules. They are not presente
   <li><strong>Testing:</strong> TypeScript unit tests, Next.js build checks, browser smoke testing</li>
 </ul>
 
-## 𝚀𝚞𝚒𝚌𝚔 𝚂𝚝𝚊𝚛𝚝
+## Quick Start
 
 <pre><code>npm install
 npm run prisma-generate
@@ -253,7 +257,7 @@ If port 3000 is busy:
 
 <pre><code>npm run dev -- -p 3001</code></pre>
 
-## 𝙲𝚘𝚗𝚏𝚒𝚐𝚞𝚛𝚊𝚝𝚒𝚘𝚗
+## Configuration
 
 <pre><code>copy .env.example .env.local</code></pre>
 
@@ -289,7 +293,7 @@ docker run --rm -p 3000:3000 yachaybot</code></pre>
 The Docker runtime serves the deterministic MVP without optional provider credentials. Mistral, Pinecone, and hosted database variables are reserved for optional or future paths.
 </p>
 
-## 𝙰𝙿𝙸 𝙾𝚟𝚎𝚛𝚟𝚒𝚎𝚠
+## API Overview
 
 <ul>
   <li><code>GET /api/v1/documents</code>: returns source records and inspectable chunks.</li>
@@ -299,7 +303,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
   <li><code>POST /api/chat</code>: validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral.</li>
 </ul>
 
-## 𝙿𝚛𝚘𝚓𝚎𝚌𝚝 𝚂𝚝𝚛𝚞𝚌𝚝𝚞𝚛𝚎
+## Project Structure
 
 <pre>
 .
@@ -318,7 +322,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
 `-- prisma/                  # Prisma setup retained for data/client generation
 </pre>
 
-## 𝚅𝚊𝚕𝚒𝚍𝚊𝚝𝚒𝚘𝚗
+## Validation
 
 <pre><code>npm run lint
 npm run typecheck
@@ -350,7 +354,7 @@ npm run smoke:public</code></pre>
 Set <code>SMOKE_BASE_URL</code> to test a non-default host.
 </p>
 
-## 𝚁𝚎𝚌𝚘𝚐𝚗𝚒𝚝𝚒𝚘𝚗
+## Recognition
 
 <p>
 YachayBot placed third at <strong>INFORTELGRAF Peru Hackathon 2025</strong>. The project is aligned with educational access, responsible AI, and public-interest technology.
