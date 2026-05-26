@@ -22,6 +22,7 @@
     "typecheck": "tsc --noEmit",
     "prisma-generate": "prisma generate",
     "test": "tsx --test src/**/*.test.ts",
+    "eval:run": "tsx scripts/write-eval-run.ts",
     "evidence:demo": "node scripts/verify-demo-evidence.mjs",
     "smoke:public": "node scripts/smoke-public.mjs",
     "validate": "npm run prisma-generate && npm run lint && npm run typecheck && npm test && npm run build"
