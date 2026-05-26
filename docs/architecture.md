@@ -38,7 +38,7 @@ See `docs/backend-migration.md` for the staged migration plan from the current d
 ## Public Contract
 
 - Search, sources, evals, and chat are supported MVP flows.
-- FastAPI `/v1/search` is a sidecar parity endpoint and is not yet wired into the public UI.
+- FastAPI `/v1/search` is a sidecar parity endpoint. The public Next.js search route can call it when `YACHAYBOT_SEARCH_SERVICE_URL` is configured and falls back to local deterministic retrieval.
 - Auth and protected educator workspace flows are explicitly paused.
 - Unknown eval run IDs return `404`; the local deterministic run is `local-eval-run-001`.
 - `/api/chat` may use Mistral only after local retrieval and deterministic grounding have produced usable evidence.

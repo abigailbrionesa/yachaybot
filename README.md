@@ -271,6 +271,10 @@ If port 3000 is busy:
     <td>Enables optional answer polishing after source-grounded retrieval</td>
   </tr>
   <tr>
+    <td><code>YACHAYBOT_SEARCH_SERVICE_URL</code></td>
+    <td>Optional FastAPI sidecar base URL for <code>/api/v1/search</code>; local deterministic retrieval is used as fallback</td>
+  </tr>
+  <tr>
     <td><code>PINECONE_API_KEY</code></td>
     <td>Reserved for vector-search migration experiments</td>
   </tr>

@@ -42,6 +42,89 @@ test("/api/v1/search rejects invalid payloads", async () => {
   assert.equal(payload.error.code, "INVALID_REQUEST");
 });
 
+test("/api/v1/search can use configured FastAPI service", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalServiceUrl = process.env.YACHAYBOT_SEARCH_SERVICE_URL;
+
+  process.env.YACHAYBOT_SEARCH_SERVICE_URL = "http://fastapi.test";
+  globalThis.fetch = async () => Response.json({
+    query: "EIB",
+    language: "es",
+    latencyMs: 3,
+    retrievedChunkIds: ["chunk-doc-minedu-eib-001"],
+    evidenceStrength: "moderate",
+    results: [{
+      chunkId: "chunk-doc-minedu-eib-001",
+      documentId: "doc-minedu-eib-001",
+      score: 0.5,
+      snippet: "Service result",
+      title: "Educacion intercultural bilingue en Peru",
+      language: "es",
+      topicTags: ["educacion"],
+      region: "Peru",
+      institution: "Ministerio de Educacion del Peru",
+      sourceUrl: "https://www.gob.pe/minedu",
+      sourceType: "official",
+      rightsNote: "Fuente publica oficial.",
+    }],
+    answer: {
+      answer: "Service answer [1]",
+      language: "es",
+      citations: [{
+        marker: "[1]",
+        chunkId: "chunk-doc-minedu-eib-001",
+        documentId: "doc-minedu-eib-001",
+        title: "Educacion intercultural bilingue en Peru",
+      }],
+      evidenceStrength: "moderate",
+      refused: false,
+    },
+  });
+
+  try {
+    const response = await postSearch(jsonRequest({ query: "EIB", limit: 5 }));
+    const payload = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.answer.answer, "Service answer [1]");
+    assert.deepEqual(payload.retrievedChunkIds, ["chunk-doc-minedu-eib-001"]);
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalServiceUrl) {
+      process.env.YACHAYBOT_SEARCH_SERVICE_URL = originalServiceUrl;
+    } else {
+      delete process.env.YACHAYBOT_SEARCH_SERVICE_URL;
+    }
+  }
+});
+
+test("/api/v1/search falls back when FastAPI service fails", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalServiceUrl = process.env.YACHAYBOT_SEARCH_SERVICE_URL;
+
+  process.env.YACHAYBOT_SEARCH_SERVICE_URL = "http://fastapi.test";
+  globalThis.fetch = async () => new Response("unavailable", { status: 503 });
+
+  try {
+    const response = await postSearch(jsonRequest({
+      query: "Que recursos explican educacion intercultural bilingue?",
+      limit: 5,
+    }));
+    const payload = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.results[0].documentId, "doc-minedu-eib-001");
+    assert.notEqual(payload.answer.answer, "unavailable");
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalServiceUrl) {
+      process.env.YACHAYBOT_SEARCH_SERVICE_URL = originalServiceUrl;
+    } else {
+      delete process.env.YACHAYBOT_SEARCH_SERVICE_URL;
+    }
+  }
+});
+
 test("/api/v1/answers rejects invalid payloads", async () => {
   const response = await postAnswer(jsonRequest({ query: "EIB", chunkIds: [] }));
   const payload = await response.json();

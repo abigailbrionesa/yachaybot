@@ -40,6 +40,8 @@ Verification:
 
 Credential requirement: none for deterministic retrieval.
 
+Status: implemented for search through `YACHAYBOT_SEARCH_SERVICE_URL` with local deterministic fallback.
+
 ## Milestone 4: Eval API Parity
 
 Goal: move eval execution and run retrieval behind the service boundary.

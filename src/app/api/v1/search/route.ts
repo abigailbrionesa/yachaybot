@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildAnswer, classifyEvidence, searchCorpus } from "@/lib/v2-data";
+import { searchWithAdapter } from "@/lib/v2-search-adapter";
 import { searchRequestSchema, validationError } from "@/lib/v2-schemas";
 
 export async function POST(req: Request) {
@@ -11,16 +11,5 @@ export async function POST(req: Request) {
   }
 
   const { query, limit = 5 } = parsed.data;
-  const search = searchCorpus(query, limit);
-  const answer = buildAnswer(query, search.results);
-
-  return NextResponse.json({
-    query,
-    language: search.language,
-    latencyMs: search.latencyMs,
-    retrievedChunkIds: search.results.map((result) => result.chunkId),
-    evidenceStrength: classifyEvidence(search.results),
-    results: search.results,
-    answer,
-  });
+  return NextResponse.json(await searchWithAdapter(query, limit));
 }
