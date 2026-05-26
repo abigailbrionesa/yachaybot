@@ -41,3 +41,28 @@ def test_search_limits_results() -> None:
 
     assert response.status_code == 200
     assert len(payload["results"]) <= 2
+
+
+def test_eval_runs_returns_local_run() -> None:
+    response = client.get("/v1/evals/runs")
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert payload[0]["id"] == "local-eval-run-001"
+    assert "citationPassRate" in payload[0]["metrics"]
+    assert len(payload[0]["results"]) >= 15
+
+
+def test_eval_run_returns_known_run() -> None:
+    response = client.get("/v1/evals/runs/local-eval-run-001")
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert payload["id"] == "local-eval-run-001"
+    assert any(result["category"] == "multilingual-boundary" for result in payload["results"])
+
+
+def test_eval_run_rejects_unknown_run() -> None:
+    response = client.get("/v1/evals/runs/not-real")
+
+    assert response.status_code == 404

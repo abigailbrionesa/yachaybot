@@ -11,14 +11,14 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first, sou
 - Legacy sign-in, credentials login, and catch-all auth routes are paused for the v2 MVP.
 - Dashboard routes show a paused educator-workspace message instead of depending on live session state.
 - Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
-- FastAPI exposes a sidecar `/v1/search` endpoint with deterministic search and answer parity over the shared corpus. Current public search, chat, and eval behavior remains in Next.js API routes.
+- FastAPI exposes sidecar `/v1/search` and `/v1/evals/runs` endpoints with deterministic parity over shared corpus and eval fixtures. Current public search, chat, and eval behavior remains in Next.js API routes.
 
 ## Target State
 
 The v2 system separates product surfaces from AI/search behavior:
 
 - `web/` documents the Next.js frontend boundary.
-- `api/` owns the FastAPI service boundary. It currently proves deterministic search parity and will later own ingestion, retrieval, answer generation, and evals.
+- `api/` owns the FastAPI service boundary. It currently proves deterministic search and eval parity and will later own ingestion, vector retrieval, answer generation, and hosted eval storage.
 - `data/` owns shared source metadata and corpus fixtures.
 - `migrations/` owns v2 database migrations for Postgres and pgvector.
 - `evals/` owns evaluation question sets and run artifacts.

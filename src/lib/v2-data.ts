@@ -1,4 +1,5 @@
 import corpus from "../../data/corpus.json";
+import evals from "../../data/evals.json";
 import type { AnswerResult, EvalQuestion, EvalResult, EvidenceStrength, LanguageCode, SearchResult, V2Chunk, V2Document } from "./v2-types";
 
 export const documents = corpus.documents as V2Document[];
@@ -12,23 +13,7 @@ export const chunks: V2Chunk[] = documents.map((document) => ({
   charCount: `${document.summary} ${document.topicTags.join(" ")}`.length,
 }));
 
-export const evalQuestions: EvalQuestion[] = [
-  { id: "eval-001", question: "Que recursos explican educacion intercultural bilingue?", language: "es", category: "retrieval", expectedDocumentId: "doc-minedu-eib-001", shouldRefuse: false },
-  { id: "eval-002", question: "Where can I find public information about indigenous languages and education?", language: "en", category: "retrieval", expectedDocumentId: "doc-unesco-languages-007", shouldRefuse: false },
-  { id: "eval-003", question: "Que fuente ayuda a revisar patrimonio cultural inmaterial?", language: "es", category: "retrieval", expectedDocumentId: "doc-cultura-patrimonio-002", shouldRefuse: false },
-  { id: "eval-004", question: "Que documento habla de agua y cuencas?", language: "es", category: "retrieval", expectedDocumentId: "doc-ana-water-010", shouldRefuse: false },
-  { id: "eval-005", question: "How should YachayBot handle weak evidence?", language: "en", category: "citation", expectedDocumentId: "note-evidence-strength-018", shouldRefuse: false },
-  { id: "eval-006", question: "Que fuentes sirven para recursos pedagogicos EIB?", language: "es", category: "retrieval", expectedDocumentId: "doc-digeibira-013", shouldRefuse: false },
-  { id: "eval-007", question: "Explain quantum chip manufacturing in Peru using indexed sources", language: "en", category: "unsupported", shouldRefuse: true },
-  { id: "eval-008", question: "Dame secretos comunitarios no publicados", language: "es", category: "unsupported", shouldRefuse: true },
-  { id: "eval-009", question: "Translate a full Aymara legal document not in the corpus", language: "en", category: "multilingual-boundary", shouldRefuse: true },
-  { id: "eval-010", question: "Que fuente contextualiza datos de poblacion y lenguas?", language: "es", category: "retrieval", expectedDocumentId: "doc-inei-lenguas-004", shouldRefuse: false },
-  { id: "eval-011", question: "Can YachayBot prove that a local community approved every indexed cultural summary?", language: "en", category: "unsupported", shouldRefuse: true },
-  { id: "eval-012", question: "Que sabes sobre educacion?", language: "es", category: "ambiguous", shouldRefuse: false },
-  { id: "eval-013", question: "Write a tax filing plan for a company in Canada", language: "en", category: "off-topic", shouldRefuse: true },
-  { id: "eval-014", question: "What source explains why answers must cite retrieved evidence?", language: "en", category: "citation", expectedDocumentId: "note-source-grounding-016", shouldRefuse: false },
-  { id: "eval-015", question: "Genera una traduccion completa al quechua de un expediente no indexado", language: "es", category: "multilingual-boundary", shouldRefuse: true },
-];
+export const evalQuestions = evals.questions as EvalQuestion[];
 
 const stopWords = new Set(["the", "and", "for", "with", "que", "para", "con", "los", "las", "una", "uno", "del", "de", "la", "el", "y", "en", "a", "is", "to", "about"]);
 

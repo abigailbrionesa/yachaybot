@@ -54,6 +54,8 @@ Verification:
 
 Credential requirement: none for deterministic evals.
 
+Status: implemented as sidecar `/v1/evals/runs` and `/v1/evals/runs/{run_id}` endpoints. The public eval dashboard still uses the Next.js route.
+
 ## Milestone 5: Vector Retrieval
 
 Goal: add pgvector-backed retrieval while preserving the current public contracts.

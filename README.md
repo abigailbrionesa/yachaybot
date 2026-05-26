@@ -306,6 +306,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
   <li><code>GET /api/v1/evals/runs</code>: returns the deterministic eval run and metrics.</li>
   <li><code>POST /api/chat</code>: validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral.</li>
   <li><code>POST /v1/search</code> in the FastAPI sidecar: returns deterministic search and answer-preview parity over the shared corpus.</li>
+  <li><code>GET /v1/evals/runs</code> in the FastAPI sidecar: returns deterministic eval-run parity over the shared eval set.</li>
 </ul>
 
 ## Project Structure
