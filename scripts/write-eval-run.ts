@@ -1,25 +1,11 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { documents, runEval } from "../src/lib/v2-data";
+import { buildEvalArtifact } from "../src/lib/v2-eval-artifact";
 
 const retriever = process.env.YACHAYBOT_EVAL_RETRIEVER ?? "deterministic";
-const createdAt = new Date().toISOString();
-const run = runEval();
-const runId = `${createdAt.slice(0, 10)}-${retriever}-${run.id}`;
+const artifact = buildEvalArtifact({ retriever });
 const outputDirectory = path.join(process.cwd(), "evals", "runs");
-const outputPath = path.join(outputDirectory, `${runId}.json`);
-
-const artifact = {
-  id: runId,
-  sourceRunId: run.id,
-  createdAt,
-  retriever,
-  corpus: {
-    documentCount: documents.length,
-  },
-  metrics: run.metrics,
-  results: run.results,
-};
+const outputPath = path.join(outputDirectory, `${artifact.id}.json`);
 
 main().catch((error) => {
   console.error(error);
