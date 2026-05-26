@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
 from .evals import EvalRun, get_eval_run, list_eval_runs
+from .retrieval_compare import RetrievalCompareRequest, RetrievalCompareResponse, compare_retrieval
 from .search import SearchRequest, SearchResponse, search
 
 
@@ -32,3 +33,8 @@ def eval_run_endpoint(run_id: str) -> EvalRun:
     if not run:
         raise HTTPException(status_code=404, detail={"code": "NOT_FOUND", "message": "Eval run not found"})
     return run
+
+
+@app.post("/v1/retrieval/compare", response_model=RetrievalCompareResponse)
+def retrieval_compare_endpoint(payload: RetrievalCompareRequest) -> RetrievalCompareResponse:
+    return compare_retrieval(payload)

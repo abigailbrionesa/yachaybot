@@ -275,6 +275,14 @@ If port 3000 is busy:
     <td>Optional FastAPI sidecar base URL for <code>/api/v1/search</code>; local deterministic retrieval is used as fallback</td>
   </tr>
   <tr>
+    <td><code>YACHAYBOT_PGVECTOR_ENABLED</code></td>
+    <td>Opt-in flag for experimental FastAPI pgvector retrieval comparison</td>
+  </tr>
+  <tr>
+    <td><code>YACHAYBOT_PGVECTOR_DATABASE_URL</code></td>
+    <td>Optional Postgres connection string for experimental pgvector retrieval comparison</td>
+  </tr>
+  <tr>
     <td><code>PINECONE_API_KEY</code></td>
     <td>Reserved for vector-search migration experiments</td>
   </tr>
@@ -285,7 +293,7 @@ If port 3000 is busy:
 </table>
 
 <p>
-The deterministic search and evaluation flows work without Mistral or Pinecone credentials.
+The deterministic search and evaluation flows work without Mistral, Pinecone, or pgvector credentials.
 </p>
 
 ## Reproducible Runtime
@@ -307,6 +315,7 @@ The Docker runtime serves the deterministic MVP without optional provider creden
   <li><code>POST /api/chat</code>: validates chat messages, retrieves from the corpus, builds a cited answer or refusal, and optionally calls Mistral.</li>
   <li><code>POST /v1/search</code> in the FastAPI sidecar: returns deterministic search and answer-preview parity over the shared corpus.</li>
   <li><code>GET /v1/evals/runs</code> in the FastAPI sidecar: returns deterministic eval-run parity over the shared eval set.</li>
+  <li><code>POST /v1/retrieval/compare</code> in the FastAPI sidecar: returns deterministic baseline retrieval plus optional experimental pgvector comparison status/results.</li>
 </ul>
 
 ## Project Structure

@@ -69,6 +69,8 @@ Verification:
 
 Credential requirement: Supabase Postgres with pgvector and an embedding provider for non-local experiments.
 
+Status: experimental comparison slice implemented through FastAPI `/v1/retrieval/compare`. Deterministic retrieval remains the default baseline. The pgvector path is opt-in and returns a graceful status when credentials, dependencies, or query embeddings are missing.
+
 ## Non-Goals
 
 - Replacing the whole application in one migration.

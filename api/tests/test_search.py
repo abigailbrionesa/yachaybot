@@ -66,3 +66,44 @@ def test_eval_run_rejects_unknown_run() -> None:
     response = client.get("/v1/evals/runs/not-real")
 
     assert response.status_code == 404
+
+
+def test_retrieval_compare_returns_baseline_without_pgvector_credentials(monkeypatch) -> None:
+    monkeypatch.delenv("YACHAYBOT_PGVECTOR_ENABLED", raising=False)
+    monkeypatch.delenv("YACHAYBOT_PGVECTOR_DATABASE_URL", raising=False)
+
+    response = client.post(
+        "/v1/retrieval/compare",
+        json={"query": "educacion intercultural bilingue", "limit": 3},
+    )
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert payload["mode"] == "experimental-comparison"
+    assert payload["baseline"][0]["documentId"] == "doc-minedu-eib-001"
+    assert payload["vector"]["status"] == "not_configured"
+    assert payload["vector"]["enabled"] is False
+    assert payload["vector"]["results"] == []
+    assert "Deterministic retrieval remains the default baseline." in payload["notes"]
+
+
+def test_retrieval_compare_requires_embedding_when_pgvector_enabled(monkeypatch) -> None:
+    monkeypatch.setenv("YACHAYBOT_PGVECTOR_ENABLED", "true")
+    monkeypatch.setenv("YACHAYBOT_PGVECTOR_DATABASE_URL", "postgresql://example.invalid/yachaybot")
+
+    response = client.post(
+        "/v1/retrieval/compare",
+        json={"query": "patrimonio cultural", "limit": 2},
+    )
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert len(payload["baseline"]) <= 2
+    assert payload["vector"]["status"] == "missing_embedding"
+    assert payload["vector"]["enabled"] is True
+
+
+def test_retrieval_compare_rejects_empty_query() -> None:
+    response = client.post("/v1/retrieval/compare", json={"query": "", "limit": 3})
+
+    assert response.status_code == 422

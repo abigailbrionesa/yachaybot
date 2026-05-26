@@ -11,7 +11,7 @@ YachayBot v2 rebuilds the original hackathon chatbot into an evidence-first, sou
 - Legacy sign-in, credentials login, and catch-all auth routes are paused for the v2 MVP.
 - Dashboard routes show a paused educator-workspace message instead of depending on live session state.
 - Prisma remains in the repository for future protected workspace work, but auth is not part of the public v2 demo.
-- FastAPI exposes sidecar `/v1/search` and `/v1/evals/runs` endpoints with deterministic parity over shared corpus and eval fixtures. Current public search, chat, and eval behavior remains in Next.js API routes.
+- FastAPI exposes sidecar `/v1/search`, `/v1/evals/runs`, and experimental `/v1/retrieval/compare` endpoints over shared corpus and eval fixtures. Current public search, chat, and eval behavior remains in Next.js API routes.
 
 ## Target State
 
@@ -39,6 +39,7 @@ See `docs/backend-migration.md` for the staged migration plan from the current d
 
 - Search, sources, evals, and chat are supported MVP flows.
 - FastAPI `/v1/search` is a sidecar parity endpoint. The public Next.js search route can call it when `YACHAYBOT_SEARCH_SERVICE_URL` is configured and falls back to local deterministic retrieval.
+- FastAPI `/v1/retrieval/compare` is experimental. It compares deterministic baseline results with pgvector results only when explicitly configured.
 - Auth and protected educator workspace flows are explicitly paused.
 - Unknown eval run IDs return `404`; the local deterministic run is `local-eval-run-001`.
 - `/api/chat` may use Mistral only after local retrieval and deterministic grounding have produced usable evidence.
