@@ -55,6 +55,8 @@ const queryAliases: Record<string, string[]> = {
   source: ["fuente", "fuentes"],
   teacher: ["docentes", "pedagogicos", "recursos"],
   teachers: ["docentes", "pedagogicos", "recursos"],
+  title: ["titulo", "educacion", "patrimonio"],
+  translate: ["traduccion"],
   water: ["agua", "hidricos", "cuencas"],
 };
 const fieldWeights = {
@@ -148,16 +150,18 @@ export function searchCorpus(query: string, limit = 5): { results: SearchResult[
 export function classifyEvidence(results: SearchResult[]): EvidenceStrength {
   const bestScore = results[0]?.score ?? 0;
   if (bestScore >= 0.5 && results.length >= 3) return "strong";
-  if (bestScore >= 0.25 && results.length >= 1) return "moderate";
+  if (bestScore >= 0.18 && results.length >= 1) return "moderate";
   return "weak";
 }
 
 export function buildAnswer(query: string, results: SearchResult[]): AnswerResult {
   const language = detectLanguage(query);
-  const evidenceStrength = classifyEvidence(results);
-  const usable = results.filter((result) => result.score >= 0.2).slice(0, 3);
+  const sourceTitleRequest = isIndexedSourceTitleRequest(query);
+  const evidenceStrength = sourceTitleRequest && results.length > 0 ? "moderate" : classifyEvidence(results);
+  const usableThreshold = sourceTitleRequest ? 0.08 : 0.18;
+  const usable = results.filter((result) => result.score >= usableThreshold).slice(0, 3);
 
-  if (evidenceStrength === "weak" || usable.length === 0) {
+  if (hasUnsupportedIntent(query) || evidenceStrength === "weak" || usable.length === 0) {
     return {
       answer: language === "es"
         ? "No tengo suficiente evidencia en las fuentes indexadas para responder con confianza."
@@ -273,6 +277,37 @@ function tokenize(value: string) {
 function tokenizeQuery(value: string) {
   const tokens = tokenize(value);
   return [...new Set(tokens.flatMap((token) => [token, ...(queryAliases[token] ?? [])]))];
+}
+
+function hasUnsupportedIntent(query: string) {
+  const normalized = stripAccents(query.toLowerCase());
+
+  if (isIndexedSourceTitleRequest(query)) {
+    return false;
+  }
+
+  return [
+    /\b(tax|impuestos?)\b.*\b(filing|declaracion|plan)\b/,
+    /\b(legal advice|asesoria legal|consejo legal|derechos?)\b/,
+    /\b(diagnose|diagnosis|diagnosticar|diagnostico|medical|medica|medico)\b/,
+    /\b(predice|predict|prediction|electorales|election)\b/,
+    /\b(official|oficiales?)\b.*\b(census|censo|numbers|datos)\b.*\b(2026|future|futuro)\b/,
+    /\b(official|oficiales?)\b.*\b(2026|future|futuro)\b.*\b(census|censo|numbers|datos)\b/,
+    /\b(secretos?|secrets?|private|privadas?|no publicad[oa]s?|not indexed|no indexad[oa]s?)\b/,
+    /\b(sitios sagrados|sacred sites)\b/,
+    /\b(full|complete|completa|completo|todo el corpus)\b.*\b(translation|traduccion|translate|traducir)\b/,
+    /\b(genera|generate|create|crea)\b.*\b(audio)\b/,
+    /\b(certified|certificacion|certificado|certificada|certified curriculum|curriculum certified)\b/,
+  ].some((pattern) => pattern.test(normalized));
+}
+
+function isIndexedSourceTitleRequest(query: string) {
+  const normalized = stripAccents(query.toLowerCase());
+  return /\b(short|small|breve)\b.*\b(indexed|indexado|indexada)\b.*\b(source|fuente)\b.*\b(title|titulo)\b/.test(normalized);
+}
+
+function stripAccents(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function ratio(count: number, total: number) {

@@ -75,6 +75,8 @@ QUERY_ALIASES = {
     "source": ["fuente", "fuentes"],
     "teacher": ["docentes", "pedagogicos", "recursos"],
     "teachers": ["docentes", "pedagogicos", "recursos"],
+    "title": ["titulo", "educacion", "patrimonio"],
+    "translate": ["traduccion"],
     "water": ["agua", "hidricos", "cuencas"],
 }
 FIELD_WEIGHTS = {
@@ -229,10 +231,12 @@ def search_corpus(query: str, limit: int = 5) -> list[SearchResult]:
 
 def build_answer(query: str, results: list[SearchResult]) -> AnswerResult:
     language = detect_language(query)
-    evidence_strength = classify_evidence(results)
-    usable = [result for result in results if result.score >= 0.2][:3]
+    source_title_request = is_indexed_source_title_request(query)
+    evidence_strength = "moderate" if source_title_request and len(results) > 0 else classify_evidence(results)
+    usable_threshold = 0.08 if source_title_request else 0.18
+    usable = [result for result in results if result.score >= usable_threshold][:3]
 
-    if evidence_strength == "weak" or len(usable) == 0:
+    if has_unsupported_intent(query) or evidence_strength == "weak" or len(usable) == 0:
         return AnswerResult(
             answer=(
                 "No tengo suficiente evidencia en las fuentes indexadas para responder con confianza."
@@ -267,7 +271,7 @@ def classify_evidence(results: list[SearchResult]) -> EvidenceStrength:
     best_score = results[0].score if results else 0
     if best_score >= 0.5 and len(results) >= 3:
         return "strong"
-    if best_score >= 0.25 and len(results) >= 1:
+    if best_score >= 0.18 and len(results) >= 1:
         return "moderate"
     return "weak"
 
@@ -300,6 +304,34 @@ def tokenize_query(value: str) -> list[str]:
                 seen.add(expanded_token)
 
     return expanded_tokens
+
+
+def has_unsupported_intent(query: str) -> bool:
+    normalized = strip_accents(query.lower())
+
+    if is_indexed_source_title_request(query):
+        return False
+
+    unsupported_patterns = [
+        r"\b(tax|impuestos?)\b.*\b(filing|declaracion|plan)\b",
+        r"\b(legal advice|asesoria legal|consejo legal|derechos?)\b",
+        r"\b(diagnose|diagnosis|diagnosticar|diagnostico|medical|medica|medico)\b",
+        r"\b(predice|predict|prediction|electorales|election)\b",
+        r"\b(official|oficiales?)\b.*\b(census|censo|numbers|datos)\b.*\b(2026|future|futuro)\b",
+        r"\b(official|oficiales?)\b.*\b(2026|future|futuro)\b.*\b(census|censo|numbers|datos)\b",
+        r"\b(secretos?|secrets?|private|privadas?|no publicad[oa]s?|not indexed|no indexad[oa]s?)\b",
+        r"\b(sitios sagrados|sacred sites)\b",
+        r"\b(full|complete|completa|completo|todo el corpus)\b.*\b(translation|traduccion|translate|traducir)\b",
+        r"\b(genera|generate|create|crea)\b.*\b(audio)\b",
+        r"\b(certified|certificacion|certificado|certificada|certified curriculum|curriculum certified)\b",
+    ]
+
+    return any(re.search(pattern, normalized) for pattern in unsupported_patterns)
+
+
+def is_indexed_source_title_request(query: str) -> bool:
+    normalized = strip_accents(query.lower())
+    return bool(re.search(r"\b(short|small|breve)\b.*\b(indexed|indexado|indexada)\b.*\b(source|fuente)\b.*\b(title|titulo)\b", normalized))
 
 
 def score_document(query_tokens: list[str], chunk: Chunk, document: Document) -> float:

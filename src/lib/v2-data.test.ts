@@ -26,6 +26,32 @@ test("buildAnswer refuses weak evidence", () => {
   assert.equal(answer.evidenceStrength, "weak");
 });
 
+test("buildAnswer refuses unsupported intents even when related sources exist", () => {
+  const waterSources = searchCorpus("Give legal advice about water rights conflicts in Peru", 5);
+  const answer = buildAnswer("Give legal advice about water rights conflicts in Peru", waterSources.results);
+
+  assert.equal(answer.refused, true);
+  assert.equal(answer.citations.length, 0);
+});
+
+test("buildAnswer allows grounded citation-support questions", () => {
+  const search = searchCorpus("What indexed source can support an answer about query quality metrics?", 5);
+  const answer = buildAnswer("What indexed source can support an answer about query quality metrics?", search.results);
+
+  assert.equal(search.results[0].documentId, "note-eval-method-020");
+  assert.equal(answer.refused, false);
+  assert.ok(answer.citations.length > 0);
+});
+
+test("buildAnswer allows short indexed source-title translation requests", () => {
+  const search = searchCorpus("Can you translate a short indexed source title into English?", 5);
+  const answer = buildAnswer("Can you translate a short indexed source title into English?", search.results);
+
+  assert.ok(["doc-minedu-eib-001", "doc-cultura-patrimonio-002"].includes(search.results[0].documentId));
+  assert.equal(answer.refused, false);
+  assert.ok(answer.citations.length > 0);
+});
+
 test("buildAnswer cites reviewed chunks", () => {
   const reviewed = getSearchResultsForChunkIds(["chunk-doc-minedu-eib-001"]);
   const answer = buildAnswer("Que recursos explican educacion intercultural bilingue?", reviewed);

@@ -29,6 +29,29 @@ def test_search_refuses_weak_evidence() -> None:
     assert payload["answer"]["citations"] == []
 
 
+def test_search_refuses_unsupported_intent_with_related_sources() -> None:
+    response = client.post("/v1/search", json={"query": "Give legal advice about water rights conflicts in Peru", "limit": 5})
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert payload["results"][0]["documentId"] == "doc-ana-water-010"
+    assert payload["answer"]["refused"] is True
+    assert payload["answer"]["citations"] == []
+
+
+def test_search_answers_grounded_citation_support_question() -> None:
+    response = client.post(
+        "/v1/search",
+        json={"query": "What indexed source can support an answer about query quality metrics?", "limit": 5},
+    )
+    payload = response.json()
+
+    assert response.status_code == 200
+    assert payload["results"][0]["documentId"] == "note-eval-method-020"
+    assert payload["answer"]["refused"] is False
+    assert len(payload["answer"]["citations"]) > 0
+
+
 def test_search_rejects_invalid_request() -> None:
     response = client.post("/v1/search", json={"query": "", "limit": 5})
 
