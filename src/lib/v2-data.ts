@@ -16,6 +16,14 @@ export const chunks: V2Chunk[] = documents.map((document) => ({
 export const evalQuestions = evals.questions as EvalQuestion[];
 
 const stopWords = new Set(["the", "and", "for", "with", "que", "para", "con", "los", "las", "una", "uno", "del", "de", "la", "el", "y", "en", "a", "is", "to", "about"]);
+const fieldWeights = {
+  title: 3,
+  topicTags: 2.5,
+  institution: 1.5,
+  content: 1,
+  region: 0.5,
+};
+const maxFieldWeight = Math.max(...Object.values(fieldWeights));
 
 export function detectLanguage(query: string): LanguageCode {
   const normalized = query.toLowerCase();
@@ -71,9 +79,7 @@ export function searchCorpus(query: string, limit = 5): { results: SearchResult[
       const document = getDocumentById(chunk.documentId);
       if (!document) return null;
 
-      const haystack = tokenize(`${chunk.content} ${document.title} ${document.topicTags.join(" ")} ${document.institution}`);
-      const overlap = queryTokens.filter((token) => haystack.includes(token)).length;
-      const score = queryTokens.length === 0 ? 0 : overlap / queryTokens.length;
+      const score = scoreDocument(queryTokens, chunk, document);
 
       return {
         chunkId: chunk.id,
@@ -225,6 +231,33 @@ function tokenize(value: string) {
 
 function ratio(count: number, total: number) {
   return total === 0 ? 0 : Number((count / total).toFixed(2));
+}
+
+function scoreDocument(queryTokens: string[], chunk: V2Chunk, document: V2Document) {
+  if (queryTokens.length === 0) return 0;
+
+  const fieldTokens = {
+    title: tokenize(document.title),
+    topicTags: tokenize(document.topicTags.join(" ")),
+    institution: tokenize(document.institution),
+    content: tokenize(chunk.content),
+    region: tokenize(document.region),
+  };
+
+  const flatTokens = tokenize(`${chunk.content} ${document.title} ${document.topicTags.join(" ")} ${document.institution}`);
+  const flatOverlapScore = queryTokens.filter((token) => flatTokens.includes(token)).length / queryTokens.length;
+  const weightedScore = queryTokens.reduce((sum, token) => {
+    const bestWeight = Object.entries(fieldTokens).reduce((best, [field, tokens]) => {
+      if (!tokens.includes(token)) return best;
+      return Math.max(best, fieldWeights[field as keyof typeof fieldWeights]);
+    }, 0);
+
+    return sum + bestWeight;
+  }, 0);
+
+  const fieldBoostScore = weightedScore / (queryTokens.length * maxFieldWeight);
+
+  return Math.min(1, flatOverlapScore + fieldBoostScore * 0.25);
 }
 
 function getAcceptableDocumentIds(question: EvalQuestion) {

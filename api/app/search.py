@@ -36,6 +36,14 @@ STOP_WORDS = {
     "to",
     "about",
 }
+FIELD_WEIGHTS = {
+    "title": 3,
+    "topicTags": 2.5,
+    "institution": 1.5,
+    "content": 1,
+    "region": 0.5,
+}
+MAX_FIELD_WEIGHT = max(FIELD_WEIGHTS.values())
 
 
 class SearchRequest(BaseModel):
@@ -152,9 +160,7 @@ def search_corpus(query: str, limit: int = 5) -> list[SearchResult]:
         if not document:
             continue
 
-        haystack = tokenize(f"{chunk.content} {document.title} {' '.join(document.topicTags)} {document.institution}")
-        overlap = len([token for token in query_tokens if token in haystack])
-        score = 0 if len(query_tokens) == 0 else overlap / len(query_tokens)
+        score = score_document(query_tokens, chunk, document)
         rounded_score = round(score, 3)
 
         if rounded_score <= 0:
@@ -240,6 +246,32 @@ def tokenize(value: str) -> list[str]:
     normalized = strip_accents(value.lower())
     cleaned = re.sub(r"[^a-z0-9ñ ]", " ", normalized)
     return [token for token in re.split(r"\s+", cleaned) if len(token) > 2 and token not in STOP_WORDS]
+
+
+def score_document(query_tokens: list[str], chunk: Chunk, document: Document) -> float:
+    if len(query_tokens) == 0:
+        return 0
+
+    field_tokens = {
+        "title": tokenize(document.title),
+        "topicTags": tokenize(" ".join(document.topicTags)),
+        "institution": tokenize(document.institution),
+        "content": tokenize(chunk.content),
+        "region": tokenize(document.region),
+    }
+    flat_tokens = tokenize(f"{chunk.content} {document.title} {' '.join(document.topicTags)} {document.institution}")
+    flat_overlap_score = len([token for token in query_tokens if token in flat_tokens]) / len(query_tokens)
+    weighted_score = 0.0
+
+    for token in query_tokens:
+        token_weight = 0.0
+        for field, tokens in field_tokens.items():
+            if token in tokens:
+                token_weight = max(token_weight, FIELD_WEIGHTS[field])
+        weighted_score += token_weight
+
+    field_boost_score = weighted_score / (len(query_tokens) * MAX_FIELD_WEIGHT)
+    return min(1, flat_overlap_score + field_boost_score * 0.25)
 
 
 def strip_accents(value: str) -> str:

@@ -44,6 +44,13 @@ test("runEval calculates retrieval and refusal metrics", () => {
   assert.ok(Number.isFinite(run.metrics.averageLatencyMs));
 });
 
+test("searchCorpus prioritizes title and topic matches over generic content", () => {
+  const search = searchCorpus("patrimonio andino qhapaq nan", 3);
+
+  assert.equal(search.results[0].documentId, "doc-qhapaq-nan-012");
+  assert.ok(search.results[0].score > search.results[1].score);
+});
+
 test("runEval includes harder unsupported and multilingual boundary cases", () => {
   const run = runEval();
   const categories = new Set(run.results.map((result) => result.category));
