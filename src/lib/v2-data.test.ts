@@ -51,6 +51,24 @@ test("searchCorpus prioritizes title and topic matches over generic content", ()
   assert.ok(search.results[0].score > search.results[1].score);
 });
 
+test("searchCorpus expands bilingual heritage paraphrases", () => {
+  const search = searchCorpus("What helps explain intangible heritage in Peru?", 3);
+
+  assert.equal(search.results[0].documentId, "doc-cultura-patrimonio-002");
+});
+
+test("searchCorpus normalizes noisy water resource queries", () => {
+  const search = searchCorpus("water resorces peru culture cuencas", 3);
+
+  assert.equal(search.results[0].documentId, "doc-ana-water-010");
+});
+
+test("searchCorpus expands environmental education aliases", () => {
+  const search = searchCorpus("protected natural areas and environmental learning", 3);
+
+  assert.equal(search.results[0].documentId, "doc-sernanp-areas-005");
+});
+
 test("runEval includes harder unsupported and multilingual boundary cases", () => {
   const run = runEval();
   const categories = new Set(run.results.map((result) => result.category));

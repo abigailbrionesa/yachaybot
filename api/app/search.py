@@ -36,6 +36,47 @@ STOP_WORDS = {
     "to",
     "about",
 }
+QUERY_ALIASES = {
+    "agua": ["water", "hidricos", "cuencas"],
+    "ambiente": ["environmental", "environment", "ambiental"],
+    "ambiental": ["environmental", "ambiente"],
+    "andean": ["andes", "andino", "qhapaq", "nan"],
+    "areas": ["protected", "natural", "protegidas"],
+    "bilingual": ["bilingue", "eib", "intercultural"],
+    "biblioteca": ["library", "librarry", "colecciones", "digital"],
+    "climate": ["clima", "climatica", "ambiente"],
+    "classroom": ["docentes", "pedagogicos", "recursos"],
+    "culture": ["cultura", "patrimonio"],
+    "digital": ["colecciones", "biblioteca"],
+    "environment": ["ambiente", "ambiental"],
+    "environmental": ["ambiente", "ambiental", "educacion"],
+    "eval": ["evaluacion", "metricas", "quality"],
+    "evidence": ["evidencia"],
+    "fuente": ["source", "fuentes"],
+    "heritage": ["patrimonio", "cultura"],
+    "indigenous": ["lenguas", "languages", "eib"],
+    "intercultural": ["eib", "bilingue"],
+    "intangible": ["inmaterial", "patrimonio"],
+    "language": ["lenguas", "languages"],
+    "languages": ["lenguas", "language"],
+    "learning": ["educacion", "aprendizaje"],
+    "library": ["biblioteca", "librarry", "colecciones"],
+    "librarry": ["library", "biblioteca", "colecciones"],
+    "media": ["imagenes", "culture"],
+    "metric": ["metricas", "eval", "evaluacion"],
+    "metrics": ["metricas", "eval", "evaluacion"],
+    "natural": ["areas", "protegidas", "sernanp"],
+    "pedagogical": ["pedagogicos", "docentes", "recursos"],
+    "protected": ["protegidas", "areas", "sernanp"],
+    "quality": ["calidad", "metricas", "eval"],
+    "resorces": ["resources", "recursos"],
+    "resources": ["recursos"],
+    "routes": ["qhapaq", "nan", "andino"],
+    "source": ["fuente", "fuentes"],
+    "teacher": ["docentes", "pedagogicos", "recursos"],
+    "teachers": ["docentes", "pedagogicos", "recursos"],
+    "water": ["agua", "hidricos", "cuencas"],
+}
 FIELD_WEIGHTS = {
     "title": 3,
     "topicTags": 2.5,
@@ -152,7 +193,7 @@ def search(payload: SearchRequest) -> SearchResponse:
 
 
 def search_corpus(query: str, limit: int = 5) -> list[SearchResult]:
-    query_tokens = tokenize(query)
+    query_tokens = tokenize_query(query)
     results: list[SearchResult] = []
 
     for chunk in CHUNKS:
@@ -246,6 +287,19 @@ def tokenize(value: str) -> list[str]:
     normalized = strip_accents(value.lower())
     cleaned = re.sub(r"[^a-z0-9ñ ]", " ", normalized)
     return [token for token in re.split(r"\s+", cleaned) if len(token) > 2 and token not in STOP_WORDS]
+
+
+def tokenize_query(value: str) -> list[str]:
+    expanded_tokens: list[str] = []
+    seen: set[str] = set()
+
+    for token in tokenize(value):
+        for expanded_token in [token, *QUERY_ALIASES.get(token, [])]:
+            if expanded_token not in seen:
+                expanded_tokens.append(expanded_token)
+                seen.add(expanded_token)
+
+    return expanded_tokens
 
 
 def score_document(query_tokens: list[str], chunk: Chunk, document: Document) -> float:

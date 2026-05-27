@@ -16,6 +16,47 @@ export const chunks: V2Chunk[] = documents.map((document) => ({
 export const evalQuestions = evals.questions as EvalQuestion[];
 
 const stopWords = new Set(["the", "and", "for", "with", "que", "para", "con", "los", "las", "una", "uno", "del", "de", "la", "el", "y", "en", "a", "is", "to", "about"]);
+const queryAliases: Record<string, string[]> = {
+  agua: ["water", "hidricos", "cuencas"],
+  ambiente: ["environmental", "environment", "ambiental"],
+  ambiental: ["environmental", "ambiente"],
+  andean: ["andes", "andino", "qhapaq", "nan"],
+  areas: ["protected", "natural", "protegidas"],
+  bilingual: ["bilingue", "eib", "intercultural"],
+  biblioteca: ["library", "librarry", "colecciones", "digital"],
+  climate: ["clima", "climatica", "ambiente"],
+  classroom: ["docentes", "pedagogicos", "recursos"],
+  culture: ["cultura", "patrimonio"],
+  digital: ["colecciones", "biblioteca"],
+  environment: ["ambiente", "ambiental"],
+  environmental: ["ambiente", "ambiental", "educacion"],
+  eval: ["evaluacion", "metricas", "quality"],
+  evidence: ["evidencia"],
+  fuente: ["source", "fuentes"],
+  heritage: ["patrimonio", "cultura"],
+  indigenous: ["lenguas", "languages", "eib"],
+  intercultural: ["eib", "bilingue"],
+  intangible: ["inmaterial", "patrimonio"],
+  language: ["lenguas", "languages"],
+  languages: ["lenguas", "language"],
+  learning: ["educacion", "aprendizaje"],
+  library: ["biblioteca", "librarry", "colecciones"],
+  librarry: ["library", "biblioteca", "colecciones"],
+  media: ["imagenes", "culture"],
+  metric: ["metricas", "eval", "evaluacion"],
+  metrics: ["metricas", "eval", "evaluacion"],
+  natural: ["areas", "protegidas", "sernanp"],
+  pedagogical: ["pedagogicos", "docentes", "recursos"],
+  protected: ["protegidas", "areas", "sernanp"],
+  quality: ["calidad", "metricas", "eval"],
+  resorces: ["resources", "recursos"],
+  resources: ["recursos"],
+  routes: ["qhapaq", "nan", "andino"],
+  source: ["fuente", "fuentes"],
+  teacher: ["docentes", "pedagogicos", "recursos"],
+  teachers: ["docentes", "pedagogicos", "recursos"],
+  water: ["agua", "hidricos", "cuencas"],
+};
 const fieldWeights = {
   title: 3,
   topicTags: 2.5,
@@ -71,7 +112,7 @@ export function getSearchResultsForChunkIds(chunkIds: string[]): SearchResult[] 
 
 export function searchCorpus(query: string, limit = 5): { results: SearchResult[]; latencyMs: number; language: LanguageCode } {
   const startedAt = Date.now();
-  const queryTokens = tokenize(query);
+  const queryTokens = tokenizeQuery(query);
   const language = detectLanguage(query);
 
   const results = chunks
@@ -227,6 +268,11 @@ function tokenize(value: string) {
     .replace(/[^a-z0-9ñ ]/g, " ")
     .split(/\s+/)
     .filter((token) => token.length > 2 && !stopWords.has(token));
+}
+
+function tokenizeQuery(value: string) {
+  const tokens = tokenize(value);
+  return [...new Set(tokens.flatMap((token) => [token, ...(queryAliases[token] ?? [])]))];
 }
 
 function ratio(count: number, total: number) {
