@@ -36,7 +36,7 @@ Start with the reviewer system proof, then inspect the demo evidence, architectu
   </tr>
   <tr>
     <td>Source-grounding and evaluation approach</td>
-    <td><code>docs/methodology.md</code>, <code>docs/limitations.md</code>, and <code>evals/README.md</code></td>
+    <td><code>docs/methodology.md</code>, <code>docs/limitations.md</code>, <code>docs/eval-v2-metric-deltas.md</code>, and <code>evals/README.md</code></td>
   </tr>
   <tr>
     <td>FastAPI sidecar boundary</td>
@@ -241,13 +241,17 @@ Important implementation files:
 </ul>
 
 <p>
-The evaluation set contains 15 questions: factual retrieval checks with expected source IDs, refusal checks for unsupported or unsafe requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks.
+The Eval v2 set contains 50 questions: factual retrieval checks with expected source IDs, paraphrases, typo/noisy queries, mixed-language prompts, source-confusion cases, refusal checks for unsupported or unsafe requests, ambiguous prompts, multilingual boundary checks, off-topic prompts, and citation behavior checks.
 </p>
 
 <table>
   <tr>
     <th>Metric</th>
     <th>Value</th>
+  </tr>
+  <tr>
+    <td>Top-1 hit rate</td>
+    <td>0.86</td>
   </tr>
   <tr>
     <td>Top-3 hit rate</td>
@@ -263,12 +267,16 @@ The evaluation set contains 15 questions: factual retrieval checks with expected
   </tr>
   <tr>
     <td>Citation pass rate</td>
-    <td>Tracked in the local eval dashboard</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>Citation coverage</td>
+    <td>1.00</td>
   </tr>
 </table>
 
 <p>
-These metrics verify the local corpus, deterministic retrieval baseline, refusal behavior, citation behavior, and latency. They are not presented as broad production accuracy claims.
+These metrics verify the local corpus, deterministic retrieval baseline, refusal behavior, citation behavior, and latency. Before/after deltas are documented in <code>docs/eval-v2-metric-deltas.md</code>. They are not presented as broad production accuracy claims.
 </p>
 
 ## Tech Stack

@@ -12,6 +12,8 @@ YachayBot separates evaluation into three layers:
 
 Eval v2 currently uses the deterministic retriever as the baseline. It does not require provider credentials.
 
+The current before/after metric report is documented in `docs/eval-v2-metric-deltas.md`.
+
 ## Fixture Categories
 
 `data/evals.json` includes:
